@@ -15,7 +15,7 @@ public class Utility : Property
 
     public override ushort PaymentPrice()
     {
-        return _price;
+        throw new System.NotImplementedException();
     }
 
     public override void DisplayOptions()

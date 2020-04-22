@@ -1,7 +1,8 @@
-﻿public abstract class Property : Tile
+﻿//Base class for all properties in Monopoly.
+public abstract class Property : Tile
 {
     protected string _title;
-    protected ushort _price;
+    private ushort _price;
     private ushort _morgVal;
     private bool _mortgaged;
     //private Player owner;
@@ -14,11 +15,13 @@
     }
 
     public abstract string Description();
+
     public ushort Price
     {
         get { return _price; }
     }
 
+    //price player pays when stepping on an owned property
     public abstract ushort PaymentPrice();
 
     /*
@@ -42,7 +45,7 @@
         get { return _mortgaged; }
     }
 
-    public void Mortgage()
+    public virtual void Mortgage()
     {
         _mortgaged = true;
     }

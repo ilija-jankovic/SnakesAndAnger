@@ -414,7 +414,6 @@ GameObject:
   - component: {fileID: 849290417}
   - component: {fileID: 849290422}
   - component: {fileID: 849290421}
-  - component: {fileID: 849290423}
   - component: {fileID: 849290424}
   m_Layer: 0
   m_Name: Yaksh's Cube
@@ -5219,18 +5218,6 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
---- !u!114 &849290423
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 849290416}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d3eac363491ad44aae9b973576b8783, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!122 &849290424
 Halo:
   m_ObjectHideFlags: 0
@@ -5526,7 +5513,6 @@ GameObject:
   - component: {fileID: 2144847872}
   - component: {fileID: 2144847871}
   - component: {fileID: 2144847870}
-  - component: {fileID: 2144847874}
   m_Layer: 0
   m_Name: Second
   m_TagString: Untagged
@@ -5609,15 +5595,3 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2144847874
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2144847869}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d3eac363491ad44aae9b973576b8783, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

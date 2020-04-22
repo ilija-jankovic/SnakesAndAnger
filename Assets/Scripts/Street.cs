@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Properties that can have houses built on them.
 public class Street : Property
 {
     private byte _houses;
@@ -26,13 +27,14 @@ public class Street : Property
         get { return _colour; }
     }
 
+    //displays amount received by different number of houses
     public override string Description()
     {
         string houseValues = "\n";
         for (byte i = 1; i <= 4; i++)
             houseValues += "With " + i + " House" + (i != 1 ? "s" : "") + ": " + "$" + _houseVals[i - 1] + "\n";
         houseValues += "With HOTEL: $" + _houseVals[4] + "\n";
-        return "Price: $" + _price + "\nRent: $" + _rent + houseValues + "One House Costs: $" + _housePrice + "\nMortgage Value: $" + MortgageValue;
+        return "Price: $" + Price + "\nRent: $" + _rent + houseValues + "One House Costs: $" + _housePrice + "\nMortgage Value: $" + MortgageValue;
     }
 
     public override ushort PaymentPrice()
@@ -42,7 +44,19 @@ public class Street : Property
 
     public void BuildHouse()
     {
-        if (_houses < 5) _houses++;
+        if (CanBuildHouses() && _houses < 5) _houses++;
+    }
+
+    //player must own all properties of the same colour to build houses
+    public bool CanBuildHouses()
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void Mortgage()
+    {
+        base.Mortgage();
+        _houses = 0;
     }
 
     public override void DisplayOptions()
