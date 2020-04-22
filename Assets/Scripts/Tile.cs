@@ -6,6 +6,7 @@ using UnityEngine;
 public abstract class Tile : MonoBehaviour
 {
     private TileLink _tileLink;
+    private Player _player;
     //options to display when the player lands on this tile
     public abstract void DisplayOptions();
 
@@ -22,6 +23,18 @@ public abstract class Tile : MonoBehaviour
         if(canAdd)
             _tileLink = link;
         return canAdd;
+    }
+
+    //returns the player that is on this current tile
+    public Player Player
+    {
+        get { return _player; }
+    }
+
+    //checks if there is a player on this tile
+    public bool hasPlayer()
+    {
+        return _player == null;
     }
 
     //checks if there already is a snake or ladder connected to tile

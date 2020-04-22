@@ -34,7 +34,7 @@ public class Snake
     {
         if(_head.hasPlayer())
         {
-        player.Move(_tail);
+            _head.Player.Move(_tail);
         }
 
     }
