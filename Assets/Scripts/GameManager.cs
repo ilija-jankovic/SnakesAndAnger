@@ -4,14 +4,15 @@ using UnityEngine;
 
 static class GameManager
 {
-    //static Player[] players;
+    static Player[] players;
+    static Player curPlayer;
     static Property[] properties = GameObject.FindObjectsOfType<Property>();
-    //static Die[] dice = GameObject.FindObjectsOfType<Die>();
+    static Die[] dice = GameObject.FindObjectsOfType<Die>();
 
     [RuntimeInitializeOnLoadMethod]
     static void Initialise()
     {
-
+        MenuManager.DisplayMainMenu();
     }
 
     static void ResetBoard()
@@ -21,17 +22,17 @@ static class GameManager
 
     static void FillPlayerList()
     {
-        //players = GameObject.FindObjectsOfType<Player>();
-        //List<Player> active = new List<Player>();
-        //foreach(Player player in players)
-        //  if(player.active)
-        //      active.add(player);
-        //players = new Player[active.Length];
-        //for(byte i = 0; i < active.Length; i++)
-        //  players[i] = active.get(i);
+        players = GameObject.FindObjectsOfType<Player>();
+        List<Player> playing = new List<Player>();
+        foreach(Player player in players)
+          if(player.Playing)
+              playing.Add(player);
+        players = new Player[playing.Count];
+        for(byte i = 0; i < playing.Count; i++)
+          players[i] = playing[i];
     }
 
-    static void Turn(/*Player curPlayer*/)
+    static void Turn()
     {
 
     }

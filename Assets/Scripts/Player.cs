@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player
+public class Player : MonoBehaviour
 {
     /// <summary>
     /// stores the current position of the player
@@ -11,11 +11,15 @@ public class Player
     /// <summary>
     /// stores the players account balance
     /// </summary>
-    private decimal _playerBalance;
+    private int _playerBalance;
     /// <summary>
     /// stores all the properties owned by the player
     /// </summary>
     List<Property> _propertysOwned = new List<Property>();
+    /// <summary>
+    /// flags whether player is in the current game
+    /// </summary>
+    private bool _playing;
     /// <summary>
     /// creates a player object
     /// </summary>
@@ -36,7 +40,7 @@ public class Player
     /// adds funds to the player
     /// </summary>
     /// <param name="Amount"></param>
-    public void AddFunds(decimal Amount)
+    public void AddFunds(ushort Amount)
     {
         _playerBalance += Amount;
     }
@@ -44,7 +48,7 @@ public class Player
     /// removes funds from the player
     /// </summary>
     /// <param name="Amount"></param>
-    public void RemoveFunds(decimal Amount)
+    public void RemoveFunds(ushort Amount)
     {
         _playerBalance -= Amount;
     }
@@ -55,6 +59,7 @@ public class Player
     public void AddProperty(Property p)
     {
         _propertysOwned.Add(p);
+        p.ChangeOwner(this);
     }
     /// <summary>
     /// returns the players balance as a decimal
@@ -63,5 +68,19 @@ public class Player
     public decimal GetBalance()
     {
         return _playerBalance;
+    }
+    /// <summary>
+    /// returns whether the player is in the current game as a boolean
+    /// </summary>
+    public bool Playing
+    {
+        get { return _playing; }
+    }
+    /// <summary>
+    /// returns a list of properties that the player owns
+    /// </summary>
+    public List<Property> PropertiesOwned
+    {
+        get { return _propertysOwned; }
     }
 }

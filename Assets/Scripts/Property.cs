@@ -1,11 +1,11 @@
 ﻿//Base class for all properties in Monopoly.
 public abstract class Property : Tile
 {
-    protected string _title;
+    private string _title;
     private ushort _price;
-    private ushort _morgVal;
+    protected ushort _morgVal;
     private bool _mortgaged;
-    //private Player owner;
+    private Player _owner;
 
     public Property(string title, ushort price, ushort morgtageValue)
     {
@@ -14,6 +14,10 @@ public abstract class Property : Tile
         _morgVal = morgtageValue;
     }
 
+    public string Title
+    {
+        get { return _title; }
+    }
     public abstract string Description();
 
     public ushort Price
@@ -23,21 +27,30 @@ public abstract class Property : Tile
 
     //price player pays when stepping on an owned property
     public abstract ushort PaymentPrice();
-
-    /*
+    
     public Player Owner
     {
         get { return _owner; }
     }
 
+    public bool CanPurchase(Player player)
+    {
+        return Owner == null && player.GetBalance() >= Price;
+    }
+
+    public void Purchase(Player player)
+    {
+        if(CanPurchase(player))
+        {
+            player.RemoveFunds(Price);
+            player.AddProperty(this);
+            _owner = player;
+        }
+    }
+
     public void ChangeOwner(Player player)
     {
-
-    }
-    */
-    public ushort MortgageValue
-    {
-        get { return _morgVal; }
+        _owner = player;
     }
 
     public bool Mortgaged
@@ -47,11 +60,19 @@ public abstract class Property : Tile
 
     public virtual void Mortgage()
     {
-        _mortgaged = true;
+        if (!Mortgaged)
+        {
+            _mortgaged = true;
+            Owner.AddFunds(_morgVal);
+        }
     }
 
     public void UnMortgage()
     {
-        _mortgaged = false;
+        if (Mortgaged && Owner.GetBalance() >= Price)
+        {
+            Owner.RemoveFunds(Price);
+            _mortgaged = false;
+        }
     }
 }

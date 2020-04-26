@@ -10,13 +10,17 @@ public class RailwayStation : Property
     {
         string railways = "\n";
         for (byte i = 2; i <= 4; i++)
-            railways += "If " + i + " Railways are owned: $" + i * 25 + "\n";
-        return "Rent: $25" + railways + "Mortgage: $" + MortgageValue;
+            railways += "If " + i + " Railways are owned: $" + (byte)(Mathf.Pow(2,i-1) * 25) + "\n";
+        return "Rent: $25" + railways + "Mortgage: $" + _morgVal;
     }
 
     public override ushort PaymentPrice()
     {
-        throw new System.NotImplementedException();
+        byte stations = 0;
+        foreach (Property p in Owner.PropertiesOwned)
+            if (p is RailwayStation)
+                stations++;
+        return (ushort)(25 * Mathf.Pow(2,stations-1));
     }
 
     public override void DisplayOptions()

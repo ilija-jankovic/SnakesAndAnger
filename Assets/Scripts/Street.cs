@@ -34,7 +34,7 @@ public class Street : Property
         for (byte i = 1; i <= 4; i++)
             houseValues += "With " + i + " House" + (i != 1 ? "s" : "") + ": " + "$" + _houseVals[i - 1] + "\n";
         houseValues += "With HOTEL: $" + _houseVals[4] + "\n";
-        return "Price: $" + Price + "\nRent: $" + _rent + houseValues + "One House Costs: $" + _housePrice + "\nMortgage Value: $" + MortgageValue;
+        return "Price: $" + Price + "\nRent: $" + _rent + houseValues + "One House Costs: $" + _housePrice + "\nMortgage Value: $" + _morgVal;
     }
 
     public override ushort PaymentPrice()
