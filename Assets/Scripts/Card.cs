@@ -4,8 +4,7 @@ using UnityEngine;
 
 public abstract class Card
 {
-    //name of card
-    private string _name;
+
     //id of card for quick reference
     private byte _id;
     //desription of card
@@ -23,12 +22,6 @@ public abstract class Card
     }
 
     //Properties
-
-    public string Name
-    {
-        get { return _name; }
-    }
-
     public byte Id
     {
         get { return _id; }
