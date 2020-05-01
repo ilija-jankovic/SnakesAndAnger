@@ -30,6 +30,14 @@ public class Street : Property
     {
         base.Awake();
         _houseValues = new ushort[] { _firstHouseValue, _secondHouseValue, _thirdHouseValue, _fourthHouseValue, _hotelValue };
+
+        GameObject banner = GameObject.CreatePrimitive(PrimitiveType.Plane);
+        banner.transform.parent = transform;
+        banner.transform.localScale = new Vector3(transform.localScale.x / 100, transform.localScale.y / 100, transform.localScale.z / 600);
+        banner.transform.localRotation = transform.localRotation;
+        banner.transform.localPosition = new Vector3(0,0.55f,0.5f-5*banner.transform.localScale.z);
+
+        banner.GetComponent<Renderer>().material.color = Colour;
     }
 
     public Color Colour

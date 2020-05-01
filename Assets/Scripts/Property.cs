@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 //Base class for all properties in Monopoly.
+[ExecuteInEditMode]
 public abstract class Property : Tile
 {
     [SerializeField]
@@ -13,6 +14,22 @@ public abstract class Property : Tile
     public virtual void Awake()
     {
         _morgVal = (ushort)(_price/2);
+    }
+
+    public void Start()
+    {
+        GameObject text = new GameObject();
+        TextMesh t = text.AddComponent<TextMesh>();
+        t.anchor = TextAnchor.MiddleCenter;
+        t.alignment = TextAlignment.Center;
+
+        t.text = Title + "\n\n\n\n$" + Price;
+        t.color = Color.black;
+        t.fontSize = 12;
+
+        t.transform.localEulerAngles += new Vector3(90, 0, 0);
+        t.transform.parent = transform;
+        t.transform.localPosition = Vector3.zero;
     }
 
     public string Title
