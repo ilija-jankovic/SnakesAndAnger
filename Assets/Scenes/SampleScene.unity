@@ -1342,6 +1342,7 @@ GameObject:
   - component: {fileID: 652143359}
   - component: {fileID: 652143358}
   - component: {fileID: 652143357}
+  - component: {fileID: 652143361}
   m_Layer: 0
   m_Name: tile05
   m_TagString: Untagged
@@ -1423,6 +1424,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &652143361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 652143356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78dd99e7d9d3bc04f9f044ee042d76be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _title: Reading Railroad
+  _price: 200
 --- !u!1 &653929225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1963,8 +1978,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: 0.4854354, y: 0.019667303, z: -0.010924452, w: 0.8739831}
+  m_LocalPosition: {x: -48.41834, y: 76.70312, z: -13.793259}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -3098,6 +3113,7 @@ GameObject:
   - component: {fileID: 1638698006}
   - component: {fileID: 1638698005}
   - component: {fileID: 1638698004}
+  - component: {fileID: 1638698008}
   m_Layer: 0
   m_Name: tile03
   m_TagString: Untagged
@@ -3179,6 +3195,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1638698008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1638698003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 362ed483f24805b47bd9a5881d35b0e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _title: Baltic Avenue
+  _price: 60
+  _colour: {r: 0.5566038, g: 0.19979845, b: 0.07613921, a: 0}
+  _rent: 4
+  _housePrice: 50
+  _firstHouseValue: 20
+  _secondHouseValue: 60
+  _thirdHouseValue: 180
+  _fourthHouseValue: 320
+  _hotelValue: 450
 --- !u!1 &1684815924
 GameObject:
   m_ObjectHideFlags: 0
@@ -3377,6 +3415,7 @@ GameObject:
   - component: {fileID: 1954482708}
   - component: {fileID: 1954482707}
   - component: {fileID: 1954482706}
+  - component: {fileID: 1954482710}
   m_Layer: 0
   m_Name: tile01
   m_TagString: Untagged
@@ -3458,6 +3497,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1954482710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1954482705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 362ed483f24805b47bd9a5881d35b0e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _title: Mediterranean Avenue
+  _price: 60
+  _colour: {r: 0.5566038, g: 0.19979845, b: 0.07613921, a: 0}
+  _rent: 2
+  _housePrice: 50
+  _firstHouseValue: 10
+  _secondHouseValue: 30
+  _thirdHouseValue: 90
+  _fourthHouseValue: 160
+  _hotelValue: 250
 --- !u!1 &1969926968
 GameObject:
   m_ObjectHideFlags: 0
@@ -3749,6 +3810,7 @@ GameObject:
   - component: {fileID: 2060925418}
   - component: {fileID: 2060925417}
   - component: {fileID: 2060925416}
+  - component: {fileID: 2060925420}
   m_Layer: 0
   m_Name: tile06
   m_TagString: Untagged
@@ -3830,6 +3892,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2060925420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2060925415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 362ed483f24805b47bd9a5881d35b0e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _title: Oriental Avenue
+  _price: 0
+  _colour: {r: 0, g: 0.7169812, b: 0.7018535, a: 0}
+  _rent: 6
+  _housePrice: 50
+  _firstHouseValue: 30
+  _secondHouseValue: 90
+  _thirdHouseValue: 270
+  _fourthHouseValue: 400
+  _hotelValue: 550
 --- !u!1 &2077900564
 GameObject:
   m_ObjectHideFlags: 0
