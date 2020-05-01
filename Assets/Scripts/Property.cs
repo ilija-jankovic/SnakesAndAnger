@@ -1,17 +1,18 @@
-﻿//Base class for all properties in Monopoly.
+﻿using UnityEngine;
+//Base class for all properties in Monopoly.
 public abstract class Property : Tile
 {
+    [SerializeField]
     private string _title;
+    [SerializeField]
     private ushort _price;
     protected ushort _morgVal;
     private bool _mortgaged;
     private Player _owner;
 
-    public Property(string title, ushort price, ushort morgtageValue)
+    public virtual void Awake()
     {
-        _title = title;
-        _price = price;
-        _morgVal = morgtageValue;
+        _morgVal = (ushort)(_price/2);
     }
 
     public string Title

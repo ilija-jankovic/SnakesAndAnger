@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Die : MonoBehaviour
 {
-    public static byte Result;
+    private static byte _result;
 
     public static void Roll()
     {
@@ -14,5 +14,10 @@ public class Die : MonoBehaviour
     public static bool Rolling()
     {
         return false;
+    }
+
+    public static byte Result
+    {
+        get { return _result; }
     }
 }
