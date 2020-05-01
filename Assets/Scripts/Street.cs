@@ -6,20 +6,30 @@ using UnityEngine;
 //Properties that can have houses built on them.
 public class Street : Property
 {
-    private byte _houses;
-    private ushort _housePrice;
-    private readonly ushort _rent;
-    private readonly ushort[] _houseVals;
+    [SerializeField]
     private Color _colour;
+    [SerializeField]
+    private ushort _rent;
+    [SerializeField]
+    private ushort _housePrice;
+    [SerializeField]
+    private ushort _firstHouseValue;
+    [SerializeField]
+    private ushort _secondHouseValue;
+    [SerializeField]
+    private ushort _thirdHouseValue;
+    [SerializeField]
+    private ushort _fourthHouseValue;
+    [SerializeField]
+    private ushort _hotelValue;
 
-    public Street(Color colour, string title, ushort price, ushort mortgageValue, ushort housePrice, ushort rent, ushort[] houseValues) : base(title, price, mortgageValue)
+    private byte _houses;
+    private ushort[] _houseValues;
+
+    public override void Awake()
     {
-        if (houseValues.Length != 5)
-            throw new System.IndexOutOfRangeException("Streets must have 5 separate house values.");
-        _colour = colour;
-        _housePrice = housePrice;
-        _rent = rent;
-        _houseVals = houseValues;
+        base.Awake();
+        _houseValues = new ushort[] { _firstHouseValue, _secondHouseValue, _thirdHouseValue, _fourthHouseValue, _hotelValue };
     }
 
     public Color Colour
@@ -32,14 +42,14 @@ public class Street : Property
     {
         string houseValues = "\n";
         for (byte i = 1; i <= 4; i++)
-            houseValues += "With " + i + " House" + (i != 1 ? "s" : "") + ": " + "$" + _houseVals[i - 1] + "\n";
-        houseValues += "With HOTEL: $" + _houseVals[4] + "\n";
+            houseValues += "With " + i + " House" + (i != 1 ? "s" : "") + ": " + "$" + _houseValues[i - 1] + "\n";
+        houseValues += "With HOTEL: $" + _houseValues[4] + "\n";
         return "Price: $" + Price + "\nRent: $" + _rent + houseValues + "One House Costs: $" + _housePrice + "\nMortgage Value: $" + _morgVal;
     }
 
     public override ushort PaymentPrice()
     {
-        return _houses == 0 ? _rent : _houseVals[_houses - 1];
+        return _houses == 0 ? _rent : _houseValues[_houses - 1];
     }
 
     public void BuildHouse()

@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class RailwayStation : Property
 {
-    public RailwayStation(string title, ushort price, ushort mortgageValue) : base(title, price, mortgageValue) { }
-
+    public override void Awake()
+    {
+        base.Awake();
+    }
     public override string Description()
     {
         string railways = "\n";

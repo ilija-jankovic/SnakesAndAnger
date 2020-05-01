@@ -5,8 +5,10 @@ using UnityEngine;
 
 public class Utility : Property
 {
-    public Utility(string title, ushort price, ushort mortgageValue) : base(title, price, mortgageValue) { }
-
+    public override void Awake()
+    {
+        base.Awake();
+    }
     public override string Description()
     {
         return "If one \"Utility\" is owned, rent is 4 times amount shown on dice.\n" +
