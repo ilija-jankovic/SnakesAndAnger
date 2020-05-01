@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 //Base class for all properties in Monopoly.
-[ExecuteInEditMode]
 public abstract class Property : Tile
 {
     [SerializeField]
