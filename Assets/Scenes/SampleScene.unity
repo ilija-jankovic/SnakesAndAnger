@@ -320,7 +320,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 362ed483f24805b47bd9a5881d35b0e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _title: Connecticut Avenue
+  _title: Connecticut$Avenue
   _price: 120
   _colour: {r: 0, g: 0.7176471, b: 0.7019608, a: 0}
   _rent: 8
@@ -342,6 +342,7 @@ GameObject:
   - component: {fileID: 50334470}
   - component: {fileID: 50334469}
   - component: {fileID: 50334468}
+  - component: {fileID: 50334472}
   m_Layer: 0
   m_Name: tile39
   m_TagString: Untagged
@@ -416,13 +417,35 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 50334467}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: -0, w: -0.7071068}
   m_LocalPosition: {x: -8, y: 0, z: 21}
-  m_LocalScale: {x: 16, y: 0.1, z: 10}
+  m_LocalScale: {x: 10, y: 0.1, z: 16}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 42
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
+--- !u!114 &50334472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 50334467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 362ed483f24805b47bd9a5881d35b0e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _title: Boardwalk
+  _price: 350
+  _colour: {r: 0, g: 0.09577916, b: 0.7075472, a: 0}
+  _rent: 50
+  _housePrice: 200
+  _firstHouseValue: 200
+  _secondHouseValue: 600
+  _thirdHouseValue: 1400
+  _fourthHouseValue: 1700
+  _hotelValue: 2000
 --- !u!1 &94767963
 GameObject:
   m_ObjectHideFlags: 0
@@ -435,6 +458,7 @@ GameObject:
   - component: {fileID: 94767966}
   - component: {fileID: 94767965}
   - component: {fileID: 94767964}
+  - component: {fileID: 94767968}
   m_Layer: 0
   m_Name: tile23
   m_TagString: Untagged
@@ -516,6 +540,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 26
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &94767968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 94767963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 362ed483f24805b47bd9a5881d35b0e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _title: Indiana$Avenue
+  _price: 220
+  _colour: {r: 1, g: 0, b: 0, a: 0}
+  _rent: 18
+  _housePrice: 150
+  _firstHouseValue: 90
+  _secondHouseValue: 250
+  _thirdHouseValue: 700
+  _fourthHouseValue: 875
+  _hotelValue: 1050
 --- !u!1 &128371196
 GameObject:
   m_ObjectHideFlags: 0
@@ -528,6 +574,7 @@ GameObject:
   - component: {fileID: 128371199}
   - component: {fileID: 128371198}
   - component: {fileID: 128371197}
+  - component: {fileID: 128371201}
   m_Layer: 0
   m_Name: tile13
   m_TagString: Untagged
@@ -602,13 +649,35 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 128371196}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -114, y: 0, z: 41}
-  m_LocalScale: {x: 16, y: 0.1, z: 10}
+  m_LocalScale: {x: 10, y: 0.1, z: 16}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 16
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &128371201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 128371196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 362ed483f24805b47bd9a5881d35b0e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _title: States$Avenue
+  _price: 140
+  _colour: {r: 1, g: 0, b: 0.7606492, a: 0}
+  _rent: 10
+  _housePrice: 100
+  _firstHouseValue: 50
+  _secondHouseValue: 150
+  _thirdHouseValue: 450
+  _fourthHouseValue: 625
+  _hotelValue: 750
 --- !u!1 &143499618
 GameObject:
   m_ObjectHideFlags: 0
@@ -621,6 +690,7 @@ GameObject:
   - component: {fileID: 143499621}
   - component: {fileID: 143499620}
   - component: {fileID: 143499619}
+  - component: {fileID: 143499623}
   m_Layer: 0
   m_Name: tile31
   m_TagString: Untagged
@@ -695,13 +765,35 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 143499618}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: -0, w: -0.7071068}
   m_LocalPosition: {x: -8, y: 0, z: 101}
-  m_LocalScale: {x: 16, y: 0.1, z: 10}
+  m_LocalScale: {x: 10, y: 0.1, z: 16}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 34
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
+--- !u!114 &143499623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 143499618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 362ed483f24805b47bd9a5881d35b0e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _title: Pacific$Avenue
+  _price: 300
+  _colour: {r: 0, g: 0.5471698, b: 0.11511597, a: 0}
+  _rent: 26
+  _housePrice: 200
+  _firstHouseValue: 130
+  _secondHouseValue: 390
+  _thirdHouseValue: 900
+  _fourthHouseValue: 1100
+  _hotelValue: 1275
 --- !u!1 &200291074
 GameObject:
   m_ObjectHideFlags: 0
@@ -714,6 +806,7 @@ GameObject:
   - component: {fileID: 200291077}
   - component: {fileID: 200291076}
   - component: {fileID: 200291075}
+  - component: {fileID: 200291079}
   m_Layer: 0
   m_Name: tile12
   m_TagString: Untagged
@@ -788,13 +881,27 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 200291074}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -114, y: 0, z: 31}
-  m_LocalScale: {x: 16, y: 0.1, z: 10}
+  m_LocalScale: {x: 10, y: 0.1, z: 16}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 15
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &200291079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 200291074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc00e6b17b563ef418b3fcab328778e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _title: Electric$Company
+  _price: 150
 --- !u!1 &217803924
 GameObject:
   m_ObjectHideFlags: 0
@@ -807,6 +914,7 @@ GameObject:
   - component: {fileID: 217803927}
   - component: {fileID: 217803926}
   - component: {fileID: 217803925}
+  - component: {fileID: 217803929}
   m_Layer: 0
   m_Name: tile25
   m_TagString: Untagged
@@ -888,6 +996,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 28
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &217803929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 217803924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78dd99e7d9d3bc04f9f044ee042d76be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _title: B. & O.$Railroad
+  _price: 200
 --- !u!1 &348978522
 GameObject:
   m_ObjectHideFlags: 0
@@ -900,6 +1022,7 @@ GameObject:
   - component: {fileID: 348978525}
   - component: {fileID: 348978524}
   - component: {fileID: 348978523}
+  - component: {fileID: 348978527}
   m_Layer: 0
   m_Name: tile21
   m_TagString: Untagged
@@ -981,6 +1104,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 24
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &348978527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 348978522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 362ed483f24805b47bd9a5881d35b0e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _title: Kentucky$Avenue
+  _price: 220
+  _colour: {r: 1, g: 0, b: 0, a: 0}
+  _rent: 18
+  _housePrice: 150
+  _firstHouseValue: 90
+  _secondHouseValue: 250
+  _thirdHouseValue: 700
+  _fourthHouseValue: 875
+  _hotelValue: 1050
 --- !u!1 &411034996
 GameObject:
   m_ObjectHideFlags: 0
@@ -1067,13 +1212,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 411034996}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: -0, w: -0.7071068}
   m_LocalPosition: {x: -8, y: 0, z: 51}
-  m_LocalScale: {x: 16, y: 0.1, z: 10}
+  m_LocalScale: {x: 10, y: 0.1, z: 16}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 39
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
 --- !u!1 &437921287
 GameObject:
   m_ObjectHideFlags: 0
@@ -1180,7 +1325,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 362ed483f24805b47bd9a5881d35b0e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _title: Vermont Avenue
+  _title: Vermont$Avenue
   _price: 100
   _colour: {r: 0, g: 0.7176471, b: 0.7019608, a: 0}
   _rent: 6
@@ -1202,6 +1347,7 @@ GameObject:
   - component: {fileID: 568593142}
   - component: {fileID: 568593141}
   - component: {fileID: 568593140}
+  - component: {fileID: 568593144}
   m_Layer: 0
   m_Name: tile32
   m_TagString: Untagged
@@ -1276,13 +1422,35 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 568593139}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: -0, w: -0.7071068}
   m_LocalPosition: {x: -8, y: 0, z: 91}
-  m_LocalScale: {x: 16, y: 0.1, z: 10}
+  m_LocalScale: {x: 10, y: 0.1, z: 16}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 35
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
+--- !u!114 &568593144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 568593139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 362ed483f24805b47bd9a5881d35b0e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _title: North Carolina$Avenue
+  _price: 300
+  _colour: {r: 0, g: 0.5471698, b: 0.11511597, a: 0}
+  _rent: 26
+  _housePrice: 200
+  _firstHouseValue: 130
+  _secondHouseValue: 390
+  _thirdHouseValue: 900
+  _fourthHouseValue: 1100
+  _hotelValue: 1275
 --- !u!1 &638078488
 GameObject:
   m_ObjectHideFlags: 0
@@ -1295,6 +1463,7 @@ GameObject:
   - component: {fileID: 638078491}
   - component: {fileID: 638078490}
   - component: {fileID: 638078489}
+  - component: {fileID: 638078493}
   m_Layer: 0
   m_Name: tile18
   m_TagString: Untagged
@@ -1369,13 +1538,35 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 638078488}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -114, y: 0, z: 91}
-  m_LocalScale: {x: 16, y: 0.1, z: 10}
+  m_LocalScale: {x: 10, y: 0.1, z: 16}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 21
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &638078493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 638078488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 362ed483f24805b47bd9a5881d35b0e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _title: Tennessee$Avenue
+  _price: 180
+  _colour: {r: 1, g: 0.40701026, b: 0, a: 0}
+  _rent: 14
+  _housePrice: 100
+  _firstHouseValue: 70
+  _secondHouseValue: 200
+  _thirdHouseValue: 550
+  _fourthHouseValue: 750
+  _hotelValue: 950
 --- !u!1 &652143356
 GameObject:
   m_ObjectHideFlags: 0
@@ -1482,7 +1673,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78dd99e7d9d3bc04f9f044ee042d76be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _title: Reading Railroad
+  _title: Reading$Railroad
   _price: 200
 --- !u!1 &653929225
 GameObject:
@@ -1496,6 +1687,7 @@ GameObject:
   - component: {fileID: 653929228}
   - component: {fileID: 653929227}
   - component: {fileID: 653929226}
+  - component: {fileID: 653929230}
   m_Layer: 0
   m_Name: tile29
   m_TagString: Untagged
@@ -1577,6 +1769,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 32
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &653929230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 653929225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 362ed483f24805b47bd9a5881d35b0e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _title: Marvin$Gardens
+  _price: 280
+  _colour: {r: 1, g: 0.9320469, b: 0, a: 0}
+  _rent: 24
+  _housePrice: 150
+  _firstHouseValue: 120
+  _secondHouseValue: 360
+  _thirdHouseValue: 850
+  _fourthHouseValue: 1025
+  _hotelValue: 1200
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1681,6 +1895,7 @@ GameObject:
   - component: {fileID: 888796876}
   - component: {fileID: 888796875}
   - component: {fileID: 888796874}
+  - component: {fileID: 888796878}
   m_Layer: 0
   m_Name: tile11
   m_TagString: Untagged
@@ -1762,6 +1977,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &888796878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 888796873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 362ed483f24805b47bd9a5881d35b0e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _title: St. Charles$Place
+  _price: 140
+  _colour: {r: 1, g: 0, b: 0.7606492, a: 0}
+  _rent: 10
+  _housePrice: 100
+  _firstHouseValue: 50
+  _secondHouseValue: 150
+  _thirdHouseValue: 450
+  _fourthHouseValue: 625
+  _hotelValue: 750
 --- !u!1 &909051360
 GameObject:
   m_ObjectHideFlags: 0
@@ -1848,13 +2085,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 909051360}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: -0, w: -0.7071068}
   m_LocalPosition: {x: -8, y: 0, z: 31}
-  m_LocalScale: {x: 16, y: 0.1, z: 10}
+  m_LocalScale: {x: 10, y: 0.1, z: 16}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 41
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
 --- !u!1 &917764841
 GameObject:
   m_ObjectHideFlags: 0
@@ -1867,6 +2104,7 @@ GameObject:
   - component: {fileID: 917764844}
   - component: {fileID: 917764843}
   - component: {fileID: 917764842}
+  - component: {fileID: 917764846}
   m_Layer: 0
   m_Name: tile28
   m_TagString: Untagged
@@ -1948,6 +2186,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 31
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &917764846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 917764841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc00e6b17b563ef418b3fcab328778e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _title: Water$Works
+  _price: 150
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -2136,6 +2388,7 @@ GameObject:
   - component: {fileID: 1105162477}
   - component: {fileID: 1105162476}
   - component: {fileID: 1105162475}
+  - component: {fileID: 1105162479}
   m_Layer: 0
   m_Name: tile35
   m_TagString: Untagged
@@ -2210,13 +2463,27 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1105162474}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: -0, w: -0.7071068}
   m_LocalPosition: {x: -8, y: 0, z: 61}
-  m_LocalScale: {x: 16, y: 0.1, z: 10}
+  m_LocalScale: {x: 10, y: 0.1, z: 16}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 38
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
+--- !u!114 &1105162479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1105162474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78dd99e7d9d3bc04f9f044ee042d76be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _title: Short$Line
+  _price: 200
 --- !u!1 &1110055881
 GameObject:
   m_ObjectHideFlags: 0
@@ -2229,6 +2496,7 @@ GameObject:
   - component: {fileID: 1110055884}
   - component: {fileID: 1110055883}
   - component: {fileID: 1110055882}
+  - component: {fileID: 1110055886}
   m_Layer: 0
   m_Name: tile19
   m_TagString: Untagged
@@ -2303,13 +2571,35 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1110055881}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -114, y: 0, z: 101}
-  m_LocalScale: {x: 16, y: 0.1, z: 10}
+  m_LocalScale: {x: 10, y: 0.1, z: 16}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 22
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &1110055886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1110055881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 362ed483f24805b47bd9a5881d35b0e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _title: New York$Avenue
+  _price: 200
+  _colour: {r: 1, g: 0.40701026, b: 0, a: 0}
+  _rent: 14
+  _housePrice: 100
+  _firstHouseValue: 80
+  _secondHouseValue: 220
+  _thirdHouseValue: 600
+  _fourthHouseValue: 800
+  _hotelValue: 1000
 --- !u!1 &1174424452
 GameObject:
   m_ObjectHideFlags: 0
@@ -2415,6 +2705,7 @@ GameObject:
   - component: {fileID: 1255229955}
   - component: {fileID: 1255229954}
   - component: {fileID: 1255229953}
+  - component: {fileID: 1255229957}
   m_Layer: 0
   m_Name: tile27
   m_TagString: Untagged
@@ -2496,6 +2787,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 30
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &1255229957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1255229952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 362ed483f24805b47bd9a5881d35b0e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _title: Ventnor$Avenue
+  _price: 260
+  _colour: {r: 1, g: 0.9320469, b: 0, a: 0}
+  _rent: 22
+  _housePrice: 150
+  _firstHouseValue: 110
+  _secondHouseValue: 330
+  _thirdHouseValue: 800
+  _fourthHouseValue: 975
+  _hotelValue: 1150
 --- !u!1 &1262445958
 GameObject:
   m_ObjectHideFlags: 0
@@ -2508,6 +2821,7 @@ GameObject:
   - component: {fileID: 1262445961}
   - component: {fileID: 1262445960}
   - component: {fileID: 1262445959}
+  - component: {fileID: 1262445963}
   m_Layer: 0
   m_Name: tile24
   m_TagString: Untagged
@@ -2589,6 +2903,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 27
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &1262445963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1262445958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 362ed483f24805b47bd9a5881d35b0e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _title: Illinois$Avenue
+  _price: 240
+  _colour: {r: 1, g: 0, b: 0, a: 0}
+  _rent: 20
+  _housePrice: 150
+  _firstHouseValue: 100
+  _secondHouseValue: 300
+  _thirdHouseValue: 750
+  _fourthHouseValue: 925
+  _hotelValue: 1100
 --- !u!1 &1413254566
 GameObject:
   m_ObjectHideFlags: 0
@@ -2601,6 +2937,7 @@ GameObject:
   - component: {fileID: 1413254569}
   - component: {fileID: 1413254568}
   - component: {fileID: 1413254567}
+  - component: {fileID: 1413254571}
   m_Layer: 0
   m_Name: tile15
   m_TagString: Untagged
@@ -2675,13 +3012,27 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1413254566}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -114, y: 0, z: 61}
-  m_LocalScale: {x: 16, y: 0.1, z: 10}
+  m_LocalScale: {x: 10, y: 0.1, z: 16}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 18
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &1413254571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1413254566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78dd99e7d9d3bc04f9f044ee042d76be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _title: Pennsylvania$Railroad
+  _price: 200
 --- !u!1 &1438718695
 GameObject:
   m_ObjectHideFlags: 0
@@ -2694,6 +3045,7 @@ GameObject:
   - component: {fileID: 1438718698}
   - component: {fileID: 1438718697}
   - component: {fileID: 1438718696}
+  - component: {fileID: 1438718700}
   m_Layer: 0
   m_Name: tile26
   m_TagString: Untagged
@@ -2775,6 +3127,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 29
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &1438718700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1438718695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 362ed483f24805b47bd9a5881d35b0e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _title: Atlantic$Avenue
+  _price: 260
+  _colour: {r: 1, g: 0.9320469, b: 0, a: 0}
+  _rent: 22
+  _housePrice: 150
+  _firstHouseValue: 110
+  _secondHouseValue: 330
+  _thirdHouseValue: 800
+  _fourthHouseValue: 975
+  _hotelValue: 1150
 --- !u!1 &1468061309
 GameObject:
   m_ObjectHideFlags: 0
@@ -2787,6 +3161,7 @@ GameObject:
   - component: {fileID: 1468061312}
   - component: {fileID: 1468061311}
   - component: {fileID: 1468061310}
+  - component: {fileID: 1468061314}
   m_Layer: 0
   m_Name: tile14
   m_TagString: Untagged
@@ -2861,13 +3236,35 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1468061309}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -114, y: 0, z: 51}
-  m_LocalScale: {x: 16, y: 0.1, z: 10}
+  m_LocalScale: {x: 10, y: 0.1, z: 16}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 17
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &1468061314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1468061309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 362ed483f24805b47bd9a5881d35b0e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _title: Virginia$Avenue
+  _price: 160
+  _colour: {r: 1, g: 0, b: 0.7606492, a: 0}
+  _rent: 12
+  _housePrice: 100
+  _firstHouseValue: 60
+  _secondHouseValue: 180
+  _thirdHouseValue: 500
+  _fourthHouseValue: 700
+  _hotelValue: 900
 --- !u!1 &1569838958
 GameObject:
   m_ObjectHideFlags: 0
@@ -3047,13 +3444,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1589236839}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: -0, w: -0.7071068}
   m_LocalPosition: {x: -8, y: 0, z: 81}
-  m_LocalScale: {x: 16, y: 0.1, z: 10}
+  m_LocalScale: {x: 10, y: 0.1, z: 16}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 36
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
 --- !u!1 &1637557487
 GameObject:
   m_ObjectHideFlags: 0
@@ -3253,7 +3650,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 362ed483f24805b47bd9a5881d35b0e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _title: Baltic Avenue
+  _title: Baltic$Avenue
   _price: 60
   _colour: {r: 0.5566038, g: 0.19979845, b: 0.07613921, a: 0}
   _rent: 4
@@ -3368,6 +3765,7 @@ GameObject:
   - component: {fileID: 1932447065}
   - component: {fileID: 1932447064}
   - component: {fileID: 1932447063}
+  - component: {fileID: 1932447067}
   m_Layer: 0
   m_Name: tile16
   m_TagString: Untagged
@@ -3442,13 +3840,35 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1932447062}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -114, y: 0, z: 71}
-  m_LocalScale: {x: 16, y: 0.1, z: 10}
+  m_LocalScale: {x: 10, y: 0.1, z: 16}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 19
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &1932447067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1932447062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 362ed483f24805b47bd9a5881d35b0e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _title: St. James$Place
+  _price: 180
+  _colour: {r: 1, g: 0.40701026, b: 0, a: 0}
+  _rent: 14
+  _housePrice: 100
+  _firstHouseValue: 70
+  _secondHouseValue: 200
+  _thirdHouseValue: 550
+  _fourthHouseValue: 750
+  _hotelValue: 950
 --- !u!1 &1954482705
 GameObject:
   m_ObjectHideFlags: 0
@@ -3555,7 +3975,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 362ed483f24805b47bd9a5881d35b0e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _title: Mediterranean Avenue
+  _title: Mediterranean$Avenue
   _price: 60
   _colour: {r: 0.5566038, g: 0.19979845, b: 0.07613921, a: 0}
   _rent: 2
@@ -3670,6 +4090,7 @@ GameObject:
   - component: {fileID: 2037655150}
   - component: {fileID: 2037655149}
   - component: {fileID: 2037655148}
+  - component: {fileID: 2037655152}
   m_Layer: 0
   m_Name: tile37
   m_TagString: Untagged
@@ -3744,13 +4165,35 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2037655147}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: -0, w: -0.7071068}
   m_LocalPosition: {x: -8, y: 0, z: 41}
-  m_LocalScale: {x: 16, y: 0.1, z: 10}
+  m_LocalScale: {x: 10, y: 0.1, z: 16}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 40
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
+--- !u!114 &2037655152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2037655147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 362ed483f24805b47bd9a5881d35b0e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _title: Park$Place
+  _price: 350
+  _colour: {r: 0, g: 0.09577916, b: 0.7075472, a: 0}
+  _rent: 35
+  _housePrice: 200
+  _firstHouseValue: 175
+  _secondHouseValue: 500
+  _thirdHouseValue: 1100
+  _fourthHouseValue: 1300
+  _hotelValue: 1500
 --- !u!1 &2047127990
 GameObject:
   m_ObjectHideFlags: 0
@@ -3950,7 +4393,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 362ed483f24805b47bd9a5881d35b0e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _title: Oriental Avenue
+  _title: Oriental$Avenue
   _price: 100
   _colour: {r: 0, g: 0.7169812, b: 0.7018535, a: 0}
   _rent: 6
@@ -4140,13 +4583,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2112660909}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -114, y: 0, z: 81}
-  m_LocalScale: {x: 16, y: 0.1, z: 10}
+  m_LocalScale: {x: 10, y: 0.1, z: 16}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 20
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &2144750569
 GameObject:
   m_ObjectHideFlags: 0
@@ -4159,6 +4602,7 @@ GameObject:
   - component: {fileID: 2144750572}
   - component: {fileID: 2144750571}
   - component: {fileID: 2144750570}
+  - component: {fileID: 2144750574}
   m_Layer: 0
   m_Name: tile34
   m_TagString: Untagged
@@ -4233,10 +4677,32 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2144750569}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: -0, w: -0.7071068}
   m_LocalPosition: {x: -8, y: 0, z: 71}
-  m_LocalScale: {x: 16, y: 0.1, z: 10}
+  m_LocalScale: {x: 10, y: 0.1, z: 16}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 37
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
+--- !u!114 &2144750574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2144750569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 362ed483f24805b47bd9a5881d35b0e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _title: Pennsylvania$Avenue
+  _price: 320
+  _colour: {r: 0, g: 0.5471698, b: 0.11511597, a: 0}
+  _rent: 28
+  _housePrice: 200
+  _firstHouseValue: 150
+  _secondHouseValue: 450
+  _thirdHouseValue: 1000
+  _fourthHouseValue: 1200
+  _hotelValue: 1400

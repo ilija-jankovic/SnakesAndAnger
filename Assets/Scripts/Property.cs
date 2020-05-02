@@ -9,26 +9,42 @@ public abstract class Property : Tile
     protected ushort _morgVal;
     private bool _mortgaged;
     private Player _owner;
+    protected TextMesh _titleMesh;
+    protected TextMesh _priceMesh;
 
     public virtual void Awake()
     {
         _morgVal = (ushort)(_price/2);
-    }
 
-    public void Start()
-    {
-        GameObject text = new GameObject();
-        TextMesh t = text.AddComponent<TextMesh>();
-        t.anchor = TextAnchor.MiddleCenter;
-        t.alignment = TextAlignment.Center;
+        //title
+        _titleMesh = new GameObject().AddComponent<TextMesh>();
+        _titleMesh.anchor = TextAnchor.UpperCenter;
+        _titleMesh.alignment = TextAlignment.Center;
 
-        t.text = Title + "\n\n\n\n$" + Price;
-        t.color = Color.black;
-        t.fontSize = 12;
+        _titleMesh.text = _title.Replace('$', '\n');
+        _title = _title.Replace('$', ' ');
 
-        t.transform.localEulerAngles += new Vector3(90, 0, 0);
-        t.transform.parent = transform;
-        t.transform.localPosition = Vector3.zero;
+        _titleMesh.color = Color.black;
+        _titleMesh.fontSize = 12;
+        _titleMesh.transform.parent = transform;
+        _titleMesh.transform.localEulerAngles = new Vector3(90, 0, 0);
+        _titleMesh.transform.localScale = new Vector3(0.1f, 0.0625f, 1);
+        _titleMesh.transform.localPosition = new Vector3(0,0,0.4f);
+
+
+        //price
+        _priceMesh = new GameObject().AddComponent<TextMesh>();
+        _priceMesh.anchor = TextAnchor.UpperCenter;
+        _priceMesh.alignment = TextAlignment.Center;
+
+        _priceMesh.text = "$"+Price;
+
+        _priceMesh.color = Color.black;
+        _priceMesh.fontSize = 12;
+        _priceMesh.transform.parent = transform;
+        _priceMesh.transform.localEulerAngles = new Vector3(90, 0, 0);
+        _priceMesh.transform.localScale = new Vector3(0.1f, 0.0625f, 1);
+        _priceMesh.transform.localPosition = new Vector3(0, 0, -0.30f);
     }
 
     public string Title

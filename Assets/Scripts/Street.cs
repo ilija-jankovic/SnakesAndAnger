@@ -33,11 +33,13 @@ public class Street : Property
 
         GameObject banner = GameObject.CreatePrimitive(PrimitiveType.Plane);
         banner.transform.parent = transform;
-        banner.transform.localScale = new Vector3(transform.localScale.x / 100, transform.localScale.y / 100, transform.localScale.z / 600);
-        banner.transform.localRotation = transform.localRotation;
+        banner.transform.localScale = new Vector3(transform.localScale.x / 100, transform.localScale.y / 100, transform.localScale.z / 800);
+        banner.transform.localEulerAngles = Vector3.zero;
         banner.transform.localPosition = new Vector3(0,0.55f,0.5f-5*banner.transform.localScale.z);
 
         banner.GetComponent<Renderer>().material.color = Colour;
+
+        _titleMesh.transform.localPosition = new Vector3(0, 0, banner.transform.localPosition.z-5*banner.transform.localScale.z-0.05f);
     }
 
     public Color Colour
