@@ -6,19 +6,21 @@ public abstract class Card
 {
 
     //id of card for quick reference
-    private byte _id;
+    protected byte _id;
     //desription of card
     private string _description;
     //Player that picked up the card
-    private Player _owner;
+    protected Player _owner;
 
     /// <summary>
     /// constructor for Card
     /// </summary>
-    /// <param name="id">id of the Card</param>
-    public Card(byte id)
+    /// <param name="id">id of Card</param>
+    /// <param name="does">Card description</param>
+    public Card(byte id, string does)
     {
         _id = id;
+        _description = does;
     }
 
     //Properties
