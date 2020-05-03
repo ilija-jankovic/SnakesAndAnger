@@ -5,7 +5,7 @@ using UnityEngine;
 public class Snake 
 {
     private Tile _head;
-    private Tile _Tail;
+    private Tile _tail;
 
     /// <summary>
     /// Constructor for the Snake Class
