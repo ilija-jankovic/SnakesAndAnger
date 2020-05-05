@@ -5,7 +5,7 @@ using UnityEngine;
 public class CardGetOutOfJail : Card
 {
 
-    public CardGetOutOfJail(byte id, string does) : base(id, does)
+    public CardGetOutOfJail(string does) : base(does)
     {
 
     }
