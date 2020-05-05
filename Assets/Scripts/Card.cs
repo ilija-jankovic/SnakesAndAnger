@@ -4,9 +4,6 @@ using UnityEngine;
 
 public abstract class Card
 {
-
-    //id of card for quick reference
-    protected byte _id;
     //desription of card
     private string _description;
     //Player that picked up the card
@@ -15,18 +12,10 @@ public abstract class Card
     /// <summary>
     /// constructor for Card
     /// </summary>
-    /// <param name="id">id of Card</param>
     /// <param name="does">Card description</param>
-    public Card(byte id, string does)
+    public Card(string does)
     {
-        _id = id;
         _description = does;
-    }
-
-    //Properties
-    public byte Id
-    {
-        get { return _id; }
     }
 
     public Player Owner

@@ -15,11 +15,10 @@ public class CardPay : Card
     /// <summary>
     /// Constructor for Cards that remove money from player
     /// </summary>
-    /// <param name="id">id of Card</param>
     /// <param name="does">Card description</param>
     /// <param name="amount">amount to be given</param>
     /// <param name="type">type of payment</param>
-    public CardPay(byte id, string does, ushort amount, byte type) : base(id, does)
+    public CardPay(string does, ushort amount, byte type) : base(does)
     {
         _amount = amount;
         _type = type;
