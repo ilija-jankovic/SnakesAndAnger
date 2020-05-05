@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -35,6 +36,10 @@ public class Player : MonoBehaviour
     public void Move(Tile endPosition)
     {
         _playerPosition = endPosition;
+    }
+    public void Move(sbyte tiles)
+    {
+        Move(GameManager.Tiles[(Array.IndexOf(GameManager.Tiles, _playerPosition) + tiles) % GameManager.Tiles.Length]);
     }
     /// <summary>
     /// adds funds to the player

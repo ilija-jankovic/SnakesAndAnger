@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
 static class GameManager
@@ -15,8 +16,11 @@ static class GameManager
     static void Initialise()
     {
         MenuManager.DisplayMainMenu();
-        Tile[] unsortedTiles = GameObject.FindObjectsOfType<Tile>();
-        Array.Sort(unsortedTiles, delegate (Tile t1, Tile t2) { return t1.name.CompareTo(t2.name); });
+
+        tiles = GameObject.FindObjectsOfType<Tile>();
+        Array.Sort(tiles, delegate (Tile t1, Tile t2) {
+            return t1.name.CompareTo(t2.name);
+        });
     }
 
     static void ResetBoard()
@@ -39,5 +43,10 @@ static class GameManager
     static void Turn()
     {
 
+    }
+
+    public static Tile[] Tiles
+    {
+        get { return tiles; }
     }
 }

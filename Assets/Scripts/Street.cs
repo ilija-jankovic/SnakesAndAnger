@@ -79,6 +79,11 @@ public class Street : Property
         _houses = 0;
     }
 
+    public byte Houses
+    {
+        get { return _houses; }
+    }
+
     public override void DisplayOptions()
     {
         throw new NotImplementedException();

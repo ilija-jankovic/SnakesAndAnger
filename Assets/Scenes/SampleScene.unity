@@ -437,7 +437,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _title: Boardwalk
-  _price: 350
+  _price: 400
   _colour: {r: 0, g: 0.09577916, b: 0.7075472, a: 0}
   _rent: 50
   _housePrice: 200
