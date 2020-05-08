@@ -6,47 +6,103 @@ using UnityEngine;
 
 static class GameManager
 {
-    static Player[] players;
-    static Player curPlayer;
+    //stores players in the current game
+    private static Player[] _players;
     //stores all Monopoly tiles in order from go to last
-    static Tile[] tiles;
-    static Die[] dice = GameObject.FindObjectsOfType<Die>();
+    private static Tile[] _tiles;
+
+    private static Player _curPlayer;
 
     [RuntimeInitializeOnLoadMethod]
-    static void Initialise()
+    private static void Initialise()
     {
         MenuManager.DisplayMainMenu();
 
-        tiles = GameObject.FindObjectsOfType<Tile>();
-        Array.Sort(tiles, delegate (Tile t1, Tile t2) {
+        //order tiles
+        _tiles = GameObject.FindObjectsOfType<Tile>();
+        Array.Sort(_tiles, delegate (Tile t1, Tile t2) {
             return t1.name.CompareTo(t2.name);
         });
+
+        //
+        //remove this method call later
+        //
+        ResetBoard();
     }
 
-    static void ResetBoard()
+    public static void ResetBoard()
     {
-
+        InitialiseActivePlayers();
     }
 
-    static void FillPlayerList()
+    private static void InitialiseActivePlayers()
     {
-        players = GameObject.FindObjectsOfType<Player>();
+        _players = GameObject.FindObjectsOfType<Player>();
         List<Player> playing = new List<Player>();
-        foreach(Player player in players)
-          if(player.Playing)
-              playing.Add(player);
-        players = new Player[playing.Count];
-        for(byte i = 0; i < playing.Count; i++)
-          players[i] = playing[i];
+
+        //get active players
+        foreach (Player player in _players)
+            if (player.Playing)
+                playing.Add(player);
+            else
+                player.GetComponent<Renderer>().enabled = false;
+
+        //add active players to players array and reset their values
+        _players = new Player[playing.Count];
+        for (byte i = 0; i < playing.Count; i++)
+        {
+            Player player = playing[i];
+            _players[i] = player;
+            player.Reset();
+        }
+
+        //sets first player. Should probably randomise this later
+        _curPlayer = _players[0];
     }
 
-    static void Turn()
+    private static void RemoveActivePlayer(Player player)
     {
+        if (!player.GetComponent<Renderer>().enabled)
+            throw new MissingReferenceException("A player must be playing in order to be removed.");
 
+        Player[] newPlayers = new Player[_players.Length - 1];
+
+        //check for winner
+        if(newPlayers.Length == 1)
+        {
+            MenuManager.DisplayWinMenu(player);
+            //clean up
+            _players = new Player[0];
+            _curPlayer = null;
+            return;
+        }
+
+        //update player array
+        int newIndex = 0;
+        for(int i = 0; i < _players.Length; i++)
+        {
+            if (_players[i] == player)
+            {
+                player.GetComponent<Renderer>().enabled = false;
+                continue;
+            }
+            _players[newIndex] = _players[i];
+            newIndex++;
+        }
+    }
+
+    public static void NextPlayer()
+    {
+        _curPlayer = _players[(Array.IndexOf(_players, _curPlayer) + 1) % _players.Length];
     }
 
     public static Tile[] Tiles
     {
-        get { return tiles; }
+        get { return _tiles; }
+    }
+
+    public static Player CurrentPlayer
+    {
+        get { return _curPlayer; }
     }
 }

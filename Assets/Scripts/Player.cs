@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     /// stores all the properties owned by the player
     /// </summary>
     List<Property> _propertysOwned = new List<Property>();
+    [SerializeField]
     /// <summary>
     /// flags whether player is in the current game
     /// </summary>
@@ -36,6 +37,7 @@ public class Player : MonoBehaviour
     public void Move(Tile endPosition)
     {
         _playerPosition = endPosition;
+        transform.position = _playerPosition.transform.position;
     }
     public void Move(sbyte tiles)
     {
@@ -87,5 +89,21 @@ public class Player : MonoBehaviour
     public List<Property> PropertiesOwned
     {
         get { return _propertysOwned; }
+    }
+
+    public void Reset()
+    {
+        transform.position = GameManager.Tiles[0].transform.position;
+    }
+
+    void Update()
+    {
+        if(GameManager.CurrentPlayer == this && Input.GetKeyDown(KeyCode.M))
+        {
+            sbyte roll = (sbyte)UnityEngine.Random.Range(2, 12);
+            Move(roll);
+            Debug.Log("You rolled: " + roll);
+            GameManager.NextPlayer();
+        }
     }
 }
