@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
+using UnityEngine.UI;
 
 static class GameManager
 {
@@ -16,8 +17,6 @@ static class GameManager
     [RuntimeInitializeOnLoadMethod]
     private static void Initialise()
     {
-        MenuManager.DisplayMainMenu();
-
         //order tiles
         _tiles = GameObject.FindObjectsOfType<Tile>();
         Array.Sort(_tiles, delegate (Tile t1, Tile t2) {
@@ -45,7 +44,7 @@ static class GameManager
             if (player.Playing)
                 playing.Add(player);
             else
-                player.GetComponent<Renderer>().enabled = false;
+                player.GetComponent<Renderer>().enabled = false;                 //make this better
 
         //add active players to players array and reset their values
         _players = new Player[playing.Count];
@@ -70,7 +69,7 @@ static class GameManager
         //check for winner
         if(newPlayers.Length == 1)
         {
-            MenuManager.DisplayWinMenu(player);
+            MenuManager.SwitchToMenu(MenuManager.WinMenu);
             //clean up
             _players = new Player[0];
             _curPlayer = null;
@@ -91,8 +90,26 @@ static class GameManager
         }
     }
 
+    public static void EndOfRollOptions()
+    {
+        Property property = CurrentPlayer.Position.GetComponent<Property>();
+        //check if the player stepped on an unowned property
+        if (property != null && property.Owner == null)
+        {
+            MenuManager.SwitchToMenu(MenuManager.EndOfTurnOptions);
+            GameObject.FindGameObjectWithTag("PropertyInfo").GetComponent<Text>().text = CurrentPlayer.Position.GetComponent<Property>().Description();
+            GameObject.FindGameObjectWithTag("PropertyTitle").GetComponent<Text>().text = CurrentPlayer.Position.GetComponent<Property>().Title;
+        }
+        else
+        {
+            //add player payment in here if player steps on someone's property
+            NextPlayer();
+        }
+    }
+
     public static void NextPlayer()
     {
+        MenuManager.SwitchToMenu(MenuManager.TurnOptions);
         _curPlayer = _players[(Array.IndexOf(_players, _curPlayer) + 1) % _players.Length];
     }
 

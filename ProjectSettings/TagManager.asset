@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - RollButton
+  - TurnCanvas
+  - EndOfTurnCanvas
+  - BuyButton
+  - PropertyInfo
+  - PropertyTitle
   layers:
   - Default
   - TransparentFX

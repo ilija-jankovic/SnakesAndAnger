@@ -66,21 +66,6 @@ public abstract class Property : Tile
         get { return _owner; }
     }
 
-    public bool CanPurchase(Player player)
-    {
-        return Owner == null && player.GetBalance() >= Price;
-    }
-
-    public void Purchase(Player player)
-    {
-        if(CanPurchase(player))
-        {
-            player.RemoveFunds(Price);
-            player.AddProperty(this);
-            _owner = player;
-        }
-    }
-
     public void ChangeOwner(Player player)
     {
         _owner = player;

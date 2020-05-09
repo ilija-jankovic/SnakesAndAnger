@@ -68,6 +68,18 @@ public class Player : MonoBehaviour
         _propertysOwned.Add(p);
         p.ChangeOwner(this);
     }
+
+    public void Purchase()
+    {
+        Property property = _playerPosition.GetComponent<Property>();
+        if (property != null && property.Owner == null)
+            if (_playerBalance >= property.Price)
+            {
+                RemoveFunds(property.Price);
+                AddProperty(property);
+            }
+        GameManager.NextPlayer();
+    }
     /// <summary>
     /// returns the players balance as a decimal
     /// </summary>
@@ -91,19 +103,12 @@ public class Player : MonoBehaviour
         get { return _propertysOwned; }
     }
 
+    public Tile Position
+    {
+        get { return _playerPosition; }
+    }
     public void Reset()
     {
         transform.position = GameManager.Tiles[0].transform.position;
-    }
-
-    void Update()
-    {
-        if(GameManager.CurrentPlayer == this && Input.GetKeyDown(KeyCode.M))
-        {
-            sbyte roll = (sbyte)UnityEngine.Random.Range(2, 12);
-            Move(roll);
-            Debug.Log("You rolled: " + roll);
-            GameManager.NextPlayer();
-        }
     }
 }
