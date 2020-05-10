@@ -122,4 +122,9 @@ static class GameManager
     {
         get { return _curPlayer; }
     }
+
+    public static Player[] Players
+    {
+        get { return _players; }
+    }
 }

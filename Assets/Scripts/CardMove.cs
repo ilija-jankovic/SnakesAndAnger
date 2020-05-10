@@ -40,30 +40,79 @@ public class CardMove : Card
         }
         else if (_type == 2) //move to closest Utility. tile12, tile28
         {
-            //_owner.Move(CheckClosestUtility());
+            AdvClosestUtility();
         }
         else if (_type == 3) //move to closest train station. tile35, tile25, tile15, tile05
         {
-            //_owner.Move(CheckClosestStation());
+            AdvClosestStation();
         }
         else if (_type == 4)
         {
-            //_owner.Move(Player.playerPosition - 3);
+            int currPos = GetPlayerPosIndex();
+            _owner.Move(GameManager.Tiles[currPos- 3]);
         }
-        else
+        else // go to jail
         {
 
         }
 
-        //To Be Made
-        //private Tile CheckClosestUtility()
-        //{
-        //    return Tile;
-        //}
-        //To Be Made
-        //private Tile CheckClosestStation()
-        //{
-        //    return Tile;
-        //}
+
+
+    }
+
+    /// <summary>
+    /// Adcances to nearest Utility
+    /// </summary>
+    private void AdvClosestUtility()
+    {
+        int pos = GetPlayerPosIndex();
+        bool fordFound = false;
+        while(!fordFound)
+        {
+            pos++;
+            if(pos > 39)
+            {
+                pos = 0;
+            }
+            if(GameManager.Tiles[pos] is Utility)
+            {
+                fordFound = true;
+                _owner.Move(GameManager.Tiles[pos]);
+            }
+
+        }
+    }
+
+    /// <summary>
+    /// Advances to nearest Station
+    /// </summary>
+    private void AdvClosestStation()
+    {
+        int pos = GetPlayerPosIndex();
+        bool fordFound = false;
+        while (!fordFound)
+        {
+            pos++;
+            if (pos > 39)
+            {
+                pos = 0;
+            }
+            if (GameManager.Tiles[pos] is RailwayStation)
+            {
+                fordFound = true;
+                _owner.Move(GameManager.Tiles[pos]);
+            }
+
+        }
+
+    }
+
+    /// <summary>
+    /// Gets the index of the playerPosition rather than the tile
+    /// </summary>
+    /// <returns>PlayerPosIndex</returns>
+    private int GetPlayerPosIndex()
+    {
+        return System.Array.IndexOf(GameManager.Tiles, _owner.Position);
     }
 }

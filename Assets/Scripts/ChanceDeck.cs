@@ -13,8 +13,7 @@ public class ChanceDeck
         InitialiseDeck();
         //Shuffle Deck
         ShuffleDeck();
-        //shuffledList = myList.OrderBy( x => Random.value ).ToList( );
-        //listOfThings = listOfThings.OrderBy(i => Guid.NewGuid()).ToList();
+
     }
 
     private void InitialiseDeck()
@@ -42,11 +41,11 @@ public class ChanceDeck
 
         //CardMove Type Cards
         //Where tile is null must be replaced with tile in comments
-        _deck.Add(new CardMove("Advance to Go (Collect $200)", null, 1)); //tile00
-        _deck.Add(new CardMove("Advance to Illinois Ave - If you pass Go, collect $200", null, 1)); //tile24
-        _deck.Add(new CardMove("Advance to St. Charles Place - If you pass Go, collect $200", null, 1)); //tile11
-        _deck.Add(new CardMove("Take a trip to Reading Railroad - If you pass Go, collect $200", null, 1)); //tile05
-        _deck.Add(new CardMove("Take a walk on the Boardwalk - Advance token to Boardwalk", null, 1)); //tile29
+        _deck.Add(new CardMove("Advance to Go (Collect $200)", GameManager.Tiles[0], 1)); //tile00
+        _deck.Add(new CardMove("Advance to Illinois Ave - If you pass Go, collect $200", GameManager.Tiles[24], 1)); //tile24
+        _deck.Add(new CardMove("Advance to St. Charles Place - If you pass Go, collect $200", GameManager.Tiles[11], 1)); //tile11
+        _deck.Add(new CardMove("Take a trip to Reading Railroad - If you pass Go, collect $200", GameManager.Tiles[05], 1)); //tile05
+        _deck.Add(new CardMove("Take a walk on the Boardwalk - Advance token to Boardwalk", GameManager.Tiles[29], 1)); //tile29
         _deck.Add(new CardMove("Advance token to nearest Utility. If unowned, you man buy it from the Bank. If owned, throw dice and pay owner a total ten times the amount thrown", 2)); 
         _deck.Add(new CardMove("Advance token to the nearest Railroad and pay the owner twice the rental to which they they are otherwise entitled. If Railroad is unowned, you may buy it from the Bank", 3)); 
         _deck.Add(new CardMove("Go back 3 spaces", 4));
@@ -57,15 +56,44 @@ public class ChanceDeck
         _deck.Add(new CardGetOutOfJail("Get out of jail free"));
     }
 
+    /// <summary>
+    /// Shuffles the deck of cards
+    /// </summary>
     public void ShuffleDeck()
     {
-
+        int count = _deck.Count;
+        int last = count - 1;
+        for (int i = 0; i < last; i++)
+        {
+            int r = UnityEngine.Random.Range(i, count);
+            Card temp = _deck[i];
+            _deck[i] = _deck[r];
+            _deck[r] = temp;
+        }
     }
 
+    /// <summary>
+    /// Draws card
+    /// </summary>
+    /// <returns>returns the card drawn</returns>
     public Card DrawCard()
     {
-        return _deck[1];
+        Card temp2 = _deck[0];
+        _deck.Remove(temp2);
+        return temp2;
+
     }
+
+    /// <summary>
+    /// Places card at bottom of deck
+    /// </summary>
+    /// <param name="temp3"></param>
+    public void PlaceUnderDeck(Card temp3)
+    {
+        _deck.Add(temp3);
+    }
+
+
 
 
 }

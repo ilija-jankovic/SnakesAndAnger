@@ -33,44 +33,60 @@ public class CardPay : Card
         }
         else if (_type == 2) //pay each player
         {
-            ////checks player can pay amount
-            //if ()
-            //{
-            //    //Pays amount to each player
-            //    foreach ()
-            //    {
-
-            //    }
-            //}
-            //else //options player has
-            //{
-
-            //}
-
+            PayPlayers();
         }
         else //for each hotel / house
         {
-            byte houses = 0;
-            byte hotels = 0;
-            decimal pay = 0;
-            ushort toPay = 0;
-            //checks player can pay amount
-            foreach(Property p in _owner.PropertiesOwned)
-            {
-                if (p is Street)
-                {
-                    //Needs return steet._houses
-                }
-            }
-            pay = (25 * (int)houses) + (100 * (int)hotels);
-            toPay = (ushort)pay;
-            if (_owner.GetBalance() >= toPay)
-            {
-                _owner.RemoveFunds(toPay);
-            }
-            //Pays for each hotel / house player owns
+            ForHotelAndHouses();
+        }
+    }
 
-            //if the can't, options player has
+
+    private void PayPlayers() //Need to make while checking if the payment has been made or the yhave forfeited
+    {
+        decimal toPay = _amount * GameManager.Players.Length;
+        //checks player can pay amount
+        if (_owner.GetBalance() >= toPay)
+        {
+            //Pays amount to each player
+            foreach (Player p in GameManager.Players)
+            {
+                _owner.RemoveFunds(_amount);
+                p.AddFunds(_amount);
+            }
+        }
+        else //Can't pay options player has
+        {
+
+        }
+    }
+
+    private void ForHotelAndHouses() //Need to make while checking if the payment has been made or the yhave forfeited. Also need to add Hotel stuff
+    {
+        byte houses = 0;
+        byte hotels = 0;
+        decimal pay = 0;
+        ushort toPay = 0;
+        //checks player can pay amount
+        foreach (Property p in _owner.PropertiesOwned)
+        {
+            if (p is Street)
+            {
+                //adds houses on street to houses local variable
+                Street strt = (Street)p;
+                houses += strt.Houses;
+            }
+        }
+        //calculates amount to pay
+        pay = (25 * (int)houses) + (100 * (int)hotels);
+        toPay = (ushort)pay;
+        if (_owner.GetBalance() >= toPay)
+        {
+            _owner.RemoveFunds(toPay);
+        }
+        else //if they can't, options player has
+        {
+
         }
     }
 }
