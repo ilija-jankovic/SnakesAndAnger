@@ -55,8 +55,9 @@ static class GameManager
             player.Reset();
         }
 
-        //sets first player. Should probably randomise this later
+        //sets first player. Should probably randomise this later, initialises the camera also
         _curPlayer = _players[0];
+        CameraFollow.target = _curPlayer.transform;
     }
 
     private static void RemoveActivePlayer(Player player)
@@ -111,6 +112,8 @@ static class GameManager
     {
         MenuManager.SwitchToMenu(MenuManager.TurnOptions);
         _curPlayer = _players[(Array.IndexOf(_players, _curPlayer) + 1) % _players.Length];
+        //change the target for the camera to the current player
+        CameraFollow.target = _curPlayer.transform;
     }
 
     public static Tile[] Tiles

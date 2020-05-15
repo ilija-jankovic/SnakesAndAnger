@@ -1,10 +1,9 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
     //object the camera will follow
-    public Transform target;
+    public static Transform target;
     //speed the camera travels
     public float smoothSpeed = 0.125f;
     //offset of the camera
