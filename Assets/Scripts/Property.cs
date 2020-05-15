@@ -53,6 +53,7 @@ public abstract class Property : Tile
     }
     public abstract string Description();
 
+    //price to purchase the property
     public ushort Price
     {
         get { return _price; }
