@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
     /// <summary>
     /// stores all the properties owned by the player
     /// </summary>
-    List<Property> _propertysOwned = new List<Property>();
+    List<Property> _propertiesOwned;
     [SerializeField]
     /// <summary>
     /// flags whether player is in the current game
@@ -65,26 +65,34 @@ public class Player : MonoBehaviour
     /// <param name="p"></param>
     public void AddProperty(Property p)
     {
-        _propertysOwned.Add(p);
+        _propertiesOwned.Add(p);
         p.ChangeOwner(this);
+
+        //sort from lowest value to highest value properties
+        _propertiesOwned.Sort(delegate (Property p1, Property p2) {
+            return p1.name.CompareTo(p2.name);
+        });
     }
 
     public void Purchase()
     {
-        Property property = _playerPosition.GetComponent<Property>();
-        if (property != null && property.Owner == null)
-            if (_playerBalance >= property.Price)
-            {
-                RemoveFunds(property.Price);
-                AddProperty(property);
-            }
+        if (_playerPosition != null)
+        {
+            Property property = _playerPosition.GetComponent<Property>();
+            if (property != null && property.Owner == null)
+                if (_playerBalance >= property.Price)
+                {
+                    RemoveFunds(property.Price);
+                    AddProperty(property);
+                }
+        }
         GameManager.NextPlayer();
     }
     /// <summary>
     /// returns the players balance as a decimal
     /// </summary>
     /// <returns></returns>
-    public decimal GetBalance()
+    public int GetBalance()
     {
         return _playerBalance;
     }
@@ -100,7 +108,7 @@ public class Player : MonoBehaviour
     /// </summary>
     public List<Property> PropertiesOwned
     {
-        get { return _propertysOwned; }
+        get { return _propertiesOwned; }
     }
 
     public Tile Position
@@ -110,5 +118,7 @@ public class Player : MonoBehaviour
     public void Reset()
     {
         transform.position = GameManager.Tiles[0].transform.position;
+        _playerBalance = 1500;
+        _propertiesOwned = new List<Property>();
     }
 }

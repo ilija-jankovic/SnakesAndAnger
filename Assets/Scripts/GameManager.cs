@@ -58,6 +58,7 @@ static class GameManager
         //sets first player. Should probably randomise this later, initialises the camera also
         _curPlayer = _players[0];
         CameraFollow.target = _curPlayer.transform;
+        MenuManager.UpdateInventoryData();
     }
 
     private static void RemoveActivePlayer(Player player)
@@ -97,9 +98,18 @@ static class GameManager
         //check if the player stepped on an unowned property
         if (property != null && property.Owner == null)
         {
-            MenuManager.SwitchToMenu(MenuManager.EndOfTurnOptions);
+            MenuManager.SwitchToMenuWithInventory(MenuManager.EndOfTurnOptions);
+            MenuManager.ShowMenu(MenuManager.CardInfo);
             GameObject.FindGameObjectWithTag("PropertyInfo").GetComponent<Text>().text = CurrentPlayer.Position.GetComponent<Property>().Description();
             GameObject.FindGameObjectWithTag("PropertyTitle").GetComponent<Text>().text = CurrentPlayer.Position.GetComponent<Property>().Title;
+
+            //set colour of card
+            Image streetColour = GameObject.FindGameObjectWithTag("StreetColour").GetComponent<Image>();
+            Street street = property.GetComponent<Street>();
+            if (street != null)
+                streetColour.color = new Color(street.Colour.r,street.Colour.g,street.Colour.b,1);
+            else
+                streetColour.color = Vector4.zero;
         }
         else
         {
@@ -110,10 +120,11 @@ static class GameManager
 
     public static void NextPlayer()
     {
-        MenuManager.SwitchToMenu(MenuManager.TurnOptions);
+        MenuManager.SwitchToMenuWithInventory(MenuManager.TurnOptions);
         _curPlayer = _players[(Array.IndexOf(_players, _curPlayer) + 1) % _players.Length];
         //change the target for the camera to the current player
         CameraFollow.target = _curPlayer.transform;
+        MenuManager.UpdateInventoryData();
     }
 
     public static Tile[] Tiles

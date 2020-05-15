@@ -70,6 +70,7 @@ public class Street : Property
         if (/*CanBuildHouses() && */_houses < 5)
         {
             _houses++;
+            //create 3D models
             if (_houses <= 4)
             {
                 GameObject prefab = Resources.Load("house2") as GameObject;
