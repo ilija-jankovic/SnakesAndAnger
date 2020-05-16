@@ -10,6 +10,9 @@ TagManager:
   - BuyButton
   - PropertyInfo
   - PropertyTitle
+  - StreetColour
+  - Balance
+  - InventoryCard
   layers:
   - Default
   - TransparentFX

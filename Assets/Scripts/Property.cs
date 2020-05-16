@@ -77,6 +77,11 @@ public abstract class Property : Tile
         get { return _mortgaged; }
     }
 
+    public ushort MortgageValue
+    {
+        get { return _morgVal; }
+    }
+
     public virtual void Mortgage()
     {
         if (!Mortgaged)

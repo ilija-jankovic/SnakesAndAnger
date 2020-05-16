@@ -86,7 +86,6 @@ public class Player : MonoBehaviour
                     AddProperty(property);
                 }
         }
-        GameManager.NextPlayer();
     }
     /// <summary>
     /// returns the players balance as a decimal
@@ -120,5 +119,14 @@ public class Player : MonoBehaviour
         transform.position = GameManager.Tiles[0].transform.position;
         _playerBalance = 1500;
         _propertiesOwned = new List<Property>();
+    }
+
+    public int GetTotalPotentialBalance()
+    {
+        int funds = GetBalance();
+        foreach (Property playerProp in PropertiesOwned)
+            if (!playerProp.Mortgaged)
+                funds += playerProp.MortgageValue;
+        return funds;
     }
 }

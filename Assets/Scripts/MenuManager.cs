@@ -10,6 +10,7 @@ static class MenuManager
     private static Canvas _endOfTurn = GameObject.Find("EndOfTurnOptions").GetComponent<Canvas>();
     private static Canvas _cardInfo = GameObject.Find("CardInfo").GetComponent<Canvas>();
     private static Canvas _inventory = GameObject.Find("Inventory").GetComponent<Canvas>();
+    private static Canvas _payment = GameObject.Find("PaymentOptions").GetComponent<Canvas>();
     //make this at some point
     private static Canvas _winMenu;
 
@@ -21,15 +22,37 @@ static class MenuManager
         //call Roll method in Die class when 'RollButton' is clicked
         GameObject.FindGameObjectWithTag("RollButton").GetComponent<Button>().onClick.AddListener(Die.Roll);
         //call Player's Buy method when 'BuyButton' is clicked
-        GameObject.FindGameObjectWithTag("BuyButton").GetComponent<Button>().onClick.AddListener(delegate { GameManager.CurrentPlayer.Purchase(); });
+        GameObject.FindGameObjectWithTag("BuyButton").GetComponent<Button>().onClick.AddListener(
+            delegate { 
+                GameManager.CurrentPlayer.Purchase(); 
+                GameManager.NextPlayer(); 
+            });
+
+        //methods to call when Player needs to pay
+        GameObject.FindGameObjectWithTag("PayButton").GetComponent<Button>().onClick.AddListener(
+            delegate {
+                Property property = GameManager.CurrentPlayer.Position.GetComponent<Property>();
+                if (property != null)
+                {
+                    ushort payment = property.PaymentPrice();
+                    GameManager.CurrentPlayer.RemoveFunds(payment);
+                    property.Owner.AddFunds(payment);
+                    GameManager.NextPlayer();
+                }
+            });
 
         SwitchToMenuWithInventory(TurnOptions);
+    }
+
+    private static void DisableMenu(Canvas canvas)
+    {
+        canvas.enabled = false;
     }
 
     private static void DisableAllMenus()
     {
         foreach (Canvas canvas in allMenus)
-            canvas.enabled = false;
+            DisableMenu(canvas);
     }
 
     public static void SwitchToMenu(Canvas menu)
@@ -43,7 +66,7 @@ static class MenuManager
     public static void SwitchToMenuWithInventory(Canvas menu)
     {
         SwitchToMenu(menu);
-        Inventory.enabled = true;
+        UpdateInventoryData();
     }
 
     public static void ShowMenu(Canvas menu)
@@ -53,8 +76,9 @@ static class MenuManager
 
     public static void UpdateInventoryData()
     {
-        if (GameManager.CurrentPlayer != null && Inventory.enabled == true)
+        if (GameManager.CurrentPlayer != null)
         {
+            ShowMenu(Inventory);
             GameObject.FindGameObjectWithTag("Balance").GetComponent<Text>().text = "$" + GameManager.CurrentPlayer.GetBalance();
 
             //get rid of previous players inventory
@@ -124,6 +148,28 @@ static class MenuManager
         get { return _cardInfo; }
     }
 
+    public static void UpdateCardInfo(Property property)
+    {
+        ShowMenu(CardInfo);
+        if (property != null)
+        {
+            ShowMenu(CardInfo);
+            GameObject.FindGameObjectWithTag("PropertyInfo").GetComponent<Text>().text = property.Description();
+            GameObject.FindGameObjectWithTag("PropertyTitle").GetComponent<Text>().text = property.GetComponent<Property>().Title;
+
+            //set colour of card
+            Image streetColour = GameObject.FindGameObjectWithTag("StreetColour").GetComponent<Image>();
+            Street street = property.GetComponent<Street>();
+            if (street != null)
+                streetColour.color = new Color(street.Colour.r, street.Colour.g, street.Colour.b, 1);
+            else
+                streetColour.color = Vector4.zero;
+        }
+        else
+            DisableMenu(CardInfo);
+
+    }
+
     public static Canvas WinMenu
     {
         get { return _winMenu; }
@@ -132,5 +178,10 @@ static class MenuManager
     public static Canvas Inventory
     {
         get { return _inventory; }
+    }
+
+    public static Canvas PaymentOptions
+    {
+        get { return _payment; }
     }
 }

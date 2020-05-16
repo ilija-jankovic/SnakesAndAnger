@@ -95,21 +95,29 @@ static class GameManager
     public static void EndOfRollOptions()
     {
         Property property = CurrentPlayer.Position.GetComponent<Property>();
-        //check if the player stepped on an unowned property
-        if (property != null && property.Owner == null)
+        if (property != null)
         {
-            MenuManager.SwitchToMenuWithInventory(MenuManager.EndOfTurnOptions);
-            MenuManager.ShowMenu(MenuManager.CardInfo);
-            GameObject.FindGameObjectWithTag("PropertyInfo").GetComponent<Text>().text = CurrentPlayer.Position.GetComponent<Property>().Description();
-            GameObject.FindGameObjectWithTag("PropertyTitle").GetComponent<Text>().text = CurrentPlayer.Position.GetComponent<Property>().Title;
-
-            //set colour of card
-            Image streetColour = GameObject.FindGameObjectWithTag("StreetColour").GetComponent<Image>();
-            Street street = property.GetComponent<Street>();
-            if (street != null)
-                streetColour.color = new Color(street.Colour.r,street.Colour.g,street.Colour.b,1);
+            //check if the player stepped on an unowned property
+            if (property.Owner == null)
+                MenuManager.SwitchToMenuWithInventory(MenuManager.EndOfTurnOptions);
             else
-                streetColour.color = Vector4.zero;
+            {
+                //check if player can pay
+                int funds = CurrentPlayer.GetTotalPotentialBalance();
+                ushort propertyPayment = property.PaymentPrice();
+                if (funds >= propertyPayment)
+                {
+                    MenuManager.SwitchToMenuWithInventory(MenuManager.PaymentOptions);
+                    //disable pay button so player must mortgage
+                    if (CurrentPlayer.GetBalance() < propertyPayment)
+                        GameObject.FindGameObjectWithTag("PayButton").GetComponent<Button>().enabled = false;
+                }
+                else
+                {
+                    //player loses the game
+                }
+            }
+            MenuManager.UpdateCardInfo(CurrentPlayer.Position.GetComponent<Property>());
         }
         else
         {

@@ -34,22 +34,12 @@ public class InventoryCardMouseInputUI : MonoBehaviour
     public void EnterUI()
     {
         BlockedByUI = true;
-            Debug.Log("hovering");
-            MenuManager.ShowMenu(MenuManager.CardInfo);
-            GameObject.FindGameObjectWithTag("PropertyInfo").GetComponent<Text>().text = property.Description();
-            GameObject.FindGameObjectWithTag("PropertyTitle").GetComponent<Text>().text = property.GetComponent<Property>().Title;
-
-            //set colour of card
-            Image streetColour = GameObject.FindGameObjectWithTag("StreetColour").GetComponent<Image>();
-            Street street = property.GetComponent<Street>();
-            if (street != null)
-                streetColour.color = new Color(street.Colour.r, street.Colour.g, street.Colour.b, 1);
-            else
-                streetColour.color = Vector4.zero;
+        MenuManager.UpdateCardInfo(property);
     }
     public void ExitUI()
     {
         BlockedByUI = false;
+        MenuManager.UpdateCardInfo(GameManager.CurrentPlayer.Position.GetComponent<Property>());
     }
 
 }
