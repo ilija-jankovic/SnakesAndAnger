@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     /// stores the current position of the player
     /// </summary>
     private Tile _playerPosition;
+    [SerializeField]
     /// <summary>
     /// stores the players account balance
     /// </summary>

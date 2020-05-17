@@ -97,33 +97,82 @@ static class GameManager
         Property property = CurrentPlayer.Position.GetComponent<Property>();
         if (property != null)
         {
-            //check if the player stepped on an unowned property
-            if (property.Owner == null)
+            //check if the player stepped on an unowned/mortgaged/their own property
+            if (property.Owner == null || property.Owner == CurrentPlayer || (property.Mortgaged && property.Owner != CurrentPlayer))
                 MenuManager.SwitchToMenuWithInventory(MenuManager.EndOfTurnOptions);
             else
-            {
-                //check if player can pay
-                int funds = CurrentPlayer.GetTotalPotentialBalance();
-                ushort propertyPayment = property.PaymentPrice();
-                if (funds >= propertyPayment)
-                {
-                    MenuManager.SwitchToMenuWithInventory(MenuManager.PaymentOptions);
-                    //disable pay button so player must mortgage
-                    if (CurrentPlayer.GetBalance() < propertyPayment)
-                        GameObject.FindGameObjectWithTag("PayButton").GetComponent<Button>().enabled = false;
-                }
-                else
-                {
-                    //player loses the game
-                }
-            }
+                PlayerMustPay(property.PaymentPrice());
+
+            //display current property
             MenuManager.UpdateCardInfo(CurrentPlayer.Position.GetComponent<Property>());
+        }
+
+        //add other payment and options here
+    }
+
+    private static ushort paymentNeeded;
+
+    public static void PlayerMustPay(ushort amount)
+    {
+        //check if player can pay
+        int funds = CurrentPlayer.GetTotalPotentialBalance();
+        if (funds >= amount)
+        {
+            MenuManager.SwitchToMenuWithInventory(MenuManager.PaymentOptions);
+            //disable pay button so player must mortgage
+            if (CurrentPlayer.GetBalance() < amount)
+            {
+                GameObject.FindGameObjectWithTag("PayButton").GetComponent<Button>().interactable = false;
+                paymentNeeded = amount;
+            }
         }
         else
         {
-            //add player payment in here if player steps on someone's property
-            NextPlayer();
+            //player loses the game
         }
+    }
+
+    public static void UpdatePayButtonInteractibility()
+    {
+        if (MenuManager.PaymentOptions.enabled == true)
+        {
+            Button payButton = GameObject.FindGameObjectWithTag("PayButton").GetComponent<Button>();
+            payButton.interactable = CurrentPlayer.GetBalance() >= paymentNeeded;
+        }
+    }
+
+    public static void UpdateBuyButtonInteractibility()
+    {
+        if (MenuManager.EndOfTurnOptions.enabled == true)
+        {
+            Button buyButton = GameObject.FindGameObjectWithTag("BuyButton").GetComponent<Button>();
+            buyButton.interactable = false;
+            //update this quick fix when the trading system is implemented
+            if (GameObject.FindGameObjectWithTag("AuctionButton").GetComponent<Button>().interactable == false)
+                return;
+
+            Property property = CurrentPlayer.Position.GetComponent<Property>();
+            if(property != null && property.Owner == null && CurrentPlayer.GetBalance() >= property.Price)
+                buyButton.interactable = true;
+        }
+    }
+
+    public static void UpdateAuctionButtonInteractibility()
+    {
+        if (MenuManager.EndOfTurnOptions.enabled == true)
+        {
+            Button auctionButton = GameObject.FindGameObjectWithTag("AuctionButton").GetComponent<Button>();
+            auctionButton.interactable = false;
+            Property property = CurrentPlayer.Position.GetComponent<Property>();
+            if (property != null && property.Owner == null)
+                auctionButton.interactable = true;
+        }
+    }
+
+    public static void UpdateNextPlayerButtonInteractibility()
+    {
+        if (MenuManager.EndOfTurnOptions.enabled == true)
+            GameObject.FindGameObjectWithTag("NextTurnButton").GetComponent<Button>().interactable = !GameObject.FindGameObjectWithTag("AuctionButton").GetComponent<Button>().interactable;
     }
 
     public static void NextPlayer()

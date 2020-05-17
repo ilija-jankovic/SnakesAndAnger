@@ -14,6 +14,8 @@ TagManager:
   - Balance
   - InventoryCard
   - PayButton
+  - AuctionButton
+  - NextTurnButton
   layers:
   - Default
   - TransparentFX

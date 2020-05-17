@@ -82,6 +82,11 @@ public abstract class Property : Tile
         get { return _morgVal; }
     }
 
+    public ushort UnMortgageCost
+    {
+        get { return (ushort)(MortgageValue + MortgageValue / 10); }
+    }
+
     public virtual void Mortgage()
     {
         if (!Mortgaged)
@@ -93,7 +98,7 @@ public abstract class Property : Tile
 
     public void UnMortgage()
     {
-        if (Mortgaged && Owner.GetBalance() >= Price)
+        if (Mortgaged && Owner.GetBalance() >= UnMortgageCost)
         {
             Owner.RemoveFunds(Price);
             _mortgaged = false;
