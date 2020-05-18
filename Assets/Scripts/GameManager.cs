@@ -12,6 +12,8 @@ static class GameManager
     //stores all Monopoly tiles in order from go to last
     private static Tile[] _tiles;
 
+    private static ChanceDeck _chance;
+
     private static Player _curPlayer;
 
     [RuntimeInitializeOnLoadMethod]
@@ -22,6 +24,8 @@ static class GameManager
         Array.Sort(_tiles, delegate (Tile t1, Tile t2) {
             return t1.name.CompareTo(t2.name);
         });
+        //creates deck of chance cards
+        _chance = new ChanceDeck();
 
         //
         //remove this method call later
@@ -94,8 +98,12 @@ static class GameManager
 
     public static void EndOfRollOptions()
     {
-        Property property = CurrentPlayer.Position.GetComponent<Property>();
-        if (property != null)
+        Tile tile = CurrentPlayer.Position;
+        Property property = tile.GetComponent<Property>();
+        ChanceTile chance = tile.GetComponent<ChanceTile>();
+        //FreeParking parking = tile.GetComponent<FreeParking>();
+        //SnakeTile snake = tile.GetComponent<SnakeTile>();
+        if (property != null) 
         {
             //check if the player stepped on an unowned/mortgaged/their own property
             if (property.Owner == null || property.Owner == CurrentPlayer || (property.Mortgaged && property.Owner != CurrentPlayer))
@@ -106,6 +114,23 @@ static class GameManager
             //display current property
             MenuManager.UpdateCardInfo(CurrentPlayer.Position.GetComponent<Property>());
         }
+        else if (chance != null)
+        {
+            Card tempCard = _chance.DrawCard();
+            //pop up to show which card is drawn
+
+            //Give card to player. Depending on card, use immediately 
+            CurrentPlayer.AddCard(tempCard);
+
+        }
+        //else if (parking != null)
+        //{
+
+        //}
+        //else if (snake != null)
+        //{
+
+        //}
 
         //add other payment and options here
     }
@@ -197,5 +222,10 @@ static class GameManager
     public static Player[] Players
     {
         get { return _players; }
+    }
+
+    public static ChanceDeck ChanceCards
+    {
+        get { return _chance; }
     }
 }

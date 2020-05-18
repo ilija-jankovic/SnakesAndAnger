@@ -15,6 +15,10 @@ public class Player : MonoBehaviour
     /// </summary>
     private int _playerBalance;
     /// <summary>
+    /// stores the players chance cards
+    /// </summary>
+    List<Card> _cards;
+    /// <summary>
     /// stores all the properties owned by the player
     /// </summary>
     List<Property> _propertiesOwned;
@@ -129,5 +133,51 @@ public class Player : MonoBehaviour
             if (!playerProp.Mortgaged)
                 funds += playerProp.MortgageValue;
         return funds;
+    }
+
+    /// <summary>
+    /// adds card to players hand, uses immediately depending on card
+    /// </summary>
+    /// <param name="c"></param>
+    public void AddCard(Card c)
+    {
+        _cards.Add(c);
+        c.GiveCard(this);
+
+    if(c is CardCollect)
+        {
+            UseCard(c);
+
+        }
+    else if (c is CardMove)
+        {
+            UseCard(c);
+        }
+    else if (c is CardPay)
+        {
+            UseCard(c);
+        }
+    }
+
+    /// <summary>
+    /// uses the card passed in
+    /// </summary>
+    /// <param name="c2"></param>
+    public void UseCard(Card c2)
+    {
+        c2.Use();
+        _cards.Remove(c2);
+        GameManager.ChanceCards.PlaceUnderDeck(c2);
+    }
+
+    /// <summary>
+    /// gives desired card to another player.
+    /// </summary>
+    /// <param name="c3">card to give</param>
+    /// <param name="p1">player to give to</param>
+    public void GiveCard(Card c3, Player p1)
+    {
+        _cards.Remove(c3);
+        c3.GiveCard(p1);
     }
 }

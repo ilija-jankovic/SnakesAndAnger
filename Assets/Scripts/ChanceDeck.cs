@@ -78,10 +78,13 @@ public class ChanceDeck
     /// <returns>returns the card drawn</returns>
     public Card DrawCard()
     {
-        Card temp2 = _deck[0];
-        _deck.Remove(temp2);
-        return temp2;
-
+        if (_deck != null)
+        {
+            Card temp2 = _deck[0];
+            _deck.Remove(temp2);
+            return temp2;
+        }
+        else return null;
     }
 
     /// <summary>
