@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Snake 
+public class Snake : TileLink
 {
     private Tile _head;
     private Tile _tail;

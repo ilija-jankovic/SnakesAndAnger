@@ -2,28 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ladder
+public class Ladder : TileLink
 {
-    private Tile _head;
-    private Tile _tail;
 
-    public Ladder(Tile head, Tile tail)
+    public Ladder(string description, Tile head, Tile tail) : base(description, head, tail)
     {
-        _head = head;
-        _tail = tail;
     }
 
-    public Tile Head
-    {
-        get { return _head; }
-        set { _head = value; }
-    }
 
-    public Tile Tail
-    {
-        get { return _tail; }
-        set { _tail = value; }
-    }
 
     public void DisplaySnake()
     {
