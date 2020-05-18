@@ -24,8 +24,8 @@ static class GameManager
         Array.Sort(_tiles, delegate (Tile t1, Tile t2) {
             return t1.name.CompareTo(t2.name);
         });
-        //creates deck of chance cards
-        _chance = new ChanceDeck();
+
+        
 
         //
         //remove this method call later
@@ -102,7 +102,7 @@ static class GameManager
         Property property = tile.GetComponent<Property>();
         ChanceTile chance = tile.GetComponent<ChanceTile>();
         //FreeParking parking = tile.GetComponent<FreeParking>();
-        //SnakeTile snake = tile.GetComponent<SnakeTile>();
+        SandLTile sAndL = tile.GetComponent<SandLTile>();
         if (property != null) 
         {
             //check if the player stepped on an unowned/mortgaged/their own property
@@ -116,18 +116,18 @@ static class GameManager
         }
         else if (chance != null)
         {
-            Card tempCard = _chance.DrawCard();
+            Card tempCard = ChanceTile.ChanceCards.DrawCard();
             //pop up to show which card is drawn
 
             //Give card to player. Depending on card, use immediately 
             CurrentPlayer.AddCard(tempCard);
 
         }
-        //else if (parking != null)
-        //{
+        else if (sAndL != null)
+        {
 
-        //}
-        //else if (snake != null)
+        }
+        //else if (parking != null)
         //{
 
         //}
@@ -224,8 +224,5 @@ static class GameManager
         get { return _players; }
     }
 
-    public static ChanceDeck ChanceCards
-    {
-        get { return _chance; }
-    }
+
 }

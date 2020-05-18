@@ -167,7 +167,7 @@ public class Player : MonoBehaviour
     {
         c2.Use();
         _cards.Remove(c2);
-        GameManager.ChanceCards.PlaceUnderDeck(c2);
+        ChanceTile.ChanceCards.PlaceUnderDeck(c2);
     }
 
     /// <summary>

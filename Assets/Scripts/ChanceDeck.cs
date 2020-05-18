@@ -41,11 +41,11 @@ public class ChanceDeck
 
         //CardMove Type Cards
         //Where tile is null must be replaced with tile in comments
-        _deck.Add(new CardMove("Advance to Go (Collect $200)", GameManager.Tiles[0], 1)); //tile00
-        _deck.Add(new CardMove("Advance to Illinois Ave - If you pass Go, collect $200", GameManager.Tiles[24], 1)); //tile24
-        _deck.Add(new CardMove("Advance to St. Charles Place - If you pass Go, collect $200", GameManager.Tiles[11], 1)); //tile11
-        _deck.Add(new CardMove("Take a trip to Reading Railroad - If you pass Go, collect $200", GameManager.Tiles[05], 1)); //tile05
-        _deck.Add(new CardMove("Take a walk on the Boardwalk - Advance token to Boardwalk", GameManager.Tiles[29], 1)); //tile29
+        _deck.Add(new CardMove("Advance to Go (Collect $200)", GameObject.Find("tile00").GetComponent<Tile>(), 1)); //tile00
+        _deck.Add(new CardMove("Advance to Illinois Ave - If you pass Go, collect $200", GameObject.Find("tile24").GetComponent<Tile>(), 1)); //tile24
+        _deck.Add(new CardMove("Advance to St. Charles Place - If you pass Go, collect $200", GameObject.Find("tile11").GetComponent<Tile>(), 1)); //tile11
+        _deck.Add(new CardMove("Take a trip to Reading Railroad - If you pass Go, collect $200", GameObject.Find("tile05").GetComponent<Tile>(), 1)); //tile05
+        _deck.Add(new CardMove("Take a walk on the Boardwalk - Advance token to Boardwalk", GameObject.Find("tile29").GetComponent<Tile>(), 1)); //tile29
         _deck.Add(new CardMove("Advance token to nearest Utility. If unowned, you man buy it from the Bank. If owned, throw dice and pay owner a total ten times the amount thrown", 2)); 
         _deck.Add(new CardMove("Advance token to the nearest Railroad and pay the owner twice the rental to which they they are otherwise entitled. If Railroad is unowned, you may buy it from the Bank", 3)); 
         _deck.Add(new CardMove("Go back 3 spaces", 4));
