@@ -16,14 +16,8 @@ public class Ladder : TileLink
         //displays snake
     }
 
-    public void MovePlayer()
+    public override void Use()
     {
-        if (_head.hasPlayer())
-        {
-            _head.Player.Move(_head);
-        }
-
+        throw new System.NotImplementedException();
     }
-
-
 }

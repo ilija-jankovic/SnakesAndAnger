@@ -5,6 +5,7 @@ using UnityEngine;
 //Base class for all Monopoly tiles.
 public abstract class Tile : MonoBehaviour
 {
+    [SerializeField]
     private TileLink _tileLink;
     private Player _player;
     //options to display when the player lands on this tile
@@ -23,6 +24,13 @@ public abstract class Tile : MonoBehaviour
         if(canAdd)
             _tileLink = link;
         return canAdd;
+    }
+
+    public void MoveAlongTileLink()
+    {
+        Player.Move(TileLink.Tail);
+
+        //remove tilelink here
     }
 
     //returns the player that is on this current tile

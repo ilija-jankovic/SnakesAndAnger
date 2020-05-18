@@ -42,6 +42,10 @@ public class Player : MonoBehaviour
     public void Move(Tile endPosition)
     {
         _playerPosition = endPosition;
+        if (_playerPosition.TileLink != null && _playerPosition.TileLink.Head == _playerPosition)
+            _playerPosition = endPosition.TileLink.Tail;
+
+        //graphical representation
         transform.position = _playerPosition.transform.position;
     }
     public void Move(sbyte tiles)
