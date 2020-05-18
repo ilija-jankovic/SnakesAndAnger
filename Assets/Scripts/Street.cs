@@ -26,10 +26,23 @@ public class Street : Property
     private byte _houses;
     private ushort[] _houseValues;
 
+    List<GameObject> houseObjects = new List<GameObject>();
+    GameObject banner;
+
     public override void Awake()
     {
         base.Awake();
         _houseValues = new ushort[] { _firstHouseValue, _secondHouseValue, _thirdHouseValue, _fourthHouseValue, _hotelValue };
+
+        banner = GameObject.CreatePrimitive(PrimitiveType.Plane);
+        banner.transform.parent = transform;
+        banner.transform.localScale = new Vector3(transform.localScale.x / 100, 1, transform.localScale.z / 800);
+        banner.transform.localEulerAngles = Vector3.zero;
+        banner.transform.localPosition = new Vector3(0,0.55f,0.5f-5*banner.transform.localScale.z);
+
+        banner.GetComponent<Renderer>().material.color = Colour;
+
+        _titleMesh.transform.localPosition = new Vector3(0, 0, banner.transform.localPosition.z-5*banner.transform.localScale.z-0.05f);
     }
 
     public Color Colour
@@ -54,7 +67,37 @@ public class Street : Property
 
     public void BuildHouse()
     {
-        if (CanBuildHouses() && _houses < 5) _houses++;
+        if (/*CanBuildHouses() && */_houses < 5)
+        {
+            _houses++;
+            //create 3D models
+            if (_houses <= 4)
+            {
+                GameObject prefab = Resources.Load("house2") as GameObject;
+                GameObject house = Instantiate(prefab, banner.transform);
+                house.transform.localScale = new Vector3(75, 150, 525);
+                house.transform.localPosition = new Vector3(-2.8f + houseObjects.Count * 2.25f, 3.75f, 0.4f);
+                houseObjects.Add(house);
+            }
+            else
+            {
+                GameObject prefab = Resources.Load("house") as GameObject;
+                GameObject house = Instantiate(prefab, banner.transform);
+                house.transform.localScale = new Vector3(100f, 200f, 750f);
+                house.transform.localPosition = new Vector3(0.9f, 5f, 0f);
+
+                foreach (GameObject obj in houseObjects)
+                    Destroy(obj);
+
+                houseObjects.Clear();
+                houseObjects.Add(house);
+            }
+        }
+    }
+
+    public void RemoveHouse()
+    {
+        throw new NotImplementedException();
     }
 
     //player must own all properties of the same colour to build houses
@@ -67,6 +110,16 @@ public class Street : Property
     {
         base.Mortgage();
         _houses = 0;
+    }
+
+    public byte Houses
+    {
+        get { return _houses; }
+    }
+
+    public bool HasHotel
+    {
+        get { return _houses == 5; }
     }
 
     public override void DisplayOptions()

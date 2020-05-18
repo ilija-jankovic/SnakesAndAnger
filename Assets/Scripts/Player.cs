@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -8,14 +9,20 @@ public class Player : MonoBehaviour
     /// stores the current position of the player
     /// </summary>
     private Tile _playerPosition;
+    [SerializeField]
     /// <summary>
     /// stores the players account balance
     /// </summary>
     private int _playerBalance;
     /// <summary>
+    /// stores the players chance cards
+    /// </summary>
+    List<Card> _cards;
+    /// <summary>
     /// stores all the properties owned by the player
     /// </summary>
-    List<Property> _propertysOwned = new List<Property>();
+    List<Property> _propertiesOwned;
+    [SerializeField]
     /// <summary>
     /// flags whether player is in the current game
     /// </summary>
@@ -35,6 +42,11 @@ public class Player : MonoBehaviour
     public void Move(Tile endPosition)
     {
         _playerPosition = endPosition;
+        transform.position = _playerPosition.transform.position;
+    }
+    public void Move(sbyte tiles)
+    {
+        Move(GameManager.Tiles[(Array.IndexOf(GameManager.Tiles, _playerPosition) + tiles) % GameManager.Tiles.Length]);
     }
     /// <summary>
     /// adds funds to the player
@@ -58,14 +70,33 @@ public class Player : MonoBehaviour
     /// <param name="p"></param>
     public void AddProperty(Property p)
     {
-        _propertysOwned.Add(p);
+        _propertiesOwned.Add(p);
         p.ChangeOwner(this);
+
+        //sort from lowest value to highest value properties
+        _propertiesOwned.Sort(delegate (Property p1, Property p2) {
+            return p1.name.CompareTo(p2.name);
+        });
+    }
+
+    public void Purchase()
+    {
+        if (_playerPosition != null)
+        {
+            Property property = _playerPosition.GetComponent<Property>();
+            if (property != null && property.Owner == null)
+                if (_playerBalance >= property.Price)
+                {
+                    RemoveFunds(property.Price);
+                    AddProperty(property);
+                }
+        }
     }
     /// <summary>
     /// returns the players balance as a decimal
     /// </summary>
     /// <returns></returns>
-    public decimal GetBalance()
+    public int GetBalance()
     {
         return _playerBalance;
     }
@@ -81,6 +112,72 @@ public class Player : MonoBehaviour
     /// </summary>
     public List<Property> PropertiesOwned
     {
-        get { return _propertysOwned; }
+        get { return _propertiesOwned; }
+    }
+
+    public Tile Position
+    {
+        get { return _playerPosition; }
+    }
+    public void Reset()
+    {
+        transform.position = GameManager.Tiles[0].transform.position;
+        _playerBalance = 1500;
+        _propertiesOwned = new List<Property>();
+    }
+
+    public int GetTotalPotentialBalance()
+    {
+        int funds = GetBalance();
+        foreach (Property playerProp in PropertiesOwned)
+            if (!playerProp.Mortgaged)
+                funds += playerProp.MortgageValue;
+        return funds;
+    }
+
+    /// <summary>
+    /// adds card to players hand, uses immediately depending on card
+    /// </summary>
+    /// <param name="c"></param>
+    public void AddCard(Card c)
+    {
+        _cards.Add(c);
+        c.GiveCard(this);
+
+    if(c is CardCollect)
+        {
+            UseCard(c);
+
+        }
+    else if (c is CardMove)
+        {
+            UseCard(c);
+        }
+    else if (c is CardPay)
+        {
+            UseCard(c);
+        }
+    }
+
+    /// <summary>
+    /// uses the card passed in
+    /// </summary>
+    /// <param name="c2"></param>
+    public void UseCard(Card c2)
+    {
+        c2.Use();
+        _cards.Remove(c2);
+        GameManager.ChanceCards.PlaceUnderDeck(c2);
+    }
+
+    /// <summary>
+    /// gives desired card to another player.
+    /// </summary>
+    /// <param name="c3">card to give</param>
+    /// <param name="p1">player to give to</param>
+    public void GiveCard(Card c3, Player p1)
+    {
+        _cards.Remove(c3);
+        c3.GiveCard(p1);
     }
 }
