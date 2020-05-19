@@ -16,6 +16,8 @@ TagManager:
   - PayButton
   - AuctionButton
   - NextTurnButton
+  - UsableCardInfo
+  - CardSprite
   layers:
   - Default
   - TransparentFX
