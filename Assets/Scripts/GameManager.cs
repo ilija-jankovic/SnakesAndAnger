@@ -12,7 +12,7 @@ static class GameManager
     //stores all Monopoly tiles in order from go to last
     private static Tile[] _tiles;
 
-    private static ChanceDeck _chance;
+   
 
     private static Player _curPlayer;
 
