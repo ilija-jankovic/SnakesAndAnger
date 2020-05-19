@@ -46,9 +46,16 @@ public abstract class Card
     /// gets the description of the card
     /// </summary>
     /// <returns></returns>
-    public string GetDescription()
+    public virtual string GetDescription()
     {
         return _description;
     }
 
+    /// <summary>
+    /// gets image that pops up beside text
+    /// </summary>
+    public virtual Texture2D Icon
+    {
+        get { return null; }
+    }
 }

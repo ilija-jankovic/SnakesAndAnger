@@ -8,7 +8,8 @@ static class MenuManager
     private static Canvas[] allMenus;
     private static Canvas _startOfTurn = GameObject.Find("TurnOptions").GetComponent<Canvas>();
     private static Canvas _endOfTurn = GameObject.Find("EndOfTurnOptions").GetComponent<Canvas>();
-    private static Canvas _cardInfo = GameObject.Find("CardInfo").GetComponent<Canvas>();
+    private static Canvas _propertyCardInfo = GameObject.Find("PropertyCardInfo").GetComponent<Canvas>();
+    private static Canvas _usableCardInfo = GameObject.Find("UsableCardInfo").GetComponent<Canvas>();
     private static Canvas _inventory = GameObject.Find("Inventory").GetComponent<Canvas>();
     private static Canvas _payment = GameObject.Find("PaymentOptions").GetComponent<Canvas>();
     //make this at some point
@@ -165,7 +166,20 @@ static class MenuManager
                     title.rectTransform.localPosition = Vector3.zero;
                 }
             }
-           
+
+            //show usable cards in inventory
+            for (int i = 0; i < GameManager.CurrentPlayer.UsableCards.Count; i++)
+            {
+                Card usableCard = GameManager.CurrentPlayer.UsableCards[i];
+                GameObject cardObj = new GameObject("InventoryCard");
+                Image card = cardObj.AddComponent<Image>();
+                card.tag = "InventoryCard";
+                card.transform.SetParent(Inventory.transform);
+                card.rectTransform.sizeDelta = new Vector2(50, 100);
+                card.rectTransform.localPosition = new Vector2(-430, 260 - 150 * i);
+
+                cardObj.AddComponent<InventoryCardMouseInputUI>().card = usableCard;
+            }
         }
     }
 
@@ -179,14 +193,20 @@ static class MenuManager
         get { return _endOfTurn; }
     }
 
-    public static Canvas CardInfo
+    public static Canvas PropertyCardInfo
     {
-        get { return _cardInfo; }
+        get { return _propertyCardInfo; }
+    }
+
+    public static Canvas UsableCardInfo
+    {
+        get { return _usableCardInfo; }
     }
 
     public static void UpdateCardInfo(Property property)
     {
-        ShowMenu(CardInfo);
+        ShowMenu(PropertyCardInfo);
+        DisableMenu(UsableCardInfo);
         if (property != null)
         {
             GameObject.FindGameObjectWithTag("PropertyInfo").GetComponent<Text>().text = property.Description();
@@ -209,7 +229,19 @@ static class MenuManager
             }
         }
         else
-            DisableMenu(CardInfo);
+            DisableMenu(PropertyCardInfo);
+    }
+
+    public static void UpdateCardInfo(Card card)
+    {
+        ShowMenu(UsableCardInfo);
+        DisableMenu(PropertyCardInfo);
+        if(card != null)
+        {
+            GameObject.FindGameObjectWithTag("UsableCardInfo").GetComponent<Text>().text = card.GetDescription();
+        }
+        else
+            DisableMenu(UsableCardInfo);
     }
 
     public static Canvas WinMenu

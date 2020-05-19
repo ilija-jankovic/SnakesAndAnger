@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
     /// <summary>
     /// stores the players chance cards
     /// </summary>
-    List<Card> _cards;
+    List<Card> _cards = new List<Card>();
     /// <summary>
     /// stores all the properties owned by the player
     /// </summary>
@@ -128,6 +128,7 @@ public class Player : MonoBehaviour
         transform.position = GameManager.Tiles[0].transform.position;
         _playerBalance = 1500;
         _propertiesOwned = new List<Property>();
+        _cards = new List<Card>() { new Ladder(), new Snake() };
     }
 
     public int GetTotalPotentialBalance()
@@ -183,5 +184,10 @@ public class Player : MonoBehaviour
     {
         _cards.Remove(c3);
         c3.GiveCard(p1);
+    }
+
+    public List<Card> UsableCards
+    {
+        get { return _cards; }
     }
 }

@@ -8,7 +8,6 @@ using UnityEngine.UI;
 [RequireComponent(typeof(EventTrigger))]
 public class InventoryPropertyMouseInputUI : MouseInputUI
 {
-    public static bool BlockedByUI;
     public Property property;
     private Text mortgageToolTip;
 
@@ -36,7 +35,6 @@ public class InventoryPropertyMouseInputUI : MouseInputUI
 
     public override void ExitUI()
     {
-        BlockedByUI = false;
         MenuManager.UpdateCardInfo(GameManager.CurrentPlayer.Position.GetComponent<Property>());
         if(mortgageToolTip != null)
         {

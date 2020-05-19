@@ -34,7 +34,10 @@ public abstract class MouseInputUI : MonoBehaviour
         }
     }
 
+    //when mouse enters gameobject
     public abstract void EnterUI();
+    //when mouse exits gameobject
     public abstract void ExitUI();
+    //when mouse clicks gameobject
     public abstract void ClickUI();
 }

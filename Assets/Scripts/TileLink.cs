@@ -1,11 +1,13 @@
 ﻿using System;
+using UnityEngine;
 
 public abstract class TileLink : Card
 {
     Tuple<Tile, Tile> tiles;
-    public TileLink(string description, Tile t1, Tile t2) : base(description)
+    protected byte _maxLength;
+    public TileLink() : base(null)
     {
-        tiles = new Tuple<Tile, Tile>(t1, t2);
+        _maxLength = (byte)UnityEngine.Random.Range(2, 10);
     }
 
     public Tile Head
@@ -16,5 +18,10 @@ public abstract class TileLink : Card
     public Tile Tail
     {
         get { return tiles.Item2; }
+    }
+
+    public byte MaxLength
+    {
+        get { return _maxLength; }
     }
 }
