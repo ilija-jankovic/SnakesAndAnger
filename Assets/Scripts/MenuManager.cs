@@ -123,7 +123,7 @@ static class MenuManager
                 card.rectTransform.sizeDelta = new Vector2(50, 100);
                 card.rectTransform.localPosition = new Vector2(-430 + 80 * i, -260);
 
-                cardObj.AddComponent<InventoryCardMouseInputUI>().property = property;
+                cardObj.AddComponent<InventoryPropertyMouseInputUI>().property = property;
 
                 Text title = new GameObject().AddComponent<Text>();
                 title.text = property.Title;

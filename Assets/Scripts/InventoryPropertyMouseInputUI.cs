@@ -6,41 +6,14 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(EventTrigger))]
-public class InventoryCardMouseInputUI : MonoBehaviour
+public class InventoryPropertyMouseInputUI : MouseInputUI
 {
     public static bool BlockedByUI;
     public Property property;
-    private EventTrigger eventTrigger;
     private Text mortgageToolTip;
 
-    private void Start()
+    public override void EnterUI()
     {
-        eventTrigger = GetComponent<EventTrigger>();
-        if (eventTrigger != null)
-        {
-            EventTrigger.Entry enterUIEntry = new EventTrigger.Entry();
-            // Pointer Enter
-            enterUIEntry.eventID = EventTriggerType.PointerEnter;
-            enterUIEntry.callback.AddListener((eventData) => { EnterUI(); });
-            eventTrigger.triggers.Add(enterUIEntry);
-
-            //Pointer Exit
-            EventTrigger.Entry exitUIEntry = new EventTrigger.Entry();
-            exitUIEntry.eventID = EventTriggerType.PointerExit;
-            exitUIEntry.callback.AddListener((eventData) => { ExitUI(); });
-            eventTrigger.triggers.Add(exitUIEntry);
-
-            //Pointer Click
-            EventTrigger.Entry clickUI = new EventTrigger.Entry();
-            clickUI.eventID = EventTriggerType.PointerClick;
-            clickUI.callback.AddListener((eventData) => { ClickUI(); });
-            eventTrigger.triggers.Add(clickUI);
-        }
-    }
-
-    public void EnterUI()
-    {
-        BlockedByUI = true;
         MenuManager.UpdateCardInfo(property);
 
         //display how to mortgage/unmortgage
@@ -60,7 +33,8 @@ public class InventoryCardMouseInputUI : MonoBehaviour
         else
             mortgageToolTip.text = "Cannot unmortgage as a payment is due";
     }
-    public void ExitUI()
+
+    public override void ExitUI()
     {
         BlockedByUI = false;
         MenuManager.UpdateCardInfo(GameManager.CurrentPlayer.Position.GetComponent<Property>());
@@ -72,7 +46,7 @@ public class InventoryCardMouseInputUI : MonoBehaviour
     }
 
     //mortgage
-    public void ClickUI()
+    public override void ClickUI()
     {
         if (!property.Mortgaged)
         {
