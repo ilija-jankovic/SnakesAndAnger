@@ -118,7 +118,7 @@ static class GameManager
         {
             Card tempCard = ChanceTile.ChanceCards.DrawCard();
             //pop up to show which card is drawn
-
+            MenuManager.UpdateCardInfo(tempCard);
             //Give card to player. Depending on card, use immediately 
             CurrentPlayer.AddCard(tempCard);
 
@@ -139,13 +139,18 @@ static class GameManager
 
     public static void PlayerMustPay(ushort amount)
     {
+        PlayerMustPay(amount, CurrentPlayer);
+    }
+
+    public static void PlayerMustPay(ushort amount, Player player)
+    {
         //check if player can pay
-        int funds = CurrentPlayer.GetTotalPotentialBalance();
+        int funds = player.GetTotalPotentialBalance();
         if (funds >= amount)
         {
             MenuManager.SwitchToMenuWithInventory(MenuManager.PaymentOptions);
             //disable pay button so player must mortgage
-            if (CurrentPlayer.GetBalance() < amount)
+            if (player.GetBalance() < amount)
             {
                 GameObject.FindGameObjectWithTag("PayButton").GetComponent<Button>().interactable = false;
                 paymentNeeded = amount;

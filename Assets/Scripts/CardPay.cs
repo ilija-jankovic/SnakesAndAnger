@@ -45,20 +45,19 @@ public class CardPay : Card
     private void PayPlayers() //Need to make while checking if the payment has been made or the yhave forfeited
     {
         decimal toPay = _amount * GameManager.Players.Length;
+
         //checks player can pay amount
-        if (_owner.GetBalance() >= toPay)
+        GameManager.PlayerMustPay((ushort)toPay);
+        //if statement to check player still exists
+        if ((System.Array.IndexOf(GameManager.Players, _owner)) != -1)
         {
             //Pays amount to each player
             foreach (Player p in GameManager.Players)
             {
-                _owner.RemoveFunds(_amount);
                 p.AddFunds(_amount);
             }
         }
-        else //Can't pay options player has
-        {
 
-        }
     }
 
     private void ForHotelAndHouses() //Need to make while checking if the payment has been made or the yhave forfeited. Also need to add Hotel stuff
@@ -80,13 +79,12 @@ public class CardPay : Card
         //calculates amount to pay
         pay = (25 * (int)houses) + (100 * (int)hotels);
         toPay = (ushort)pay;
-        if (_owner.GetBalance() >= toPay)
+        GameManager.PlayerMustPay(toPay);
+
+        if ((System.Array.IndexOf(GameManager.Players, _owner)) != -1)
         {
             _owner.RemoveFunds(toPay);
         }
-        else //if they can't, options player has
-        {
 
-        }
     }
 }
