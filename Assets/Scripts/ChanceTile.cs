@@ -8,7 +8,6 @@ public class ChanceTile : Tile
     GameObject _tileMesh;
     private Color _colour =  Color.blue;
 
-    private static ChanceDeck _chance;
 
     public void Awake()
     {
@@ -20,13 +19,6 @@ public class ChanceTile : Tile
         
         _tileMesh.GetComponent<Renderer>().material.color = _colour;
 
-        //creates deck of chance cards
-        _chance = new ChanceDeck();
-    }
-
-    public static ChanceDeck ChanceCards
-    {
-        get { return _chance; }
     }
 
     public override void DisplayOptions()

@@ -2,35 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChanceDeck
+public static class ChanceDeck
 {
-    private List<Card> _deck;
+    private static List<Card> _deck;
 
-    public ChanceDeck()
+    [RuntimeInitializeOnLoadMethod]
+    private static void InitialiseDeck()
     {
+
         _deck = new List<Card>();
-        //Initialise cards, storing in deck
-        InitialiseDeck();
-        //Shuffle Deck
-        ShuffleDeck();
 
-    }
-
-    private void InitialiseDeck()
-    {
         //CardCollect Type Cards
         _deck.Add(new CardCollect("Bank pays you dividend of $50", 50, 1));
         _deck.Add(new CardCollect("Your building and loan matures - Collect $150", 150, 1));
         _deck.Add(new CardCollect("You have won a crossword competition - Collect $100", 100, 1));
         _deck.Add(new CardCollect("Bank error in your favour - Collect $200", 200, 1));
         _deck.Add(new CardCollect("From sale of stock you get $50", 50, 1));
-        _deck.Add(new CardCollect("Holiday Fund matures - Receive $100", 10, 1));
+        _deck.Add(new CardCollect("Holiday Fund matures - Receive $100", 100, 1));
         _deck.Add(new CardCollect("Income tax refund - Collect $20", 20, 1));
         _deck.Add(new CardCollect("It is your birthday - Collect $10", 10, 1));
-        _deck.Add(new CardCollect("Life insurance matures - Collect $100", 10, 1));
+        _deck.Add(new CardCollect("Life insurance matures - Collect $100", 100, 1));
         _deck.Add(new CardCollect("Receive $25 consultancy fee", 25, 1));
         _deck.Add(new CardCollect("You have won second prize in a beauty contest - Collect $10", 10, 1));
-        _deck.Add(new CardCollect("Grand Opera Night - Collect $50 from every player for opening night seats", 25, 2));
+        _deck.Add(new CardCollect("Grand Opera Night - Collect $50 from every player for opening night seats", 50, 2));
 
         //CardPay Type Cards
         _deck.Add(new CardPay("Pay poor tax of $15", 15, 1));
@@ -54,12 +48,14 @@ public class ChanceDeck
         //CardGetOutOfJail Type Cards
         _deck.Add(new CardGetOutOfJail("Get out of jail free"));
         _deck.Add(new CardGetOutOfJail("Get out of jail free"));
+
+        ShuffleDeck();
     }
 
     /// <summary>
     /// Shuffles the deck of cards
     /// </summary>
-    public void ShuffleDeck()
+    public static void ShuffleDeck()
     {
         int count = _deck.Count;
         int last = count - 1;
@@ -76,7 +72,7 @@ public class ChanceDeck
     /// Draws card
     /// </summary>
     /// <returns>returns the card drawn</returns>
-    public Card DrawCard()
+    public static Card DrawCard()
     {
         if (_deck != null)
         {
@@ -91,7 +87,7 @@ public class ChanceDeck
     /// Places card at bottom of deck
     /// </summary>
     /// <param name="temp3"></param>
-    public void PlaceUnderDeck(Card temp3)
+    public static void PlaceUnderDeck(Card temp3)
     {
         _deck.Add(temp3);
     }

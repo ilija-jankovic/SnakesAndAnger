@@ -36,7 +36,7 @@ public class CardMove : Card
     {
         if (_type == 1) //direct movement
         {
-            _owner.Move(_move);
+            Owner.Move(_move);
         }
         else if (_type == 2) //move to closest Utility. tile12, tile28
         {
@@ -49,7 +49,7 @@ public class CardMove : Card
         else if (_type == 4)
         {
             int currPos = GetPlayerPosIndex();
-            _owner.Move(GameManager.Tiles[currPos- 3]);
+            Owner.Move(GameManager.Tiles[currPos- 3]);
         }
         else // go to jail
         {
@@ -77,7 +77,7 @@ public class CardMove : Card
             if(GameManager.Tiles[pos] is Utility)
             {
                 fordFound = true;
-                _owner.Move(GameManager.Tiles[pos]);
+                Owner.Move(GameManager.Tiles[pos]);
             }
 
         }
@@ -100,7 +100,7 @@ public class CardMove : Card
             if (GameManager.Tiles[pos] is RailwayStation)
             {
                 fordFound = true;
-                _owner.Move(GameManager.Tiles[pos]);
+                Owner.Move(GameManager.Tiles[pos]);
             }
 
         }
@@ -113,6 +113,6 @@ public class CardMove : Card
     /// <returns>PlayerPosIndex</returns>
     private int GetPlayerPosIndex()
     {
-        return System.Array.IndexOf(GameManager.Tiles, _owner.Position);
+        return System.Array.IndexOf(GameManager.Tiles, Owner.Position);
     }
 }

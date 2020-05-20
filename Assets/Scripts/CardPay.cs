@@ -29,7 +29,7 @@ public class CardPay : Card
     {
         if (_type == 1) //pay bank
         {
-            _owner.RemoveFunds(_amount);
+            GameManager.PlayerMustPay(_amount);
         }
         else if (_type == 2) //pay each player
         {
@@ -49,7 +49,7 @@ public class CardPay : Card
         //checks player can pay amount
         GameManager.PlayerMustPay((ushort)toPay);
         //if statement to check player still exists
-        if ((System.Array.IndexOf(GameManager.Players, _owner)) != -1)
+        if ((System.Array.IndexOf(GameManager.Players, Owner)) != -1)
         {
             //Pays amount to each player
             foreach (Player p in GameManager.Players)
@@ -67,13 +67,20 @@ public class CardPay : Card
         decimal pay = 0;
         ushort toPay = 0;
         //checks player can pay amount
-        foreach (Property p in _owner.PropertiesOwned)
+        foreach (Property p in Owner.PropertiesOwned)
         {
             if (p is Street)
             {
                 //adds houses on street to houses local variable
                 Street strt = (Street)p;
-                houses += strt.Houses;
+                if (strt.Houses != 5)
+                {
+                    houses += strt.Houses;
+                }
+                else
+                {
+                    hotels += 1;
+                }
             }
         }
         //calculates amount to pay
@@ -81,9 +88,9 @@ public class CardPay : Card
         toPay = (ushort)pay;
         GameManager.PlayerMustPay(toPay);
 
-        if ((System.Array.IndexOf(GameManager.Players, _owner)) != -1)
+        if ((System.Array.IndexOf(GameManager.Players, Owner)) != -1)
         {
-            _owner.RemoveFunds(toPay);
+            Owner.RemoveFunds(toPay);
         }
 
     }

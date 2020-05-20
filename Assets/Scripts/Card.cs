@@ -7,7 +7,7 @@ public abstract class Card
     //desription of card
     private string _description;
     //Player that picked up the card
-    protected Player _owner;
+    //protected Player _owner;
 
     /// <summary>
     /// constructor for Card
@@ -18,24 +18,20 @@ public abstract class Card
         _description = does;
     }
 
+
     public Player Owner
     {
-        get { return _owner; }
-        //For making owner null when card is put back in deck
-        set { _owner = value; }
+        get
+        {
+            foreach (Player player in GameManager.Players)
+                if (player.UsableCards.Contains(this))
+                    return player;
+            return null;
+        }
     }
 
 
     //Methods
-
-    /// <summary>
-    /// Give card to another player
-    /// </summary>
-    /// <param name="player">player to give to</param>
-    public void GiveCard(Player player)
-    {
-        _owner = player;
-    }
 
     /// <summary>
     /// Uses the card, each card has a different use function

@@ -118,7 +118,7 @@ static class GameManager
         }
         else if (chance != null)
         {
-            Card tempCard = ChanceTile.ChanceCards.DrawCard();
+            Card tempCard = ChanceDeck.DrawCard();
             //pop up to show which card is drawn
             MenuManager.UpdateCardInfo(tempCard);
             //Give card to player. Depending on card, use immediately 

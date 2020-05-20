@@ -24,7 +24,7 @@ public class CardCollect : Card
     {
         if (_type == 1)
         {
-            _owner.AddFunds(_amount);
+            Owner.AddFunds(_amount);
         }
         else //collect 50 from each player
         {
@@ -33,7 +33,7 @@ public class CardCollect : Card
                 GameManager.PlayerMustPay((ushort)_amount, p);
                 if ((System.Array.IndexOf(GameManager.Players, p)) != -1)
                 {
-                    _owner.AddFunds(_amount);
+                    Owner.AddFunds(_amount);
                 }
             }
         } // camera doesn't move to show whos paying

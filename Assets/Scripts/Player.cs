@@ -136,10 +136,6 @@ public class Player : MonoBehaviour
             property.ReturnToBank();
         _propertiesOwned = new List<Property>();
 
-        //get rid of cards
-        foreach (Card card in UsableCards)
-            card.Owner = null;
-
         //debugging
         _cards = new List<Card>() { new Ladder(), new Snake() };
     }
@@ -160,20 +156,11 @@ public class Player : MonoBehaviour
     public void AddCard(Card c)
     {
         _cards.Add(c);
-        c.GiveCard(this);
 
-    if(c is CardCollect)
+    if(c is CardCollect || c is CardMove || c is CardPay)
         {
             UseCard(c);
 
-        }
-    else if (c is CardMove)
-        {
-            UseCard(c);
-        }
-    else if (c is CardPay)
-        {
-            UseCard(c);
         }
     }
 
@@ -185,7 +172,7 @@ public class Player : MonoBehaviour
     {
         c2.Use();
         _cards.Remove(c2);
-        ChanceTile.ChanceCards.PlaceUnderDeck(c2);
+        ChanceDeck.PlaceUnderDeck(c2);
     }
 
     /// <summary>
@@ -196,7 +183,8 @@ public class Player : MonoBehaviour
     public void GiveCard(Card c3, Player p1)
     {
         _cards.Remove(c3);
-        c3.GiveCard(p1);
+        p1.AddCard(c3);
+        //c3.GiveCard(p1);
     }
 
     public List<Card> UsableCards
