@@ -18,6 +18,7 @@ TagManager:
   - NextTurnButton
   - UsableCardInfo
   - CardSprite
+  - LoseButton
   layers:
   - Default
   - TransparentFX

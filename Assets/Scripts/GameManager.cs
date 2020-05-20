@@ -65,7 +65,7 @@ static class GameManager
         MenuManager.UpdateInventoryData();
     }
 
-    private static void RemoveActivePlayer(Player player)
+    public static void RemoveActivePlayer(Player player)
     {
         if (!player.GetComponent<Renderer>().enabled)
             throw new MissingReferenceException("A player must be playing in order to be removed.");
@@ -91,9 +91,11 @@ static class GameManager
                 player.GetComponent<Renderer>().enabled = false;
                 continue;
             }
-            _players[newIndex] = _players[i];
+            newPlayers[newIndex] = _players[i];
             newIndex++;
         }
+
+        _players = newPlayers;
     }
 
     public static void EndOfRollOptions()
@@ -159,6 +161,7 @@ static class GameManager
         else
         {
             //player loses the game
+            MenuManager.SwitchToMenu(MenuManager.LoseOptions);
         }
     }
 

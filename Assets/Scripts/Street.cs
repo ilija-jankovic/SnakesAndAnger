@@ -109,7 +109,7 @@ public class Street : Property
     public override void Mortgage()
     {
         base.Mortgage();
-        _houses = 0;
+        RemoveHousesOfThisColour();
     }
 
     public byte Houses
@@ -125,5 +125,22 @@ public class Street : Property
     public override void DisplayOptions()
     {
         throw new NotImplementedException();
+    }
+
+    public override void ReturnToBank()
+    {
+        base.ReturnToBank();
+        Street[] streets = GameObject.FindObjectsOfType<Street>();
+        foreach (Street street in streets)
+            street.RemoveHousesOfThisColour();
+    }
+
+    private void RemoveHousesOfThisColour()
+    {
+        Street[] streets = GameObject.FindObjectsOfType<Street>();
+        foreach (Street street in streets)
+            if (street.Colour == Colour)
+                for (byte i = 0; i < street.Houses; i++)
+                    street.RemoveHouse();
     }
 }

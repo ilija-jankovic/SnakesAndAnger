@@ -12,6 +12,7 @@ static class MenuManager
     private static Canvas _usableCardInfo = GameObject.Find("UsableCardInfo").GetComponent<Canvas>();
     private static Canvas _inventory = GameObject.Find("Inventory").GetComponent<Canvas>();
     private static Canvas _payment = GameObject.Find("PaymentOptions").GetComponent<Canvas>();
+    private static Canvas _lose = GameObject.Find("LoseOptions").GetComponent<Canvas>();
     //make this at some point
     private static Canvas _winMenu;
 
@@ -59,6 +60,15 @@ static class MenuManager
                 GameManager.NextPlayer();
             });
 
+        //methods to call when player bankrupts
+        GameObject.FindGameObjectWithTag("LoseButton").GetComponent<Button>().onClick.AddListener(
+            delegate {
+                //remove all properties and cards from player
+                Player lostPlayer = GameManager.CurrentPlayer;
+                lostPlayer.Reset();
+                GameManager.NextPlayer();
+                GameManager.RemoveActivePlayer(lostPlayer);
+            });
         SwitchToMenuWithInventory(TurnOptions);
     }
 
@@ -179,6 +189,15 @@ static class MenuManager
                 card.rectTransform.localPosition = new Vector2(-430, 260 - 150 * i);
 
                 cardObj.AddComponent<InventoryCardMouseInputUI>().card = usableCard;
+
+                RawImage img = new GameObject().AddComponent<RawImage>();
+                img.transform.SetParent(card.transform);
+                img.rectTransform.localPosition = Vector2.zero;
+                img.rectTransform.sizeDelta = new Vector2(40, 40);
+
+                Texture2D icon = usableCard.Icon;
+                if (icon != null)
+                    img.texture = icon;
             }
         }
     }
@@ -201,6 +220,11 @@ static class MenuManager
     public static Canvas UsableCardInfo
     {
         get { return _usableCardInfo; }
+    }
+
+    public static Canvas LoseOptions
+    {
+        get { return _lose; }
     }
 
     public static void UpdateCardInfo(Property property)

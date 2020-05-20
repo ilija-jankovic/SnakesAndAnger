@@ -8,7 +8,6 @@ public abstract class Property : Tile
     private ushort _price;
     protected ushort _morgVal;
     private bool _mortgaged;
-    private Player _owner;
     protected TextMesh _titleMesh;
     protected TextMesh _priceMesh;
 
@@ -64,12 +63,13 @@ public abstract class Property : Tile
     
     public Player Owner
     {
-        get { return _owner; }
-    }
-
-    public void ChangeOwner(Player player)
-    {
-        _owner = player;
+        get
+        {
+            foreach (Player player in GameManager.Players)
+                if (player.PropertiesOwned.Contains(this))
+                    return player;
+            return null;
+        }
     }
 
     public bool Mortgaged
@@ -103,5 +103,10 @@ public abstract class Property : Tile
             Owner.RemoveFunds(Price);
             _mortgaged = false;
         }
+    }
+
+    public virtual void ReturnToBank()
+    {
+        _mortgaged = false;
     }
 }

@@ -74,11 +74,14 @@ public class Player : MonoBehaviour
     /// <param name="p"></param>
     public void AddProperty(Property p)
     {
-        _propertiesOwned.Add(p);
-        p.ChangeOwner(this);
+        //remove property from other players
+        foreach (Player player in GameManager.Players)
+            player.PropertiesOwned.Remove(p);
+
+        PropertiesOwned.Add(p);
 
         //sort from lowest value to highest value properties
-        _propertiesOwned.Sort(delegate (Property p1, Property p2) {
+        PropertiesOwned.Sort(delegate (Property p1, Property p2) {
             return p1.name.CompareTo(p2.name);
         });
     }
@@ -127,7 +130,17 @@ public class Player : MonoBehaviour
     {
         transform.position = GameManager.Tiles[0].transform.position;
         _playerBalance = 1500;
+
+        //return properties to the bank
+        foreach (Property property in PropertiesOwned)
+            property.ReturnToBank();
         _propertiesOwned = new List<Property>();
+
+        //get rid of cards
+        foreach (Card card in UsableCards)
+            card.Owner = null;
+
+        //debugging
         _cards = new List<Card>() { new Ladder(), new Snake() };
     }
 
@@ -189,5 +202,12 @@ public class Player : MonoBehaviour
     public List<Card> UsableCards
     {
         get { return _cards; }
+    }
+
+    //initialise lists
+    public void Awake()
+    {
+        _propertiesOwned = new List<Property>();
+        _cards = new List<Card>();
     }
 }
