@@ -31,6 +31,10 @@ static class GameManager
         //remove this method call later
         //
         ResetBoard();
+
+        //debugging
+        CurrentPlayer.AddProperty(Tiles[1].GetComponent<Property>());
+        CurrentPlayer.AddProperty(Tiles[3].GetComponent<Property>());
     }
 
     public static void ResetBoard()
@@ -123,18 +127,26 @@ static class GameManager
             MenuManager.UpdateCardInfo(tempCard);
             //Give card to player. Depending on card, use immediately 
             CurrentPlayer.AddCard(tempCard);
-
         }
         else if (sAndL != null)
         {
+            //adds a snake or ladder card with equal chance
+            if(UnityEngine.Random.Range(0, 1) < 0.5)
+                CurrentPlayer.AddCard(new Snake());
+            else
+                CurrentPlayer.AddCard(new Ladder());
 
+            MenuManager.SwitchToMenuWithInventory(MenuManager.EndOfTurnOptions);
+
+            //displays card
+            MenuManager.UpdateCardInfo(CurrentPlayer.UsableCards[CurrentPlayer.UsableCards.Count - 1]);
         }
         //else if (parking != null)
         //{
 
         //}
-
-        //add other payment and options here
+        else
+            MenuManager.SwitchToMenuWithInventory(MenuManager.EndOfTurnOptions);
     }
 
     private static ushort paymentNeeded;

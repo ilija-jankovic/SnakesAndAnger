@@ -18,7 +18,11 @@ public class InventoryCardMouseInputUI : MouseInputUI
         cardToolTip.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
         cardToolTip.alignment = TextAnchor.MiddleCenter;
 
-        cardToolTip.text = "Click to use";
+        //can only use card if enabled
+        if(MenuManager.TurnOptions.enabled == true)
+            cardToolTip.text = "Click to use";
+        else
+            cardToolTip.text = "Can only use before rolling";
 
         MenuManager.UpdateCardInfo(card);
 
@@ -33,10 +37,13 @@ public class InventoryCardMouseInputUI : MouseInputUI
     {
         Destroy(cardToolTip);
         cardToolTip = null;
+
+        MenuManager.UpdateCardInfo(GameManager.CurrentPlayer.Position.GetComponent<Property>());
     }
 
     public override void ClickUI()
     {
-
+        //can only use card if enabled
+        //if (MenuManager.TurnOptions.enabled == true)
     }
 }

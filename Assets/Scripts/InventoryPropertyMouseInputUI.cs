@@ -10,7 +10,6 @@ public class InventoryPropertyMouseInputUI : MouseInputUI
 {
     public Property property;
     private Text mortgageToolTip;
-
     public override void EnterUI()
     {
         MenuManager.UpdateCardInfo(property);
@@ -25,7 +24,17 @@ public class InventoryPropertyMouseInputUI : MouseInputUI
         mortgageToolTip.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
         mortgageToolTip.alignment = TextAnchor.MiddleCenter;
 
-        if (!property.Mortgaged)
+        if (MenuManager.BuildHouseMode)
+        {
+            Street street = property.GetComponent<Street>();
+            if(street == null)
+                mortgageToolTip.text = "Cannot build house on this type of property";
+            else if(!street.CanBuildHouse())
+                mortgageToolTip.text = "House requirements not met";
+            else
+                mortgageToolTip.text = "Build house";
+        }
+        else if (!property.Mortgaged)
             mortgageToolTip.text = "Click to mortgage";
         else if(MenuManager.PaymentOptions.enabled == false)
             mortgageToolTip.text = "Click to unmortgage";
@@ -46,22 +55,32 @@ public class InventoryPropertyMouseInputUI : MouseInputUI
     //mortgage
     public override void ClickUI()
     {
-        if (!property.Mortgaged)
+        if (!MenuManager.BuildHouseMode)
         {
-            property.Mortgage();
-            MenuManager.UpdateInventoryData();
-            MenuManager.UpdateCardInfo(property);
+            if (!property.Mortgaged)
+            {
+                property.Mortgage();
+                MenuManager.UpdateInventoryData();
+                MenuManager.UpdateCardInfo(property);
 
-            //updates pay button incase player has received enough mortgage to pay off something
-            GameManager.UpdatePayButtonInteractibility();
-            GameManager.UpdateBuyButtonInteractibility();
+                //updates pay button incase player has received enough mortgage to pay off something
+                GameManager.UpdatePayButtonInteractibility();
+                GameManager.UpdateBuyButtonInteractibility();
+            }
+            //can only unmortgage if player does not need to pay anything
+            else if (MenuManager.PaymentOptions.enabled == false)
+            {
+                property.UnMortgage();
+                MenuManager.UpdateInventoryData();
+                MenuManager.UpdateCardInfo(property);
+            }
         }
-        //can only unmortgage if player does not need to pay anything
-        else if(MenuManager.PaymentOptions.enabled == false)
+        else if (MenuManager.BuildHouseMode)
         {
-            property.UnMortgage();
+            Street street = property.GetComponent<Street>();
+            if (street != null)
+                street.BuildHouse();
             MenuManager.UpdateInventoryData();
-            MenuManager.UpdateCardInfo(property);
         }
     }
 }

@@ -128,6 +128,7 @@ public class Player : MonoBehaviour
     }
     public void Reset()
     {
+        _playerPosition = GameManager.Tiles[0];
         transform.position = GameManager.Tiles[0].transform.position;
         _playerBalance = 1500;
 

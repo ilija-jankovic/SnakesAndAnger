@@ -55,12 +55,4 @@ public abstract class Tile : MonoBehaviour
     {
         get { return _tileLink; }
     }
-
-    /*
-    public void MoveThroughTileLink(Player player)
-    {
-        if(HasTileLink())
-            _tileLink.Move(player)
-    }
-    */
 }

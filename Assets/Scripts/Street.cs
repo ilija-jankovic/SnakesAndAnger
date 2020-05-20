@@ -67,7 +67,7 @@ public class Street : Property
 
     public void BuildHouse()
     {
-        if (/*CanBuildHouses() && */_houses < 5)
+        if (CanBuildHouse())
         {
             _houses++;
             //create 3D models
@@ -92,6 +92,8 @@ public class Street : Property
                 houseObjects.Clear();
                 houseObjects.Add(house);
             }
+
+            Owner.RemoveFunds(_housePrice);
         }
     }
 
@@ -101,9 +103,36 @@ public class Street : Property
     }
 
     //player must own all properties of the same colour to build houses
-    public bool CanBuildHouses()
+    public bool CanBuildHouse()
     {
-        throw new NotImplementedException();
+        if (Houses == 5 || Owner == null || Owner.GetBalance() < _housePrice)
+            return false;
+
+        Street[] streets = GameObject.FindObjectsOfType<Street>();
+        List<Street> streetsOfThisColour = new List<Street>();
+        foreach (Street street in streets)
+        {
+            if (street.Colour.r == Colour.r && street.Colour.g == Colour.g && street.Colour.b == Colour.b)
+            {
+                if (street.Owner != Owner)
+                    return false;
+                streetsOfThisColour.Add(street);
+            }
+        }
+
+        //must build houses sequentially on each property - it is a Monopoly rule
+        
+        //sort streets from lowest to heighest in position
+        streetsOfThisColour.Sort(delegate (Street s1, Street s2) {
+            return s1.name.CompareTo(s2.name);
+        });
+
+        byte thisIndex = (byte)streetsOfThisColour.IndexOf(this);
+        if (thisIndex == 0)
+            return streetsOfThisColour[thisIndex].Houses == streetsOfThisColour[streetsOfThisColour.Count - 1].Houses;
+        else
+            //checks if previous tile has 1 more house
+            return streetsOfThisColour[thisIndex - 1].Houses - streetsOfThisColour[thisIndex].Houses == 1;
     }
 
     public override void Mortgage()

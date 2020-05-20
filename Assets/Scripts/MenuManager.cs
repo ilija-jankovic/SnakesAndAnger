@@ -16,6 +16,8 @@ static class MenuManager
     //make this at some point
     private static Canvas _winMenu;
 
+    private static bool _houseMode;
+
     [RuntimeInitializeOnLoadMethod]
     private static void Initialise()
     {
@@ -69,6 +71,29 @@ static class MenuManager
                 GameManager.NextPlayer();
                 GameManager.RemoveActivePlayer(lostPlayer);
             });
+
+        //toggle house mode
+        Button buildHouseButton = GameObject.FindGameObjectWithTag("BuildHouseButton").GetComponent<Button>();
+        buildHouseButton.onClick.AddListener(
+            delegate {
+                _houseMode = !_houseMode;
+                Button rollButton = GameObject.FindGameObjectWithTag("RollButton").GetComponent<Button>();
+                Button tradeButton = GameObject.FindGameObjectWithTag("TradeButton").GetComponent<Button>();
+                if (_houseMode)
+                {
+                    rollButton.interactable = false;
+                    tradeButton.interactable = false;
+                    buildHouseButton.GetComponentInChildren<Text>().text = "Back";
+                }
+                else
+                {
+                    rollButton.interactable = true;
+                    tradeButton.interactable = true;
+                    buildHouseButton.GetComponentInChildren<Text>().text = "Build House";
+                }
+                UpdateInventoryData();
+            });
+
         SwitchToMenuWithInventory(TurnOptions);
     }
 
@@ -90,7 +115,26 @@ static class MenuManager
             if (canvas == menu)
             {
                 menu.enabled = true;
-                if(menu == EndOfTurnOptions)
+                /*if(menu == TurnOptions)
+                {
+                    //enable build house button if at least 1 house can be built
+                    bool canBuildHouse = false;
+                    foreach (Property property in GameManager.CurrentPlayer.PropertiesOwned) {
+                        Street street = property.GetComponent<Street>();
+                        if (street != null && street.CanBuildHouse())
+                        {
+                            canBuildHouse = true;
+                            break;
+                        }
+                    }
+
+                    Button buildHouseButton = GameObject.FindGameObjectWithTag("BuildHouseButton").GetComponent<Button>();
+                    if (!canBuildHouse)
+                        buildHouseButton.interactable = true;
+                    else
+                        buildHouseButton.interactable = false;
+                }
+                else */if(menu == EndOfTurnOptions)
                 {
                     GameManager.UpdateAuctionButtonInteractibility();
                     GameManager.UpdateBuyButtonInteractibility();
@@ -146,6 +190,8 @@ static class MenuManager
                 title.rectTransform.sizeDelta = new Vector2(card.rectTransform.sizeDelta.x * 4 / 5, card.rectTransform.sizeDelta.y / 6);
                 title.rectTransform.localPosition = new Vector2(0f, 35f);
 
+                Street street = property.GetComponent<Street>();
+
                 if (!property.Mortgaged)
                 {
                     Text price = new GameObject().AddComponent<Text>();
@@ -158,7 +204,6 @@ static class MenuManager
                     price.rectTransform.sizeDelta = new Vector2(card.rectTransform.sizeDelta.x * 4 / 5, card.rectTransform.sizeDelta.y / 6);
                     price.rectTransform.localPosition = new Vector2(0f, -40f);
 
-                    Street street = property.GetComponent<Street>();
                     if (street != null)
                     {
                         Image streetColour = new GameObject("StreetColour").AddComponent<Image>();
@@ -168,6 +213,10 @@ static class MenuManager
                         streetColour.color = new Color(street.Colour.r, street.Colour.g, street.Colour.b, 1);
 
                         title.rectTransform.localPosition = new Vector2(0f, 20f);
+
+                        //grays out street if not able to build house in house mode
+                        if (BuildHouseMode && !street.CanBuildHouse())
+                            GrayOutImage(card);
                     }
                 }
                 else
@@ -175,6 +224,10 @@ static class MenuManager
                     title.text = "MORTGAGED";
                     title.rectTransform.localPosition = Vector3.zero;
                 }
+
+                //grays out non-street properties if in house mode
+                if (street == null && BuildHouseMode)
+                    GrayOutImage(card);
             }
 
             //show usable cards in inventory
@@ -190,6 +243,7 @@ static class MenuManager
 
                 cardObj.AddComponent<InventoryCardMouseInputUI>().card = usableCard;
 
+                //may be a source of lag
                 RawImage img = new GameObject().AddComponent<RawImage>();
                 img.transform.SetParent(card.transform);
                 img.rectTransform.localPosition = Vector2.zero;
@@ -198,8 +252,21 @@ static class MenuManager
                 Texture2D icon = usableCard.Icon;
                 if (icon != null)
                     img.texture = icon;
+
+                //gray out card if player already rolled
+                if (TurnOptions.enabled == false)
+                    GrayOutImage(card);
             }
         }
+    }
+
+    private static void GrayOutImage(Image img)
+    {
+        Image grayOut = new GameObject("GrayOut").AddComponent<Image>();
+        grayOut.transform.SetParent(img.transform);
+        grayOut.transform.localPosition = Vector2.zero;
+        grayOut.rectTransform.sizeDelta = img.rectTransform.sizeDelta;
+        grayOut.color = new Color(0f, 0f, 0f, 0.5f);
     }
 
     public static Canvas TurnOptions
@@ -225,6 +292,11 @@ static class MenuManager
     public static Canvas LoseOptions
     {
         get { return _lose; }
+    }
+
+    public static bool BuildHouseMode
+    {
+        get { return _houseMode; }
     }
 
     public static void UpdateCardInfo(Property property)
