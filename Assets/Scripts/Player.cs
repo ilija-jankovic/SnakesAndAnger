@@ -27,6 +27,7 @@ public class Player : MonoBehaviour
     /// flags whether player is in the current game
     /// </summary>
     private bool _playing;
+    public Transform[] _target;
     /// <summary>
     /// creates a player object
     /// </summary>
@@ -41,6 +42,24 @@ public class Player : MonoBehaviour
     /// <param name="endPosition"></param>
     public void Move(Tile endPosition)
     {
+        int start = Array.IndexOf(GameManager.Tiles, _playerPosition);
+        int end = Array.IndexOf(GameManager.Tiles, endPosition);
+        int count = 0;
+        float speed = 1;
+        if (start < end)
+        {
+            _target = new Transform[end - start];
+            for (int i = start; i < end; i++)
+            {
+                _target[count] = GameManager.Tiles[i].transform;
+                count++;
+            }
+            for(int j = 0; j < _target.Length; j++)
+            {
+                Vector3 pos = Vector3.MoveTowards(transform.position, _target[j].position, speed * Time.deltaTime);
+                _playerPosition.transform.position = pos;
+            }
+        }
         _playerPosition = endPosition;
         if (_playerPosition.TileLink != null && _playerPosition.TileLink.Head == _playerPosition)
             _playerPosition = endPosition.TileLink.Tail;
