@@ -19,6 +19,10 @@ public class Player : MonoBehaviour
     /// </summary>
     List<Card> _cards = new List<Card>();
     /// <summary>
+    /// card that is being used - this for for use in MenuManager
+    /// </summary>
+    private Card cardInHand = null;
+    /// <summary>
     /// stores all the properties owned by the player
     /// </summary>
     List<Property> _propertiesOwned;
@@ -171,6 +175,7 @@ public class Player : MonoBehaviour
     /// <param name="c2"></param>
     public void UseCard(Card c2)
     {
+        cardInHand = c2;
         c2.Use();
         _cards.Remove(c2);
         ChanceDeck.PlaceUnderDeck(c2);
@@ -185,7 +190,6 @@ public class Player : MonoBehaviour
     {
         _cards.Remove(c3);
         p1.AddCard(c3);
-        //c3.GiveCard(p1);
     }
 
     public List<Card> UsableCards
@@ -199,4 +203,10 @@ public class Player : MonoBehaviour
         _propertiesOwned = new List<Property>();
         _cards = new List<Card>();
     }
+
+    public Card CardInHand
+    {
+        get { return cardInHand; }
+    }
+
 }

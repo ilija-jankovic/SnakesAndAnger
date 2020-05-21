@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +8,7 @@ public class CardCollect : Card
     //Amount 
     ushort _amount;
     byte _type;
+    public static Player currentPayee = null;
 
     /// <summary>
     /// Constructor for Cards that remove money from player
@@ -28,16 +30,23 @@ public class CardCollect : Card
         }
         else //collect 50 from each player
         {
-            foreach(Player p in GameManager.Players)
-            {
-                GameManager.PlayerMustPay((ushort)_amount, p);
-                if ((System.Array.IndexOf(GameManager.Players, p)) != -1)
-                {
-                    Owner.AddFunds(_amount);
-                }
-            }
+            currentPayee = GameManager.Players[(Array.IndexOf(GameManager.Players, GameManager.CurrentPlayer) + 1) % GameManager.Players.Length];
+            GameManager.PlayerMustPay(50, currentPayee);
+
         } // camera doesn't move to show whos paying
     }
+
+
+    
+            //foreach(Player p in GameManager.Players)
+            //{
+            //    currentPayee = p;
+            //    GameManager.PlayerMustPay((ushort) _amount, p);
+            //    if ((System.Array.IndexOf(GameManager.Players, p)) != -1)
+            //    {
+            //        Owner.AddFunds(_amount);
+            //    }
+            //}
 
 
 }

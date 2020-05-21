@@ -244,5 +244,10 @@ static class GameManager
         get { return _players; }
     }
 
+    public static ushort PaymentNeeded
+    {
+        get { return paymentNeeded; }
+    }
+
 
 }

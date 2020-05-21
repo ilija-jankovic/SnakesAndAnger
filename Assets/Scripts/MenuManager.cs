@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -39,12 +40,52 @@ static class MenuManager
         GameObject.FindGameObjectWithTag("PayButton").GetComponent<Button>().onClick.AddListener(
             delegate {
                 Property property = GameManager.CurrentPlayer.Position.GetComponent<Property>();
+                ChanceTile chance = GameManager.CurrentPlayer.Position.GetComponent<ChanceTile>();
                 if (property != null)
                 {
                     ushort payment = property.PaymentPrice();
                     GameManager.CurrentPlayer.RemoveFunds(payment);
                     property.Owner.AddFunds(payment);
                     SwitchToMenuWithInventory(EndOfTurnOptions);
+                }
+                else if (chance != null)
+                {
+                    Card cardInHand = GameManager.CurrentPlayer.CardInHand;
+                    if (cardInHand is CardCollect)
+                    {
+                        if (GameManager.CurrentPlayer != CardCollect.currentPayee)
+                        {
+                            ushort payment = 50;
+                            CardCollect.currentPayee.RemoveFunds(payment);
+                            GameManager.CurrentPlayer.AddFunds(payment);
+                            CardCollect.currentPayee = GameManager.Players[(Array.IndexOf(GameManager.Players, CardCollect.currentPayee) + 1) % GameManager.Players.Length];
+                            GameManager.PlayerMustPay(payment, CardCollect.currentPayee);
+                        }
+                        else
+                        {
+                            SwitchToMenuWithInventory(EndOfTurnOptions);
+                        }
+                    }
+                    else if (cardInHand is CardPay)
+                    {
+
+                        ushort payment = GameManager.PaymentNeeded;
+                        GameManager.CurrentPlayer.RemoveFunds(payment);
+                        CardPay cardPay = (CardPay)cardInHand;
+
+                        //if statement to check player still exists
+                        if (cardPay.Type == 2)
+                        {
+                            //Pays amount to each player
+                            foreach (Player p in GameManager.Players)
+                            {
+                                if (p != GameManager.CurrentPlayer)
+                                    p.AddFunds(CardPay.Amount);
+                            }
+                        }
+
+                        SwitchToMenuWithInventory(EndOfTurnOptions);
+                    }
                 }
             });
 

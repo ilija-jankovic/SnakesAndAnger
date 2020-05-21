@@ -5,7 +5,7 @@ using UnityEngine;
 public class CardPay : Card
 {
     //Amount 
-    ushort _amount;
+    private static ushort _amount;
     //type of payment
     byte _type;
     // type 1 = direct remove
@@ -42,21 +42,12 @@ public class CardPay : Card
     }
 
 
-    private void PayPlayers() //Need to make while checking if the payment has been made or the yhave forfeited
+    private void PayPlayers() 
     {
-        decimal toPay = _amount * GameManager.Players.Length;
+        decimal toPay = _amount * (GameManager.Players.Length-1);
 
-        //checks player can pay amount
+        //checks player can pay amount and pay it
         GameManager.PlayerMustPay((ushort)toPay);
-        //if statement to check player still exists
-        if ((System.Array.IndexOf(GameManager.Players, Owner)) != -1)
-        {
-            //Pays amount to each player
-            foreach (Player p in GameManager.Players)
-            {
-                p.AddFunds(_amount);
-            }
-        }
 
     }
 
@@ -88,10 +79,14 @@ public class CardPay : Card
         toPay = (ushort)pay;
         GameManager.PlayerMustPay(toPay);
 
-        if ((System.Array.IndexOf(GameManager.Players, Owner)) != -1)
-        {
-            Owner.RemoveFunds(toPay);
-        }
 
+    }
+    public static ushort Amount
+    {
+        get { return _amount; }
+    }
+    public byte Type
+    {
+        get { return _type; }
     }
 }
