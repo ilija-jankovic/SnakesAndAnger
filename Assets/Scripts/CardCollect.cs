@@ -33,7 +33,9 @@ public class CardCollect : Card
             currentPayee = GameManager.Players[(Array.IndexOf(GameManager.Players, GameManager.CurrentPlayer) + 1) % GameManager.Players.Length];
             GameManager.PlayerMustPay(50, currentPayee);
 
-        } // camera doesn't move to show whos paying
+            //camera moves to show who is paying
+            CameraFollow.target = currentPayee.transform;
+        }
     }
 
 

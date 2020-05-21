@@ -131,7 +131,7 @@ static class GameManager
         else if (sAndL != null)
         {
             //adds a snake or ladder card with equal chance
-            if(UnityEngine.Random.Range(0, 1) < 0.5)
+            if (UnityEngine.Random.Range(0f, 1f) < 0.5f)
                 CurrentPlayer.AddCard(new Snake());
             else
                 CurrentPlayer.AddCard(new Ladder());

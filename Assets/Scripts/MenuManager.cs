@@ -53,18 +53,20 @@ static class MenuManager
                     Card cardInHand = GameManager.CurrentPlayer.CardInHand;
                     if (cardInHand is CardCollect)
                     {
-                        if (GameManager.CurrentPlayer != CardCollect.currentPayee)
-                        {
-                            ushort payment = 50;
-                            CardCollect.currentPayee.RemoveFunds(payment);
-                            GameManager.CurrentPlayer.AddFunds(payment);
-                            CardCollect.currentPayee = GameManager.Players[(Array.IndexOf(GameManager.Players, CardCollect.currentPayee) + 1) % GameManager.Players.Length];
+                        ushort payment = 50;
+                        CardCollect.currentPayee.RemoveFunds(payment);
+                        GameManager.CurrentPlayer.AddFunds(payment);
+                        CardCollect.currentPayee = GameManager.Players[(Array.IndexOf(GameManager.Players, CardCollect.currentPayee) + 1) % GameManager.Players.Length];
+
+                        //switches payment to next player
+                        if (CardCollect.currentPayee != GameManager.CurrentPlayer)
                             GameManager.PlayerMustPay(payment, CardCollect.currentPayee);
-                        }
+                        //if looped back around to current player, stop payment loop
                         else
-                        {
                             SwitchToMenuWithInventory(EndOfTurnOptions);
-                        }
+
+                        //moves camera to whomever needs to pay
+                        CameraFollow.target = CardCollect.currentPayee.transform;
                     }
                     else if (cardInHand is CardPay)
                     {
@@ -208,6 +210,9 @@ static class MenuManager
             foreach (GameObject obj in prevPlayerCards)
                 GameObject.Destroy(obj);
 
+            //prevent memory leaks
+            Resources.UnloadUnusedAssets();
+
             //create icons for each property in the player's inventory
             for (int i = 0; i < GameManager.CurrentPlayer.PropertiesOwned.Count; i++)
             {
@@ -280,7 +285,7 @@ static class MenuManager
                 card.tag = "InventoryCard";
                 card.transform.SetParent(Inventory.transform);
                 card.rectTransform.sizeDelta = new Vector2(50, 100);
-                card.rectTransform.localPosition = new Vector2(-430, 260 - 150 * i);
+                card.rectTransform.localPosition = new Vector2(-430, 260 - 120 * i);
 
                 cardObj.AddComponent<InventoryCardMouseInputUI>().card = usableCard;
 
@@ -376,6 +381,14 @@ static class MenuManager
         if(card != null)
         {
             GameObject.FindGameObjectWithTag("UsableCardInfo").GetComponent<Text>().text = card.GetDescription();
+
+            GameObject imageObj = GameObject.FindGameObjectWithTag("CardSprite");
+            RawImage img = imageObj.GetComponent<RawImage>();
+            Texture2D icon = card.Icon;
+            if (icon != null)
+                img.texture = icon;
+            else
+                img.texture = null;
         }
         else
             DisableMenu(UsableCardInfo);

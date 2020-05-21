@@ -50,6 +50,9 @@ public class InventoryPropertyMouseInputUI : MouseInputUI
             Destroy(mortgageToolTip);
             mortgageToolTip = null;
         }
+
+        //prevent memory leaks
+        Resources.UnloadUnusedAssets();
     }
 
     //mortgage

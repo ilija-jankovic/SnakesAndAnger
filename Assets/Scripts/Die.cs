@@ -13,9 +13,9 @@ public class Die : MonoBehaviour
         //
         // This is just debugging for now Yaksh. The GameManager.CurrentPlayer.Move method call should stay though.
         //
-        sbyte roll = (sbyte)UnityEngine.Random.Range(2, 12);
-        Debug.Log("You rolled: " + roll);
-        GameManager.CurrentPlayer.Move(roll);
+        _result = (byte)UnityEngine.Random.Range(2, 12);
+        Debug.Log("You rolled: " + _result);
+        GameManager.CurrentPlayer.Move((sbyte)_result);
         GameManager.EndOfRollOptions();
     }
 

@@ -25,12 +25,6 @@ public class InventoryCardMouseInputUI : MouseInputUI
             cardToolTip.text = "Can only use before rolling";
 
         MenuManager.UpdateCardInfo(card);
-
-        GameObject imageObj = GameObject.FindGameObjectWithTag("CardSprite");
-        RawImage img = imageObj.GetComponent<RawImage>();
-        Texture2D icon = card.Icon;
-        if (icon != null)
-            img.texture = icon;
     }
 
     public override void ExitUI()
@@ -39,6 +33,9 @@ public class InventoryCardMouseInputUI : MouseInputUI
         cardToolTip = null;
 
         MenuManager.UpdateCardInfo(GameManager.CurrentPlayer.Position.GetComponent<Property>());
+
+        //prevent memory leaks
+        Resources.UnloadUnusedAssets();
     }
 
     public override void ClickUI()

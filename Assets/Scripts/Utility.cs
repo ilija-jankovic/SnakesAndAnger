@@ -18,14 +18,14 @@ public class Utility : Property
 
     public override ushort PaymentPrice()
     {
-        byte utilities = ((Func<byte>)(() =>
-        {
-            foreach (Property p in Owner.PropertiesOwned)
-                if (p != this && p is Utility)
-                    return 10;
-            return 4;
-        }))();
-        return (ushort)(Die.Result * utilities);
+        byte multiplier = 4;
+        foreach (Property p in Owner.PropertiesOwned)
+            if (p != this && p is Utility)
+            {
+                multiplier = 10;
+                break;
+            }
+        return (ushort)(Die.Result * multiplier);
     }
 
     public override void DisplayOptions()
