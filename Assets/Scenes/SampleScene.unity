@@ -301,6 +301,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36a1271c18f28a44eb95d1e787ee5ec4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _title: Chance
+  _icon: {fileID: 21300000, guid: 988172508b5a8684c8f6a8f5d686b807, type: 3}
 --- !u!1 &46571906
 GameObject:
   m_ObjectHideFlags: 0
@@ -408,6 +410,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _title: Connecticut$Avenue
+  _icon: {fileID: 0}
   _price: 120
   _colour: {r: 0, g: 0.7176471, b: 0.7019608, a: 0}
   _rent: 8
@@ -524,6 +527,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _title: Boardwalk
+  _icon: {fileID: 0}
   _price: 400
   _colour: {r: 0, g: 0.09577916, b: 0.7075472, a: 0}
   _rent: 50
@@ -640,6 +644,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _title: Indiana$Avenue
+  _icon: {fileID: 0}
   _price: 220
   _colour: {r: 1, g: 0, b: 0, a: 0}
   _rent: 18
@@ -756,6 +761,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _title: States$Avenue
+  _icon: {fileID: 0}
   _price: 140
   _colour: {r: 1, g: 0, b: 0.7606492, a: 0}
   _rent: 10
@@ -872,6 +878,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _title: Pacific$Avenue
+  _icon: {fileID: 0}
   _price: 300
   _colour: {r: 0, g: 0.5471698, b: 0.11511597, a: 0}
   _rent: 26
@@ -1072,6 +1079,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _title: Electric$Company
+  _icon: {fileID: 0}
   _price: 150
 --- !u!1 &217803924
 GameObject:
@@ -1180,6 +1188,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _title: B. & O.$Railroad
+  _icon: {fileID: 21300000, guid: a77a5286c14bd4448b82cffe5ed22a76, type: 3}
   _price: 200
 --- !u!1 &262344658
 GameObject:
@@ -1501,6 +1510,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _title: Kentucky$Avenue
+  _icon: {fileID: 0}
   _price: 220
   _colour: {r: 1, g: 0, b: 0, a: 0}
   _rent: 18
@@ -1970,6 +1980,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36a1271c18f28a44eb95d1e787ee5ec4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _title: Chance
+  _icon: {fileID: 21300000, guid: 988172508b5a8684c8f6a8f5d686b807, type: 3}
 --- !u!1 &413824801
 GameObject:
   m_ObjectHideFlags: 0
@@ -2195,6 +2207,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _title: Vermont$Avenue
+  _icon: {fileID: 0}
   _price: 100
   _colour: {r: 0, g: 0.7176471, b: 0.7019608, a: 0}
   _rent: 6
@@ -2508,6 +2521,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _title: North Carolina$Avenue
+  _icon: {fileID: 0}
   _price: 300
   _colour: {r: 0, g: 0.5471698, b: 0.11511597, a: 0}
   _rent: 26
@@ -2808,6 +2822,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _title: Tennessee$Avenue
+  _icon: {fileID: 0}
   _price: 180
   _colour: {r: 1, g: 0.40701026, b: 0, a: 0}
   _rent: 14
@@ -2924,6 +2939,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _title: Reading$Railroad
+  _icon: {fileID: 21300000, guid: a77a5286c14bd4448b82cffe5ed22a76, type: 3}
   _price: 200
 --- !u!1 &653929225
 GameObject:
@@ -3032,6 +3048,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _title: Marvin$Gardens
+  _icon: {fileID: 0}
   _price: 280
   _colour: {r: 1, g: 0.9320469, b: 0, a: 0}
   _rent: 24
@@ -3644,6 +3661,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _title: St. Charles$Place
+  _icon: {fileID: 0}
   _price: 140
   _colour: {r: 1, g: 0, b: 0.7606492, a: 0}
   _rent: 10
@@ -3759,6 +3777,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fad99cb1c9ffb04dbcd58f075c19537, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _title: Super$Tax
+  _icon: {fileID: 0}
+  _price: 100
 --- !u!1 &917076782
 GameObject:
   m_ObjectHideFlags: 0
@@ -3965,6 +3986,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _title: Water$Works
+  _icon: {fileID: 0}
   _price: 150
 --- !u!1 &936946530
 GameObject:
@@ -4442,6 +4464,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfca31577b4cbfb48ad45104b385355b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _title: Free Parking
+  _icon: {fileID: 0}
 --- !u!1 &1062923942
 GameObject:
   m_ObjectHideFlags: 0
@@ -4867,6 +4891,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _title: Short$Line
+  _icon: {fileID: 21300000, guid: a77a5286c14bd4448b82cffe5ed22a76, type: 3}
   _price: 200
 --- !u!1 &1110055881
 GameObject:
@@ -4975,6 +5000,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _title: New York$Avenue
+  _icon: {fileID: 0}
   _price: 200
   _colour: {r: 1, g: 0.40701026, b: 0, a: 0}
   _rent: 14
@@ -5167,6 +5193,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36a1271c18f28a44eb95d1e787ee5ec4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _title: Chance
+  _icon: {fileID: 21300000, guid: 988172508b5a8684c8f6a8f5d686b807, type: 3}
 --- !u!1 &1176359938
 GameObject:
   m_ObjectHideFlags: 0
@@ -5351,6 +5379,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _title: Ventnor$Avenue
+  _icon: {fileID: 0}
   _price: 260
   _colour: {r: 1, g: 0.9320469, b: 0, a: 0}
   _rent: 22
@@ -5467,6 +5496,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _title: Illinois$Avenue
+  _icon: {fileID: 0}
   _price: 240
   _colour: {r: 1, g: 0, b: 0, a: 0}
   _rent: 20
@@ -6122,6 +6152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _title: Pennsylvania$Railroad
+  _icon: {fileID: 21300000, guid: a77a5286c14bd4448b82cffe5ed22a76, type: 3}
   _price: 200
 --- !u!1 &1438718695
 GameObject:
@@ -6230,6 +6261,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _title: Atlantic$Avenue
+  _icon: {fileID: 0}
   _price: 260
   _colour: {r: 1, g: 0.9320469, b: 0, a: 0}
   _rent: 22
@@ -6346,6 +6378,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _title: Virginia$Avenue
+  _icon: {fileID: 0}
   _price: 160
   _colour: {r: 1, g: 0, b: 0.7606492, a: 0}
   _rent: 12
@@ -6538,6 +6571,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cea9ed750a45e7e45b7a99ce072d0a10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _title: Go
+  _icon: {fileID: 0}
 --- !u!1 &1585814630
 GameObject:
   m_ObjectHideFlags: 0
@@ -6723,6 +6758,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9861238a74e834b4e981873ee426f31a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _title: Snakes$Or Ladders
+  _icon: {fileID: 21300000, guid: 92b02886ffc9c54409e160af31790a56, type: 3}
 --- !u!1 &1595030133 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: 214563144cd74af4da088fc835617046,
@@ -6944,6 +6981,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c7ba89180456944caccdd5ca2f874df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _title: Go To Jail
+  _icon: {fileID: 0}
 --- !u!1 &1638698003
 GameObject:
   m_ObjectHideFlags: 0
@@ -7051,6 +7090,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _title: Baltic$Avenue
+  _icon: {fileID: 0}
   _price: 60
   _colour: {r: 0.5566038, g: 0.19979845, b: 0.07613921, a: 0}
   _rent: 4
@@ -7243,6 +7283,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fad99cb1c9ffb04dbcd58f075c19537, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _title: Income$Tax
+  _icon: {fileID: 0}
+  _price: 200
 --- !u!1 &1769316470
 GameObject:
   m_ObjectHideFlags: 0
@@ -7758,6 +7801,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _title: St. James$Place
+  _icon: {fileID: 0}
   _price: 180
   _colour: {r: 1, g: 0.40701026, b: 0, a: 0}
   _rent: 14
@@ -7874,6 +7918,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _title: Mediterranean$Avenue
+  _icon: {fileID: 0}
   _price: 60
   _colour: {r: 0.5566038, g: 0.19979845, b: 0.07613921, a: 0}
   _rent: 2
@@ -7989,6 +8034,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 941494ab584d5da46b179ea778dc993a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _title: In Jail/$Just Visiting
+  _icon: {fileID: 0}
 --- !u!1 &1999960932 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: 5e90c910fdd460c418637c621e81a450,
@@ -8216,6 +8263,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _title: Park$Place
+  _icon: {fileID: 0}
   _price: 350
   _colour: {r: 0, g: 0.09577916, b: 0.7075472, a: 0}
   _rent: 35
@@ -8331,6 +8379,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9861238a74e834b4e981873ee426f31a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _title: Snakes$Or Ladders
+  _icon: {fileID: 21300000, guid: 92b02886ffc9c54409e160af31790a56, type: 3}
 --- !u!1 &2060925415
 GameObject:
   m_ObjectHideFlags: 0
@@ -8438,6 +8488,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _title: Oriental$Avenue
+  _icon: {fileID: 0}
   _price: 100
   _colour: {r: 0, g: 0.7169812, b: 0.7018535, a: 0}
   _rent: 6
@@ -8765,6 +8816,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9861238a74e834b4e981873ee426f31a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _title: Snakes$Or Ladders
+  _icon: {fileID: 21300000, guid: 92b02886ffc9c54409e160af31790a56, type: 3}
 --- !u!1 &2144750569
 GameObject:
   m_ObjectHideFlags: 0
@@ -8872,6 +8925,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _title: Pennsylvania$Avenue
+  _icon: {fileID: 0}
   _price: 320
   _colour: {r: 0, g: 0.5471698, b: 0.11511597, a: 0}
   _rent: 28

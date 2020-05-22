@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PaymentTile : Tile
+public class PaymentTile : PriceTypeTile
 {
-    public override void DisplayOptions()
+    public override void Awake()
     {
-        throw new System.NotImplementedException();
+        base.Awake();
+        PriceMesh.text = "Pay " + PriceMesh.text;
     }
 }

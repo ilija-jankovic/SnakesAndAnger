@@ -34,7 +34,9 @@ public class Street : Property
         base.Awake();
         _houseValues = new ushort[] { _firstHouseValue, _secondHouseValue, _thirdHouseValue, _fourthHouseValue, _hotelValue };
 
+        //display property colour
         banner = GameObject.CreatePrimitive(PrimitiveType.Plane);
+        banner.name = "Banner";
         banner.transform.parent = transform;
         banner.transform.localScale = new Vector3(transform.localScale.x / 100, 1, transform.localScale.z / 800);
         banner.transform.localEulerAngles = Vector3.zero;
@@ -42,7 +44,15 @@ public class Street : Property
 
         banner.GetComponent<Renderer>().material.color = Colour;
 
-        _titleMesh.transform.localPosition = new Vector3(0, 0, banner.transform.localPosition.z-5*banner.transform.localScale.z-0.05f);
+        SpriteRenderer border = new GameObject("BannerBorder").AddComponent<SpriteRenderer>();
+        border.transform.SetParent(transform);
+        border.transform.localEulerAngles = new Vector3(90, 0, 0);
+        border.transform.localScale = new Vector3(0.2f, 0.075f, 0);
+        border.transform.localPosition = new Vector3(0f, 0.58f, 0f);
+
+        border.sprite = Resources.Load<Sprite>("border");
+
+        TitleMesh.transform.localPosition = new Vector3(0, 0, banner.transform.localPosition.z-5*banner.transform.localScale.z-0.05f);
     }
 
     public Color Colour
@@ -149,11 +159,6 @@ public class Street : Property
     public bool HasHotel
     {
         get { return _houses == 5; }
-    }
-
-    public override void DisplayOptions()
-    {
-        throw new NotImplementedException();
     }
 
     public override void ReturnToBank()

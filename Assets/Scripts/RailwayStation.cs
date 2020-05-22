@@ -24,9 +24,4 @@ public class RailwayStation : Property
                 stations++;
         return (ushort)(25 * Mathf.Pow(2,stations-1));
     }
-
-    public override void DisplayOptions()
-    {
-        throw new System.NotImplementedException();
-    }
 }

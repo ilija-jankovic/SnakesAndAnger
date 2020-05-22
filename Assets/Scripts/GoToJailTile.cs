@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class GoToJailTile : Tile
 {
-    public override void DisplayOptions()
+    public override void Awake()
     {
-        throw new System.NotImplementedException();
+        base.Awake();
     }
 }

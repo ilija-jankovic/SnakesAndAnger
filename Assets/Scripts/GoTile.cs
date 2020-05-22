@@ -5,11 +5,8 @@ using UnityEngine;
 
 public class GoTile : Tile
 {
-
-
-
-    public override void DisplayOptions()
+    public override void Awake()
     {
-        throw new NotImplementedException();
+        base.Awake();
     }
 }

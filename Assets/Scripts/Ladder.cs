@@ -28,6 +28,6 @@ public class Ladder : TileLink
 
     public override Texture2D Icon
     {
-        get { return GetTextureFromSprite("ladder"); }
+        get { return GameManager.GetTextureFromSprite("ladder"); }
     }
 }

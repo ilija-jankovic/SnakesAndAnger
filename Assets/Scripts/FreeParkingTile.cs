@@ -5,10 +5,9 @@ using UnityEngine;
 
 public class FreeParkingTile : Tile
 {
-    // Start is called before the first frame update
-    public override void DisplayOptions()
+    public override void Awake()
     {
-        throw new NotImplementedException();
+        base.Awake();
     }
 }
 

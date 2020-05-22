@@ -54,17 +54,4 @@ public abstract class Card
     {
         get { return null; }
     }
-
-    protected Texture2D GetTextureFromSprite(string path)
-    {
-        var sprite = Resources.Load<Sprite>(path);
-        var croppedTexture = new Texture2D((int)sprite.textureRect.width, (int)sprite.textureRect.height);
-        var pixels = sprite.texture.GetPixels((int)sprite.textureRect.x,
-                                                (int)sprite.textureRect.y,
-                                                (int)sprite.textureRect.width,
-                                                (int)sprite.textureRect.height);
-        croppedTexture.SetPixels(pixels);
-        croppedTexture.Apply();
-        return croppedTexture;
-    }
 }

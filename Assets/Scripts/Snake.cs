@@ -26,6 +26,6 @@ public class Snake : TileLink
 
     public override Texture2D Icon
     {
-        get { return GetTextureFromSprite("snake"); }
+        get { return GameManager.GetTextureFromSprite("snake"); }
     }
 }

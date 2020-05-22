@@ -27,9 +27,4 @@ public class Utility : Property
             }
         return (ushort)(Die.Result * multiplier);
     }
-
-    public override void DisplayOptions()
-    {
-        throw new System.NotImplementedException();
-    }
 }
