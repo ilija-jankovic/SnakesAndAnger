@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using static EnumsForCards.cardPay;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ public class CardPay : Card
     //Amount 
     private static ushort _amount;
     //type of payment
-    byte _type;
+    EnumsForCards.cardPay _type;
     // type 1 = direct remove
     // type 2 = pay each player
     // type 3 = for each hotel and house owned
@@ -18,7 +19,7 @@ public class CardPay : Card
     /// <param name="does">Card description</param>
     /// <param name="amount">amount to be given</param>
     /// <param name="type">type of payment</param>
-    public CardPay(string does, ushort amount, byte type) : base(does)
+    public CardPay(string does, ushort amount, EnumsForCards.cardPay type) : base(does)
     {
         _amount = amount;
         _type = type;
@@ -27,11 +28,11 @@ public class CardPay : Card
 
     public override void Use()
     {
-        if (_type == 1) //pay bank
+        if (_type == EnumsForCards.cardPay.directRemove) //pay bank
         {
             GameManager.PlayerMustPay(_amount);
         }
-        else if (_type == 2) //pay each player
+        else if (_type == EnumsForCards.cardPay.payEachPlayer) //pay each player
         {
             PayPlayers();
         }
@@ -85,7 +86,7 @@ public class CardPay : Card
     {
         get { return _amount; }
     }
-    public byte Type
+    public EnumsForCards.cardPay Type
     {
         get { return _type; }
     }

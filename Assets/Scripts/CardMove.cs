@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using static EnumsForCards.cardMove;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ public class CardMove : Card
     //tile to move to
     Tile _move;
     //type of move
-    byte _type;
+    EnumsForCards.cardMove _type;
     // type 1 = direct move,
     // type 2 = closest Utility
     // type 3 = train station
@@ -20,33 +21,33 @@ public class CardMove : Card
     /// <param name="does">Card description</param>
     /// <param name="move">Tile to move to</param>
     /// <param name="type">Type of movement</param>
-    public CardMove(string does, Tile move, byte type) : base(does)
+    public CardMove(string does, Tile move, EnumsForCards.cardMove type) : base(does)
     {
         _type = type;
         _move = move;
     }
 
 
-    public CardMove(string does, byte type) : base(does)
+    public CardMove(string does, EnumsForCards.cardMove type) : base(does)
     {
         _type = type;
     }
 
     public override void Use()
     {
-        if (_type == 1) //direct movement
+        if (_type == EnumsForCards.cardMove.directMove) //direct movement
         {
             Owner.Move(_move);
         }
-        else if (_type == 2) //move to closest Utility. tile12, tile28
+        else if (_type == EnumsForCards.cardMove.closestUtility) //move to closest Utility. tile12, tile28
         {
             AdvClosestUtility();
         }
-        else if (_type == 3) //move to closest train station. tile35, tile25, tile15, tile05
+        else if (_type == EnumsForCards.cardMove.closestTrainStation) //move to closest train station. tile35, tile25, tile15, tile05
         {
             AdvClosestStation();
         }
-        else if (_type == 4)
+        else if (_type == EnumsForCards.cardMove.moveBackThreeTiles)
         {
             int currPos = GetPlayerPosIndex();
             Owner.Move(GameManager.Tiles[currPos- 3]);

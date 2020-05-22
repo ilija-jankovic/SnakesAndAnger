@@ -1,4 +1,5 @@
-﻿using System;
+﻿using static EnumsForCards.cardPay;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -91,7 +92,7 @@ static class MenuManager
                         CardPay cardPay = (CardPay)cardInHand;
 
                         //if statement to check player still exists
-                        if (cardPay.Type == 2)
+                        if (cardPay.Type == EnumsForCards.cardPay.payEachPlayer)
                         {
                             //Pays amount to each player
                             foreach (Player p in GameManager.Players)

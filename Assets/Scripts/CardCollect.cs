@@ -1,4 +1,5 @@
-﻿using System;
+﻿using static EnumsForCards.cardCollect;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +8,7 @@ public class CardCollect : Card
 {
     //Amount 
     ushort _amount;
-    byte _type;
+    EnumsForCards.cardCollect _type;
     public static Player currentPayee = null;
 
     /// <summary>
@@ -15,7 +16,7 @@ public class CardCollect : Card
     /// </summary>
     /// <param name="does">Card description</param>
     /// <param name="amount">amount to be given</param>
-    public CardCollect(string does, ushort amount, byte type) : base(does)
+    public CardCollect(string does, ushort amount, EnumsForCards.cardCollect type) : base(does)
     {
         _amount = amount;
         _type = type;
@@ -24,7 +25,7 @@ public class CardCollect : Card
 
     public override void Use()
     {
-        if (_type == 1)
+        if (_type == EnumsForCards.cardCollect.fromBank)
         {
             Owner.AddFunds(_amount);
         }
@@ -38,17 +39,6 @@ public class CardCollect : Card
         }
     }
 
-
-    
-            //foreach(Player p in GameManager.Players)
-            //{
-            //    currentPayee = p;
-            //    GameManager.PlayerMustPay((ushort) _amount, p);
-            //    if ((System.Array.IndexOf(GameManager.Players, p)) != -1)
-            //    {
-            //        Owner.AddFunds(_amount);
-            //    }
-            //}
 
 
 }
