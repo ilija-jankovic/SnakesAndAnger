@@ -109,6 +109,7 @@ static class GameManager
         ChanceTile chance = tile.GetComponent<ChanceTile>();
         //FreeParking parking = tile.GetComponent<FreeParking>();
         SandLTile sAndL = tile.GetComponent<SandLTile>();
+        PaymentTile paymentTile = tile.GetComponent<PaymentTile>();
         if (property != null) 
         {
             //check if the player stepped on an unowned/mortgaged/their own property
@@ -141,6 +142,10 @@ static class GameManager
             //displays card
             MenuManager.UpdateCardInfo(CurrentPlayer.UsableCards[CurrentPlayer.UsableCards.Count - 1]);
         }
+        else if (paymentTile != null)
+        {
+            MenuManager.SwitchToMenuWithInventory(MenuManager.PaymentTileOptions);
+        }
         //else if (parking != null)
         //{
 
@@ -160,6 +165,7 @@ static class GameManager
     {
         //check if player can pay
         int funds = player.GetTotalPotentialBalance();
+        paymentNeeded = amount;
         if (funds >= amount)
         {
             MenuManager.SwitchToMenuWithInventory(MenuManager.PaymentOptions);
@@ -167,7 +173,6 @@ static class GameManager
             if (player.GetBalance() < amount)
             {
                 GameObject.FindGameObjectWithTag("PayButton").GetComponent<Button>().interactable = false;
-                paymentNeeded = amount;
             }
         }
         else

@@ -14,6 +14,7 @@ static class MenuManager
     private static Canvas _inventory = GameObject.Find("Inventory").GetComponent<Canvas>();
     private static Canvas _payment = GameObject.Find("PaymentOptions").GetComponent<Canvas>();
     private static Canvas _lose = GameObject.Find("LoseOptions").GetComponent<Canvas>();
+    private static Canvas _paymentTileOptions = GameObject.Find("PaymentTileOptions").GetComponent<Canvas>();
     //make this at some point
     private static Canvas _winMenu;
 
@@ -36,11 +37,25 @@ static class MenuManager
                 UpdateInventoryData();
             });
 
+        //Call PlayerMustPay method when 'PayFixed' is clicked, and ask them to pay 200
+        GameObject.FindGameObjectWithTag("PayFixed").GetComponent<Button>().onClick.AddListener(
+           delegate {
+               GameManager.PlayerMustPay(200);
+           });
+
+        //Call PlayerMustPay method when 'PayFixed' is clicked, and ask them to pay 10% of total potential balance.
+        GameObject.FindGameObjectWithTag("PayPercentageTotalEarning").GetComponent<Button>().onClick.AddListener(
+           delegate {
+               GameManager.PlayerMustPay((ushort)(0.1 * GameManager.CurrentPlayer.GetTotalPotentialBalance()));
+           });
+
+
         //methods to call when Player needs to pay
         GameObject.FindGameObjectWithTag("PayButton").GetComponent<Button>().onClick.AddListener(
             delegate {
                 Property property = GameManager.CurrentPlayer.Position.GetComponent<Property>();
                 ChanceTile chance = GameManager.CurrentPlayer.Position.GetComponent<ChanceTile>();
+                PaymentTile paymentTile = GameManager.CurrentPlayer.Position.GetComponent<PaymentTile>();
                 if (property != null)
                 {
                     ushort payment = property.PaymentPrice();
@@ -88,6 +103,12 @@ static class MenuManager
 
                         SwitchToMenuWithInventory(EndOfTurnOptions);
                     }
+                }
+                else if (paymentTile != null)
+                {
+                    ushort payment = GameManager.PaymentNeeded;
+                    GameManager.CurrentPlayer.RemoveFunds(payment);
+                    SwitchToMenuWithInventory(EndOfTurnOptions);
                 }
             });
 
@@ -328,6 +349,11 @@ static class MenuManager
     public static Canvas PropertyCardInfo
     {
         get { return _propertyCardInfo; }
+    }
+
+    public static Canvas PaymentTileOptions
+    {
+        get { return _paymentTileOptions; }
     }
 
     public static Canvas UsableCardInfo

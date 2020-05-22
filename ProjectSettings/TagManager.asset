@@ -21,6 +21,8 @@ TagManager:
   - LoseButton
   - BuildHouseButton
   - TradeButton
+  - PayFixed
+  - PayPercentageTotalEarning
   layers:
   - Default
   - TransparentFX
