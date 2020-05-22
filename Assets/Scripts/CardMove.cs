@@ -7,13 +7,8 @@ public class CardMove : Card
 {
     //tile to move to
     Tile _move;
-    //type of move
+    //type of cardMove, found inside class EnumsForCards
     EnumsForCards.cardMove _type;
-    // type 1 = direct move,
-    // type 2 = closest Utility
-    // type 3 = train station
-    // type 4 = Back three Tiles
-    // type 5 = go to jail
 
     /// <summary>
     /// Constructor for cards that move player

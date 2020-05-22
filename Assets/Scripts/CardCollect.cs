@@ -8,6 +8,7 @@ public class CardCollect : Card
 {
     //Amount 
     ushort _amount;
+    //type of cardCollect, found inside class EnumsForCards
     EnumsForCards.cardCollect _type;
     public static Player currentPayee = null;
 

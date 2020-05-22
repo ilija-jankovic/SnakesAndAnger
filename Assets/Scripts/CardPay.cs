@@ -7,11 +7,8 @@ public class CardPay : Card
 {
     //Amount 
     private static ushort _amount;
-    //type of payment
+    //type of cardPay, found inside class EnumsForCards
     EnumsForCards.cardPay _type;
-    // type 1 = direct remove
-    // type 2 = pay each player
-    // type 3 = for each hotel and house owned
 
     /// <summary>
     /// Constructor for Cards that remove money from player

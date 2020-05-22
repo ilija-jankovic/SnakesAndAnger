@@ -9,7 +9,9 @@ public static class ChanceDeck
 {
     private static List<Card> _deck;
 
-
+    //each cardClass has different types within them. 
+    //These types can be found within the class EnumsForCards
+    //this was done so that it's easier to use the enums between different classes
 
     [RuntimeInitializeOnLoadMethod]
     private static void InitialiseDeck()
