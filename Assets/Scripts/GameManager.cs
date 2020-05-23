@@ -11,10 +11,12 @@ static class GameManager
     private static Player[] _players;
     //stores all Monopoly tiles in order from go to last
     private static Tile[] _tiles;
-
-   
-
     private static Player _curPlayer;
+
+    //when player needs to pay something, it is stored here until it is paid
+    private static ushort _paymentNeeded;
+    //if chance card is picked up, it is stored here until finished being used
+    private static Card _activeCard;
 
     [RuntimeInitializeOnLoadMethod]
     private static void Initialise()
@@ -121,26 +123,23 @@ static class GameManager
             //display current property
             MenuManager.UpdateCardInfo(CurrentPlayer.Position.GetComponent<Property>());
         }
-        else if (chance != null)
+        else if (chance != null || sAndL != null)
         {
-            Card tempCard = ChanceDeck.DrawCard();
+            if(chance != null)
+                _activeCard = ChanceDeck.DrawCard();
+            else if(sAndL != null)
+            {
+                if (UnityEngine.Random.Range(0f, 1f) < 0.5f)
+                    _activeCard = new Snake();
+                else
+                    _activeCard = new Ladder();
+            }
+
+            //adds card to player's inventory
+            CurrentPlayer.AddCard(ActiveCard);
+            MenuManager.SwitchToMenuWithInventory(MenuManager.CardOptions);
             //pop up to show which card is drawn
-            MenuManager.UpdateCardInfo(tempCard);
-            //Give card to player. Depending on card, use immediately 
-            CurrentPlayer.AddCard(tempCard);
-        }
-        else if (sAndL != null)
-        {
-            //adds a snake or ladder card with equal chance
-            if (UnityEngine.Random.Range(0f, 1f) < 0.5f)
-                CurrentPlayer.AddCard(new Snake());
-            else
-                CurrentPlayer.AddCard(new Ladder());
-
-            MenuManager.SwitchToMenuWithInventory(MenuManager.EndOfTurnOptions);
-
-            //displays card
-            MenuManager.UpdateCardInfo(CurrentPlayer.UsableCards[CurrentPlayer.UsableCards.Count - 1]);
+            MenuManager.UpdateCardInfo(ActiveCard);
         }
         else if (paymentTile != null)
         {
@@ -154,8 +153,6 @@ static class GameManager
             MenuManager.SwitchToMenuWithInventory(MenuManager.EndOfTurnOptions);
     }
 
-    private static ushort paymentNeeded;
-
     public static void PlayerMustPay(ushort amount)
     {
         PlayerMustPay(amount, CurrentPlayer);
@@ -165,10 +162,11 @@ static class GameManager
     {
         //check if player can pay
         int funds = player.GetTotalPotentialBalance();
-        paymentNeeded = amount;
+        _paymentNeeded = amount;
         if (funds >= amount)
         {
             MenuManager.SwitchToMenuWithInventory(MenuManager.PaymentOptions);
+            MenuManager.UpdateInventoryData(player);
             //disable pay button so player must mortgage
             if (player.GetBalance() < amount)
             {
@@ -187,7 +185,7 @@ static class GameManager
         if (MenuManager.PaymentOptions.enabled == true)
         {
             Button payButton = GameObject.FindGameObjectWithTag("PayButton").GetComponent<Button>();
-            payButton.interactable = CurrentPlayer.GetBalance() >= paymentNeeded;
+            payButton.interactable = CurrentPlayer.GetBalance() >= PaymentNeeded;
         }
     }
 
@@ -227,6 +225,7 @@ static class GameManager
 
     public static void NextPlayer()
     {
+        _activeCard = null;
         MenuManager.SwitchToMenuWithInventory(MenuManager.TurnOptions);
         _curPlayer = _players[(Array.IndexOf(_players, _curPlayer) + 1) % _players.Length];
         //change the target for the camera to the current player
@@ -251,7 +250,12 @@ static class GameManager
 
     public static ushort PaymentNeeded
     {
-        get { return paymentNeeded; }
+        get { return _paymentNeeded; }
+    }
+
+    public static Card ActiveCard
+    {
+        get { return _activeCard; }
     }
 
     //utitily method - could not find an appropriate class for so it is in GameManager

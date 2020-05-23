@@ -37,7 +37,15 @@ public abstract class MouseInputUI : MonoBehaviour
     //when mouse enters gameobject
     public abstract void EnterUI();
     //when mouse exits gameobject
-    public abstract void ExitUI();
+    public virtual void ExitUI()
+    {
+        //update detailed card display
+        Property property = GameManager.CurrentPlayer.Position.GetComponent<Property>();
+        if (GameManager.ActiveCard != null)
+            MenuManager.UpdateCardInfo(GameManager.ActiveCard);
+        else if (property != null)
+            MenuManager.UpdateCardInfo(property);
+    }
     //when mouse clicks gameobject
     public abstract void ClickUI();
 }

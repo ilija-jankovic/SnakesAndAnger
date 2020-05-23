@@ -23,6 +23,7 @@ TagManager:
   - TradeButton
   - PayFixed
   - PayPercentageTotalEarning
+  - UseCardButton
   layers:
   - Default
   - TransparentFX

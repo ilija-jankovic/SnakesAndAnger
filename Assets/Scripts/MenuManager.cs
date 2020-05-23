@@ -16,6 +16,7 @@ static class MenuManager
     private static Canvas _payment = GameObject.Find("PaymentOptions").GetComponent<Canvas>();
     private static Canvas _lose = GameObject.Find("LoseOptions").GetComponent<Canvas>();
     private static Canvas _paymentTileOptions = GameObject.Find("PaymentTileOptions").GetComponent<Canvas>();
+    private static Canvas _cardOptions = GameObject.Find("CardOptions").GetComponent<Canvas>();
     //make this at some point
     private static Canvas _winMenu;
 
@@ -66,8 +67,7 @@ static class MenuManager
                 }
                 else if (chance != null)
                 {
-                    Card cardInHand = GameManager.CurrentPlayer.CardInHand;
-                    if (cardInHand is CardCollect)
+                    if (GameManager.ActiveCard is CardCollect)
                     {
                         ushort payment = 50;
                         CardCollect.currentPayee.RemoveFunds(payment);
@@ -84,12 +84,11 @@ static class MenuManager
                         //moves camera to whomever needs to pay
                         CameraFollow.target = CardCollect.currentPayee.transform;
                     }
-                    else if (cardInHand is CardPay)
+                    else if (GameManager.ActiveCard is CardPay)
                     {
-
                         ushort payment = GameManager.PaymentNeeded;
                         GameManager.CurrentPlayer.RemoveFunds(payment);
-                        CardPay cardPay = (CardPay)cardInHand;
+                        CardPay cardPay = (CardPay)GameManager.ActiveCard;
 
                         //if statement to check player still exists
                         if (cardPay.Type == EnumsForCards.cardPay.payEachPlayer)
@@ -101,7 +100,6 @@ static class MenuManager
                                     p.AddFunds(CardPay.Amount);
                             }
                         }
-
                         SwitchToMenuWithInventory(EndOfTurnOptions);
                     }
                 }
@@ -111,6 +109,15 @@ static class MenuManager
                     GameManager.CurrentPlayer.RemoveFunds(payment);
                     SwitchToMenuWithInventory(EndOfTurnOptions);
                 }
+            });
+
+        GameObject.FindGameObjectWithTag("UseCardButton").GetComponent<Button>().onClick.AddListener(
+            delegate
+            {
+                SwitchToMenuWithInventory(EndOfTurnOptions);
+                if (!(GameManager.ActiveCard is CardGetOutOfJail || GameManager.ActiveCard is TileLink))
+                    GameManager.ActiveCard.Use();
+                UpdateInventoryData();
             });
 
         //methods to call when Player auctions an unowned property
@@ -225,7 +232,12 @@ static class MenuManager
 
     public static void UpdateInventoryData()
     {
-        if (GameManager.CurrentPlayer != null)
+        UpdateInventoryData(GameManager.CurrentPlayer);
+    }
+
+    public static void UpdateInventoryData(Player player)
+    {
+        if (player != null)
         {
             ShowMenu(Inventory);
             GameObject.FindGameObjectWithTag("Balance").GetComponent<Text>().text = "$" + GameManager.CurrentPlayer.GetBalance();
@@ -239,9 +251,9 @@ static class MenuManager
             Resources.UnloadUnusedAssets();
 
             //create icons for each property in the player's inventory
-            for (int i = 0; i < GameManager.CurrentPlayer.PropertiesOwned.Count; i++)
+            for (int i = 0; i < player.PropertiesOwned.Count; i++)
             {
-                Property property = GameManager.CurrentPlayer.PropertiesOwned[i];
+                Property property = player.PropertiesOwned[i];
                 Street street = property.GetComponent<Street>();
 
                 GameObject cardObj = new GameObject("InventoryCard");
@@ -296,8 +308,11 @@ static class MenuManager
                     title.rectTransform.localPosition = Vector3.zero;
                 }
 
-                //grays out non-street properties if in house mode or if cant sell house
-                if ((BuildHouseMode && (street == null || street.Mortgaged)) || (!BuildHouseMode && street != null && !street.CanMortagage() && !street.Mortgaged && !street.CanSellHouse()))
+                //grays out non-street properties if in house mode or if cant sell house, or if in payment menu and property mortgaged, or can't pay unmortgage cost
+                if ((BuildHouseMode && (street == null || street.Mortgaged))
+                    || (!BuildHouseMode && street != null && !street.CanMortagage() && !street.Mortgaged && !street.CanSellHouse())
+                    || (PaymentOptions.enabled == true && property.Mortgaged)
+                    || (property.Mortgaged && player.GetBalance() < property.UnMortgageCost))
                     GrayOutImage(card);
             }
 
@@ -368,6 +383,11 @@ static class MenuManager
     public static Canvas LoseOptions
     {
         get { return _lose; }
+    }
+
+    public static Canvas CardOptions
+    {
+        get { return _cardOptions; }
     }
 
     public static bool BuildHouseMode

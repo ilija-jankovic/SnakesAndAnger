@@ -51,9 +51,7 @@ public class CardMove : Card
         {
 
         }
-
-
-
+        base.Use();
     }
 
     /// <summary>

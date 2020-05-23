@@ -51,7 +51,7 @@ public class InventoryPropertyMouseInputUI : MouseInputUI
 
     public override void ExitUI()
     {
-        MenuManager.UpdateCardInfo(GameManager.CurrentPlayer.Position.GetComponent<Property>());
+        base.ExitUI();
         if(mortgageToolTip != null)
         {
             Destroy(mortgageToolTip);
@@ -76,7 +76,6 @@ public class InventoryPropertyMouseInputUI : MouseInputUI
                 property.Mortgage();
                 MenuManager.UpdateCardInfo(property);
 
-                //updates pay button incase player has received enough mortgage to pay off something
                 GameManager.UpdatePayButtonInteractibility();
                 GameManager.UpdateBuyButtonInteractibility();
             }
@@ -92,6 +91,11 @@ public class InventoryPropertyMouseInputUI : MouseInputUI
         else if (MenuManager.BuildHouseMode)
             if (street != null)
                 street.BuildHouse();
-        MenuManager.UpdateInventoryData();
+
+        MenuManager.UpdateInventoryData(property.Owner);
+
+        //updates pay button incase player has received enough from mortgage/selling houses to pay off something
+        GameManager.UpdatePayButtonInteractibility();
+        GameManager.UpdateBuyButtonInteractibility();
     }
 }

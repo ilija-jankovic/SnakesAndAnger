@@ -36,7 +36,12 @@ public abstract class Card
     /// <summary>
     /// Uses the card, each card has a different use function
     /// </summary>
-    public abstract void Use();
+    public virtual void Use()
+    {
+        Owner.UsableCards.Remove(this);
+        if (!(this is TileLink))
+            ChanceDeck.PlaceUnderDeck(this);
+    }
 
     /// <summary>
     /// gets the description of the card

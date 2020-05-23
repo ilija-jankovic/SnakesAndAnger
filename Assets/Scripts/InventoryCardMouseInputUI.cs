@@ -29,10 +29,9 @@ public class InventoryCardMouseInputUI : MouseInputUI
 
     public override void ExitUI()
     {
+        base.ExitUI();
         Destroy(cardToolTip);
         cardToolTip = null;
-
-        MenuManager.UpdateCardInfo(GameManager.CurrentPlayer.Position.GetComponent<Property>());
 
         //prevent memory leaks
         Resources.UnloadUnusedAssets();

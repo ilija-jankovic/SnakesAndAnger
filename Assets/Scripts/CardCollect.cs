@@ -38,8 +38,6 @@ public class CardCollect : Card
             //camera moves to show who is paying
             CameraFollow.target = currentPayee.transform;
         }
+        base.Use();
     }
-
-
-
 }

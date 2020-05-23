@@ -19,10 +19,6 @@ public class Player : MonoBehaviour
     /// </summary>
     List<Card> _cards = new List<Card>();
     /// <summary>
-    /// card that is being used - this for for use in MenuManager
-    /// </summary>
-    private Card cardInHand = null;
-    /// <summary>
     /// stores all the properties owned by the player
     /// </summary>
     List<Property> _propertiesOwned;
@@ -172,7 +168,7 @@ public class Player : MonoBehaviour
             {
                 funds += playerProp.MortgageValue;
                 Street street = playerProp.GetComponent<Street>();
-                funds += street != null ? street.Houses + street.SellHousePrice : 0;
+                funds += street != null ? street.Houses * street.SellHousePrice : 0;
             }
         return funds;
     }
@@ -184,24 +180,11 @@ public class Player : MonoBehaviour
     public void AddCard(Card c)
     {
         _cards.Add(c);
-
-    if(c is CardCollect || c is CardMove || c is CardPay)
-        {
-            UseCard(c);
-
-        }
     }
 
-    /// <summary>
-    /// uses the card passed in
-    /// </summary>
-    /// <param name="c2"></param>
-    public void UseCard(Card c2)
+    public void RemoveCard(Card c)
     {
-        cardInHand = c2;
-        c2.Use();
-        _cards.Remove(c2);
-        ChanceDeck.PlaceUnderDeck(c2);
+        _cards.Remove(c);
     }
 
     /// <summary>
@@ -226,10 +209,4 @@ public class Player : MonoBehaviour
         _propertiesOwned = new List<Property>();
         _cards = new List<Card>();
     }
-
-    public Card CardInHand
-    {
-        get { return cardInHand; }
-    }
-
 }

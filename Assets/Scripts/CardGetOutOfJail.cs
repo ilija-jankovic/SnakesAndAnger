@@ -12,7 +12,7 @@ public class CardGetOutOfJail : Card
 
     public override void Use()
     {
-
+        base.Use();
     }
 
 }
