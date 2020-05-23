@@ -24,22 +24,29 @@ public class InventoryPropertyMouseInputUI : MouseInputUI
         mortgageToolTip.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
         mortgageToolTip.alignment = TextAnchor.MiddleCenter;
 
+        Street street = property.GetComponent<Street>();
         if (MenuManager.BuildHouseMode)
         {
-            Street street = property.GetComponent<Street>();
-            if(street == null)
+            if (street == null)
                 mortgageToolTip.text = "Cannot build house on this type of property";
-            else if(!street.CanBuildHouse())
+            else if (!street.CanBuildHouse())
                 mortgageToolTip.text = "House requirements not met";
             else
-                mortgageToolTip.text = "Build house";
+                mortgageToolTip.text = "Build house for $" + street.HousePrice;
         }
-        else if (!property.Mortgaged)
+        else if (property.CanMortagage())
             mortgageToolTip.text = "Click to mortgage";
-        else if(MenuManager.PaymentOptions.enabled == false)
+        else if (street != null && street.CanSellHouse())
+            mortgageToolTip.text = "Click to sell house for $" + street.SellHousePrice;
+        else if (property.Mortgaged && MenuManager.PaymentOptions.enabled == false)
             mortgageToolTip.text = "Click to unmortgage";
-        else
+        else if (MenuManager.PaymentOptions.enabled == true)
             mortgageToolTip.text = "Cannot unmortgage as a payment is due";
+        else
+            mortgageToolTip.text = "House selling requirements not met";
+
+        //change camera to property
+        CameraFollow.target = property.transform;
     }
 
     public override void ExitUI()
@@ -53,37 +60,38 @@ public class InventoryPropertyMouseInputUI : MouseInputUI
 
         //prevent memory leaks
         Resources.UnloadUnusedAssets();
+
+        //change camera back to player
+        CameraFollow.target = property.Owner.transform;
     }
 
     //mortgage
     public override void ClickUI()
     {
+        Street street = property.GetComponent<Street>();
         if (!MenuManager.BuildHouseMode)
         {
-            if (!property.Mortgaged)
+            if (property.CanMortagage())
             {
                 property.Mortgage();
-                MenuManager.UpdateInventoryData();
                 MenuManager.UpdateCardInfo(property);
 
                 //updates pay button incase player has received enough mortgage to pay off something
                 GameManager.UpdatePayButtonInteractibility();
                 GameManager.UpdateBuyButtonInteractibility();
             }
+            else if (street != null && street.CanSellHouse())
+                street.SellHouse();
             //can only unmortgage if player does not need to pay anything
-            else if (MenuManager.PaymentOptions.enabled == false)
+            else if (property.Mortgaged && MenuManager.PaymentOptions.enabled == false)
             {
                 property.UnMortgage();
-                MenuManager.UpdateInventoryData();
                 MenuManager.UpdateCardInfo(property);
             }
         }
         else if (MenuManager.BuildHouseMode)
-        {
-            Street street = property.GetComponent<Street>();
             if (street != null)
                 street.BuildHouse();
-            MenuManager.UpdateInventoryData();
-        }
+        MenuManager.UpdateInventoryData();
     }
 }

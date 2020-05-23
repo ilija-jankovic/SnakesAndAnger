@@ -205,6 +205,9 @@ static class MenuManager
                     GameManager.UpdateBuyButtonInteractibility();
                     GameManager.UpdateNextPlayerButtonInteractibility();
                 }
+                else if(menu == PaymentOptions)
+                    //displays price to pay on button
+                    GameObject.FindGameObjectWithTag("PayButton").GetComponent<Button>().GetComponentInChildren<Text>().text = "Pay $" + GameManager.PaymentNeeded;
                 break;
             }
     }
@@ -239,6 +242,8 @@ static class MenuManager
             for (int i = 0; i < GameManager.CurrentPlayer.PropertiesOwned.Count; i++)
             {
                 Property property = GameManager.CurrentPlayer.PropertiesOwned[i];
+                Street street = property.GetComponent<Street>();
+
                 GameObject cardObj = new GameObject("InventoryCard");
                 Image card = cardObj.AddComponent<Image>();
                 card.tag = "InventoryCard";
@@ -257,8 +262,6 @@ static class MenuManager
                 title.transform.SetParent(card.transform);
                 title.rectTransform.sizeDelta = new Vector2(card.rectTransform.sizeDelta.x * 4 / 5, card.rectTransform.sizeDelta.y / 6);
                 title.rectTransform.localPosition = new Vector2(0f, 35f);
-
-                Street street = property.GetComponent<Street>();
 
                 if (!property.Mortgaged)
                 {
@@ -293,8 +296,8 @@ static class MenuManager
                     title.rectTransform.localPosition = Vector3.zero;
                 }
 
-                //grays out non-street properties if in house mode
-                if (street == null && BuildHouseMode)
+                //grays out non-street properties if in house mode or if cant sell house
+                if ((BuildHouseMode && (street == null || street.Mortgaged)) || (!BuildHouseMode && street != null && !street.CanMortagage() && !street.Mortgaged && !street.CanSellHouse()))
                     GrayOutImage(card);
             }
 

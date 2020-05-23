@@ -169,7 +169,11 @@ public class Player : MonoBehaviour
         int funds = GetBalance();
         foreach (Property playerProp in PropertiesOwned)
             if (!playerProp.Mortgaged)
+            {
                 funds += playerProp.MortgageValue;
+                Street street = playerProp.GetComponent<Street>();
+                funds += street != null ? street.Houses + street.SellHousePrice : 0;
+            }
         return funds;
     }
 

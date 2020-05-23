@@ -42,9 +42,14 @@ public abstract class Property : PriceTypeTile
         get { return (ushort)(MortgageValue + MortgageValue / 10); }
     }
 
+    public virtual bool CanMortagage()
+    {
+        return !Mortgaged;
+    }
+
     public virtual void Mortgage()
     {
-        if (!Mortgaged)
+        if (CanMortagage())
         {
             _mortgaged = true;
             Owner.AddFunds(_morgVal);

@@ -23,7 +23,6 @@ public class Street : Property
     [SerializeField]
     private ushort _hotelValue;
 
-    private byte _houses;
     private ushort[] _houseValues;
 
     List<GameObject> houseObjects = new List<GameObject>();
@@ -72,16 +71,15 @@ public class Street : Property
 
     public override ushort PaymentPrice()
     {
-        return _houses == 0 ? _rent : _houseValues[_houses - 1];
+        return Houses == 0 ? _rent : _houseValues[Houses - 1];
     }
 
     public void BuildHouse()
     {
         if (CanBuildHouse())
         {
-            _houses++;
             //create 3D models
-            if (_houses <= 4)
+            if (Houses < 4)
             {
                 GameObject prefab = Resources.Load("house2") as GameObject;
                 GameObject house = Instantiate(prefab, banner.transform);
@@ -96,20 +94,41 @@ public class Street : Property
                 house.transform.localScale = new Vector3(100f, 200f, 750f);
                 house.transform.localPosition = new Vector3(0.9f, 5f, 0f);
 
+                //disable houses
                 foreach (GameObject obj in houseObjects)
-                    Destroy(obj);
+                    obj.SetActive(false);
 
-                houseObjects.Clear();
                 houseObjects.Add(house);
             }
-
             Owner.RemoveFunds(_housePrice);
         }
     }
 
-    public void RemoveHouse()
+    public bool CanSellHouse()
     {
-        throw new NotImplementedException();
+        if (Houses == 0)
+            return false;
+
+        //must remove houses in reverse order to being built
+        List<Street> streetsOfThisColour = GetStreetsOfThisColour();
+        byte thisIndex = (byte)streetsOfThisColour.IndexOf(this);
+        if (thisIndex == streetsOfThisColour.Count - 1)
+            return streetsOfThisColour[thisIndex].Houses == streetsOfThisColour[0].Houses;
+        else
+            return streetsOfThisColour[thisIndex].Houses - streetsOfThisColour[thisIndex+1].Houses == 1;
+    }
+
+    public void SellHouse()
+    {
+        GameObject houseToRemove = houseObjects[houseObjects.Count - 1];
+        houseObjects.Remove(houseToRemove);
+        Destroy(houseToRemove);
+
+        //set houses to be visible incase only hotel was visible
+        foreach (GameObject obj in houseObjects)
+            obj.SetActive(true);
+
+        Owner.AddFunds(SellHousePrice);
     }
 
     //player must own all properties of the same colour to build houses
@@ -118,25 +137,14 @@ public class Street : Property
         if (Houses == 5 || Owner == null || Owner.GetBalance() < _housePrice)
             return false;
 
-        Street[] streets = GameObject.FindObjectsOfType<Street>();
-        List<Street> streetsOfThisColour = new List<Street>();
-        foreach (Street street in streets)
+        List<Street> streetsOfThisColour = GetStreetsOfThisColour();
+        foreach (Street street in streetsOfThisColour)
         {
-            if (street.Colour.r == Colour.r && street.Colour.g == Colour.g && street.Colour.b == Colour.b)
-            {
-                if (street.Owner != Owner)
-                    return false;
-                streetsOfThisColour.Add(street);
-            }
+            if (street.Mortgaged || street.Owner != Owner)
+                return false;
         }
 
         //must build houses sequentially on each property - it is a Monopoly rule
-        
-        //sort streets from lowest to heighest in position
-        streetsOfThisColour.Sort(delegate (Street s1, Street s2) {
-            return s1.name.CompareTo(s2.name);
-        });
-
         byte thisIndex = (byte)streetsOfThisColour.IndexOf(this);
         if (thisIndex == 0)
             return streetsOfThisColour[thisIndex].Houses == streetsOfThisColour[streetsOfThisColour.Count - 1].Houses;
@@ -145,36 +153,57 @@ public class Street : Property
             return streetsOfThisColour[thisIndex - 1].Houses - streetsOfThisColour[thisIndex].Houses == 1;
     }
 
-    public override void Mortgage()
+    public override bool CanMortagage()
     {
-        base.Mortgage();
-        RemoveHousesOfThisColour();
+        List<Street> streetsOfThisColour = GetStreetsOfThisColour();
+        foreach (Street street in streetsOfThisColour)
+            if (street.Houses > 0)
+                return false;
+        return base.CanMortagage();
     }
 
     public byte Houses
     {
-        get { return _houses; }
+        get { return (byte)houseObjects.Count; }
     }
 
     public bool HasHotel
     {
-        get { return _houses == 5; }
+        get { return Houses == 5; }
     }
 
     public override void ReturnToBank()
     {
+        List<Street> streetsOfThisColour = GetStreetsOfThisColour();
+        foreach (Street street in streetsOfThisColour)
+            for (byte i = 0; i < street.Houses; i++)
+                street.SellHouse();
         base.ReturnToBank();
-        Street[] streets = GameObject.FindObjectsOfType<Street>();
-        foreach (Street street in streets)
-            street.RemoveHousesOfThisColour();
     }
 
-    private void RemoveHousesOfThisColour()
+    private List<Street> GetStreetsOfThisColour()
     {
         Street[] streets = GameObject.FindObjectsOfType<Street>();
+        List<Street> sameColour = new List<Street>();
         foreach (Street street in streets)
             if (street.Colour == Colour)
-                for (byte i = 0; i < street.Houses; i++)
-                    street.RemoveHouse();
+                sameColour.Add(street);
+
+        //sort streets from lowest to heighest in position
+        sameColour.Sort(delegate (Street s1, Street s2) {
+            return s1.name.CompareTo(s2.name);
+        });
+
+        return sameColour;
+    }
+
+    public ushort HousePrice
+    {
+        get { return _housePrice; }
+    }
+
+    public ushort SellHousePrice
+    {
+        get { return (ushort)(HousePrice / 2); }
     }
 }
