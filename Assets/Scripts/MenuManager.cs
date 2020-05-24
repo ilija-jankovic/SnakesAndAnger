@@ -17,8 +17,12 @@ static class MenuManager
     private static Canvas _lose = GameObject.Find("LoseOptions").GetComponent<Canvas>();
     private static Canvas _paymentTileOptions = GameObject.Find("PaymentTileOptions").GetComponent<Canvas>();
     private static Canvas _cardOptions = GameObject.Find("CardOptions").GetComponent<Canvas>();
+    private static Canvas _tileLinkOptions = GameObject.Find("TileLinkOptions").GetComponent<Canvas>();
     //make this at some point
     private static Canvas _winMenu;
+
+    private static Camera _mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+    private static Camera _overviewCamera = GameObject.FindGameObjectWithTag("OverviewCamera").GetComponent<Camera>();
 
     private static bool _houseMode;
 
@@ -164,6 +168,12 @@ static class MenuManager
                     buildHouseButton.GetComponentInChildren<Text>().text = "Build House";
                 }
                 UpdateInventoryData();
+            });
+
+        GameObject.FindGameObjectWithTag("BackFromOverviewButton").GetComponent<Button>().onClick.AddListener(
+            delegate {
+                SwitchToMenuWithInventory(TurnOptions);
+                SwitchToCamera(MainCamera);
             });
 
         SwitchToMenuWithInventory(TurnOptions);
@@ -457,5 +467,27 @@ static class MenuManager
     public static Canvas PaymentOptions
     {
         get { return _payment; }
+    }
+
+    public static Canvas TileLinkOptions
+    {
+        get { return _tileLinkOptions; }
+    }
+
+    public static Camera MainCamera
+    {
+        get { return _mainCamera; }
+    }
+
+    public static Camera OverviewCamera
+    {
+        get { return _overviewCamera; }
+    }
+
+    public static void SwitchToCamera(Camera camera)
+    {
+        MainCamera.gameObject.SetActive(false);
+        OverviewCamera.gameObject.SetActive(false);
+        camera.gameObject.SetActive(true);
     }
 }

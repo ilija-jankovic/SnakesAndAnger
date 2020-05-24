@@ -24,6 +24,8 @@ TagManager:
   - PayFixed
   - PayPercentageTotalEarning
   - UseCardButton
+  - OverviewCamera
+  - BackFromOverviewButton
   layers:
   - Default
   - TransparentFX

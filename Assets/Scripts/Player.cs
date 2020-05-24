@@ -61,8 +61,9 @@ public class Player : MonoBehaviour
             }
         }
         _playerPosition = endPosition;
-        if (_playerPosition.TileLink != null && _playerPosition.TileLink.Head == _playerPosition)
-            _playerPosition = endPosition.TileLink.Tail;
+
+        //if there is a snake or ladder the player will move along it
+        _playerPosition.MoveAlongTileLink();
 
         //graphical representation
         transform.position = _playerPosition.transform.position;

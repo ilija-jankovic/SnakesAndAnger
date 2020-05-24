@@ -61,29 +61,35 @@ public abstract class Tile : MonoBehaviour
     //removes snake/ladder
     public void RemoveTileLink()
     {
+        //remove tilelink from other tile
+        if (_tileLink != null)
+            if (_tileLink.Tail != null)
+                _tileLink.Tail._tileLink = null;
+
         _tileLink = null;
     }
 
     //adds snake/ladder
-    public bool AddTileLink(TileLink link)
+    public void AddTileLink(TileLink link)
     {
-        bool canAdd = !HasTileLink();
-        if(canAdd)
-            _tileLink = link;
-        return canAdd;
+        _tileLink = link;
     }
 
     public void MoveAlongTileLink()
     {
-        Player.Move(TileLink.Tail);
+        if (TileLink != null && TileLink.Head == this)
+        {
+            Player.Move(TileLink.Tail);
+            RemoveTileLink();
+        }
 
         //remove tilelink here
     }
 
-    //returns the player that is on this current tile
+    //returns the player that is on this current tile. If multiple players, chooses the current player
     public Player Player
     {
-        get { return _player; }
+        get { return GameManager.CurrentPlayer.Position == this ? GameManager.CurrentPlayer : null; }
     }
 
     //checks if there is a player on this tile

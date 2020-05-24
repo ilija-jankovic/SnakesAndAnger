@@ -9,18 +9,6 @@ public class Ladder : TileLink
     {
     }
 
-
-
-    public void DisplaySnake()
-    {
-        //displays snake
-    }
-
-    public override void Use()
-    {
-        throw new System.NotImplementedException();
-    }
-
     public override string GetDescription()
     {
         return "Ladder can be placed up to " + _maxLength + " tiles.";

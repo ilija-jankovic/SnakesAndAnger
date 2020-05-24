@@ -14,11 +14,6 @@ public class Snake : TileLink
 
     }
 
-    public override void Use()
-    {
-        throw new System.NotImplementedException();
-    }
-
     public override string GetDescription()
     {
         return "Snake can be placed up to " + _maxLength + " tiles.";
