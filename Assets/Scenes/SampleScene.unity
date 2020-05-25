@@ -1153,7 +1153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _title: Electric$Company
-  _icon: {fileID: 0}
+  _icon: {fileID: 21300000, guid: e674f8c3f89ca0d458cf2c95cb871e2d, type: 3}
   _price: 150
 --- !u!1 &217803924
 GameObject:
@@ -1262,7 +1262,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _title: B. & O.$Railroad
-  _icon: {fileID: 21300000, guid: a77a5286c14bd4448b82cffe5ed22a76, type: 3}
+  _icon: {fileID: 21300000, guid: 21a6259b9c884a240ae43c46ddea89dd, type: 3}
   _price: 200
 --- !u!1 &262344658
 GameObject:
@@ -3268,7 +3268,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _title: Reading$Railroad
-  _icon: {fileID: 21300000, guid: a77a5286c14bd4448b82cffe5ed22a76, type: 3}
+  _icon: {fileID: 21300000, guid: 21a6259b9c884a240ae43c46ddea89dd, type: 3}
   _price: 200
 --- !u!1 &653929225
 GameObject:
@@ -4225,7 +4225,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _title: Super$Tax
-  _icon: {fileID: 0}
+  _icon: {fileID: 21300000, guid: 6485915f3754b1f4ba6ec7b5e7fd1f41, type: 3}
   _price: 100
 --- !u!1 &917076782
 GameObject:
@@ -4433,7 +4433,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _title: Water$Works
-  _icon: {fileID: 0}
+  _icon: {fileID: 21300000, guid: 2cb17b50ef5542f409fac709e58380dc, type: 3}
   _price: 150
 --- !u!1 &936946530
 GameObject:
@@ -5011,7 +5011,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _title: Free Parking
-  _icon: {fileID: 0}
+  _icon: {fileID: 21300000, guid: 442909f174ae3d444a425ab205fc01ee, type: 3}
 --- !u!1 &1062923942
 GameObject:
   m_ObjectHideFlags: 0
@@ -5437,7 +5437,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _title: Short$Line
-  _icon: {fileID: 21300000, guid: a77a5286c14bd4448b82cffe5ed22a76, type: 3}
+  _icon: {fileID: 21300000, guid: 21a6259b9c884a240ae43c46ddea89dd, type: 3}
   _price: 200
 --- !u!1 &1110055881
 GameObject:
@@ -6816,7 +6816,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _title: Pennsylvania$Railroad
-  _icon: {fileID: 21300000, guid: a77a5286c14bd4448b82cffe5ed22a76, type: 3}
+  _icon: {fileID: 21300000, guid: 21a6259b9c884a240ae43c46ddea89dd, type: 3}
   _price: 200
 --- !u!1 &1438718695
 GameObject:
@@ -7423,7 +7423,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _title: Snakes$Or Ladders
-  _icon: {fileID: 21300000, guid: 92b02886ffc9c54409e160af31790a56, type: 3}
+  _icon: {fileID: 21300000, guid: 406322d3d6cffad46942772e14760122, type: 3}
 --- !u!1 &1595030133 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: 214563144cd74af4da088fc835617046,
@@ -7646,7 +7646,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _title: Go To Jail
-  _icon: {fileID: 0}
+  _icon: {fileID: 21300000, guid: 6e2b0c49e20d7f942ae6898677fa695c, type: 3}
 --- !u!1 &1638698003
 GameObject:
   m_ObjectHideFlags: 0
@@ -7948,7 +7948,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _title: Income$Tax
-  _icon: {fileID: 0}
+  _icon: {fileID: 21300000, guid: d1880f83e5726b846af774932426c4ad, type: 3}
   _price: 200
 --- !u!1 &1769316470
 GameObject:
@@ -8698,8 +8698,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 941494ab584d5da46b179ea778dc993a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _title: In Jail/$Just Visiting
-  _icon: {fileID: 0}
+  _title: Just Visiting
+  _icon: {fileID: 21300000, guid: 1f607065f3ac8574c99b9cbdb6c7d4f4, type: 3}
 --- !u!1 &1999960932 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: 5e90c910fdd460c418637c621e81a450,
@@ -9044,7 +9044,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _title: Snakes$Or Ladders
-  _icon: {fileID: 21300000, guid: 92b02886ffc9c54409e160af31790a56, type: 3}
+  _icon: {fileID: 21300000, guid: 406322d3d6cffad46942772e14760122, type: 3}
 --- !u!1 &2060925415
 GameObject:
   m_ObjectHideFlags: 0
@@ -9482,7 +9482,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _title: Snakes$Or Ladders
-  _icon: {fileID: 21300000, guid: 92b02886ffc9c54409e160af31790a56, type: 3}
+  _icon: {fileID: 21300000, guid: 406322d3d6cffad46942772e14760122, type: 3}
 --- !u!1 &2144750569
 GameObject:
   m_ObjectHideFlags: 0
