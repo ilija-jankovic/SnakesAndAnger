@@ -52,6 +52,7 @@ public class CardMove : Card
 
         }
         base.Use();
+        GameManager.EndOfRollOptions();
     }
 
     /// <summary>

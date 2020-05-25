@@ -6,7 +6,7 @@ using UnityEngine;
 public class CardPay : Card
 {
     //Amount 
-    private static ushort _amount;
+    private ushort _amount;
     //type of cardPay, found inside class EnumsForCards
     EnumsForCards.cardPay _type;
 
@@ -43,7 +43,7 @@ public class CardPay : Card
 
     private void PayPlayers() 
     {
-        decimal toPay = _amount * (GameManager.Players.Length-1);
+        int toPay = _amount * (GameManager.Players.Length-1);
 
         //checks player can pay amount and pay it
         GameManager.PlayerMustPay((ushort)toPay);
@@ -80,7 +80,7 @@ public class CardPay : Card
 
 
     }
-    public static ushort Amount
+    public ushort Amount
     {
         get { return _amount; }
     }

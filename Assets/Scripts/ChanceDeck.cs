@@ -36,7 +36,7 @@ public static class ChanceDeck
 
         //CardPay Type Cards
         _deck.Add(new CardPay("Pay poor tax of $15", 15, EnumsForCards.cardPay.directRemove));
-        _deck.Add(new CardPay("Doctor's fee _ Pay $50 ", 50, EnumsForCards.cardPay.directRemove));
+        _deck.Add(new CardPay("Doctor's fee - Pay $50 ", 50, EnumsForCards.cardPay.directRemove));
         _deck.Add(new CardPay("Pay hospital fees of $100", 100, EnumsForCards.cardPay.directRemove));
         _deck.Add(new CardPay("You have been elected Chairman of the Board - Pay each player $50", 50, EnumsForCards.cardPay.payEachPlayer));
         _deck.Add(new CardPay("Make general repairs on all your properties - For each house pay $25 - For each hotel $100", 25, EnumsForCards.cardPay.forEachHotelAndHouseOwned));

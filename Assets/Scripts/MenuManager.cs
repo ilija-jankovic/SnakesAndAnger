@@ -90,6 +90,7 @@ static class MenuManager
                     }
                     else if (GameManager.ActiveCard is CardPay)
                     {
+                        CardPay activeCard = (CardPay)GameManager.ActiveCard;
                         ushort payment = GameManager.PaymentNeeded;
                         GameManager.CurrentPlayer.RemoveFunds(payment);
                         CardPay cardPay = (CardPay)GameManager.ActiveCard;
@@ -101,7 +102,7 @@ static class MenuManager
                             foreach (Player p in GameManager.Players)
                             {
                                 if (p != GameManager.CurrentPlayer)
-                                    p.AddFunds(CardPay.Amount);
+                                    p.AddFunds(activeCard.Amount);
                             }
                         }
                         SwitchToMenuWithInventory(EndOfTurnOptions);
