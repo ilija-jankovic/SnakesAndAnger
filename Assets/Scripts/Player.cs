@@ -44,6 +44,7 @@ public class Player : MonoBehaviour
     {
         int start = Array.IndexOf(GameManager.Tiles, _playerPosition);
         int end = Array.IndexOf(GameManager.Tiles, endPosition);
+        bool traveledByTile = false;
         int count = 0;
         float speed = 1;
         if (start < end)
@@ -67,6 +68,23 @@ public class Player : MonoBehaviour
 
         //graphical representation
         transform.position = _playerPosition.transform.position;
+
+        //Collect $200 if you pass go
+        int position = start;
+        while (position != 0)
+        {
+            position++;
+            if (position > 39)
+            {
+                position = 0;
+                this.AddFunds(200);
+            }
+            if (position == end)
+            {
+                position = 0;
+            }
+
+        }
     }
     public void Move(sbyte tiles)
     {
