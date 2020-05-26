@@ -6,6 +6,7 @@ public abstract class TileLink : Card
 {
     private Tile[] tiles = new Tile[2];
     protected byte _maxLength;
+    private GameObject tileLinkObj;
 
     //selected head from UI stored here
     private static Button chosenHead = null;
@@ -61,8 +62,15 @@ public abstract class TileLink : Card
 
             Button[] buttons = GameObject.FindObjectsOfType<Button>();
             foreach (Button other in buttons)
-                if (other.name.StartsWith("tilelinkbutton")){
-                    if (Mathf.Abs(GetTileIndexFromButton(chosenHead) - GetTileIndexFromButton(other)) > _maxLength || other == chosenHead) {
+                if (other.name.StartsWith("tilelinkbutton"))
+                {
+                    int headIndex = GetTileIndexFromButton(chosenHead);
+                    int otherIndex = GetTileIndexFromButton(other);
+                    int diff = headIndex - otherIndex;
+
+                    if (!(this is Snake && diff > 0 && diff <= _maxLength || //checks whether tail is behind snake head within range
+                          this is Ladder && diff < 0 && -diff <= _maxLength)) //checks whether tail is infront of ladder head within range
+                    {
                         other.interactable = false;
                         other.GetComponent<Image>().color = chosenHead.colors.disabledColor;
                     }
@@ -76,12 +84,34 @@ public abstract class TileLink : Card
         tiles[1] = GameManager.Tiles[GetTileIndexFromButton(button)];
 
         //add tile link to both head and tail for easier referencing
-        tiles[0].AddTileLink(this);
-        tiles[1].AddTileLink(this);
+        Head.AddTileLink(this);
+        Tail.AddTileLink(this);
+
+        tileLinkObj = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        Vector3 headPos = Head.transform.position;
+        Vector3 tailPos = Tail.transform.position;
+        //scale tile link so that it can reach both tiles
+        tileLinkObj.transform.localScale = new Vector3(Mathf.Sqrt(Mathf.Pow(headPos.x - tailPos.x,2) +
+                                                       Mathf.Pow(headPos.z - tailPos.z,2)), 1, 1);
+
+        //rotate so that it aligns with both tiles
+        Vector3 sum = headPos + tailPos;
+        tileLinkObj.transform.position = new Vector3(sum.x / 2, sum.y / 2, sum.z / 2);
+        tileLinkObj.transform.rotation = Quaternion.LookRotation(headPos - tailPos, Vector3.forward);
+        tileLinkObj.transform.eulerAngles += new Vector3(90, 0, 0);
+
+        //set material
+        tileLinkObj.GetComponent<Renderer>().material = this is Snake ? Resources.Load("Materials/snake") as Material : Resources.Load("Materials/ladder") as Material;
 
         base.Use();
         MenuManager.SwitchToMenuWithInventory(MenuManager.TurnOptions);
         MenuManager.SwitchToCamera(MenuManager.MainCamera);
+    }
+
+    public void Destroy()
+    {
+        GameObject.Destroy(tileLinkObj);
+        tileLinkObj = null;
     }
 
     private int GetTileIndexFromButton(Button button)

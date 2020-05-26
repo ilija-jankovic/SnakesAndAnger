@@ -312,6 +312,14 @@ static class MenuManager
                         if (BuildHouseMode && !street.CanBuildHouse())
                             GrayOutImage(card);
                     }
+                    else if(property.GetComponent<Utility>() != null || property.GetComponent<RailwayStation>() != null)
+                    {
+                        Image icon = new GameObject("Icon").AddComponent<Image>();
+                        icon.sprite = property.GetComponent<Tile>().Icon;
+                        icon.rectTransform.SetParent(card.transform);
+                        icon.rectTransform.localPosition = Vector2.zero;
+                        icon.rectTransform.sizeDelta = new Vector2(card.rectTransform.sizeDelta.x*0.7f, card.rectTransform.sizeDelta.x * 0.7f);
+                    }
                 }
                 else
                 {
