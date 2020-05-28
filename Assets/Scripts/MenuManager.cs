@@ -18,6 +18,8 @@ static class MenuManager
     private static Canvas _paymentTileOptions = GameObject.Find("PaymentTileOptions").GetComponent<Canvas>();
     private static Canvas _cardOptions = GameObject.Find("CardOptions").GetComponent<Canvas>();
     private static Canvas _tileLinkOptions = GameObject.Find("TileLinkOptions").GetComponent<Canvas>();
+    private static Canvas _mainMenu = GameObject.Find("MainMenu").GetComponent<Canvas>();
+    private static Canvas _setupOptions = GameObject.Find("SetupOptions").GetComponent<Canvas>();
     //make this at some point
     private static Canvas _winMenu;
 
@@ -177,7 +179,11 @@ static class MenuManager
                 SwitchToCamera(MainCamera);
             });
 
-        SwitchToMenuWithInventory(TurnOptions);
+        GameObject.Find("StartDefaultButton").GetComponent<Button>().onClick.AddListener(SetupManager.StandardGame);
+
+        GameObject.Find("CustomGameButton").GetComponent<Button>().onClick.AddListener(SetupManager.LoadSetupMenu);
+
+        SwitchToMenu(MainMenu);
     }
 
     private static void DisableMenu(Canvas canvas)
@@ -481,6 +487,16 @@ static class MenuManager
     public static Canvas TileLinkOptions
     {
         get { return _tileLinkOptions; }
+    }
+
+    public static Canvas MainMenu
+    {
+        get { return _mainMenu; }
+    }
+
+    public static Canvas SetupOptions
+    {
+        get { return _setupOptions; }
     }
 
     public static Camera MainCamera

@@ -26,6 +26,8 @@ TagManager:
   - UseCardButton
   - OverviewCamera
   - BackFromOverviewButton
+  - PlayerCountButton
+  - TokenSelectorButton
   layers:
   - Default
   - TransparentFX

@@ -38,8 +38,6 @@ public class Die : MonoBehaviour {
 			//set total
 			_diceTotal = diceTotal;
 			_rolling = false;
-
-			GameManager.CurrentPlayer.Move((sbyte)Result);
 			GameManager.EndOfRollOptions();
 		}
 	}
@@ -49,6 +47,7 @@ public class Die : MonoBehaviour {
 		MenuManager.SwitchToMenu(null);
 		_rolling = true;
 		CameraFollow.target = dice[0].transform;
+
 		foreach (Die die in dice)
 		{
 			die.number = 0;
@@ -72,6 +71,10 @@ public class Die : MonoBehaviour {
 			//Set initial movement.
 			die.rb.AddForce(die.transform.up * die.initialUpForce);
 			die.rb.AddTorque(dirX, dirY, dirZ);
+
+			//set camera to closest dice
+			if (die.transform.position.z < CameraFollow.target.position.z)
+				CameraFollow.target = die.transform;
 		}
 	}
 

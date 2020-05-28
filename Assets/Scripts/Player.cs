@@ -22,7 +22,6 @@ public class Player : MonoBehaviour
     /// stores all the properties owned by the player
     /// </summary>
     List<Property> _propertiesOwned;
-    [SerializeField]
     /// <summary>
     /// flags whether player is in the current game
     /// </summary>
@@ -154,6 +153,7 @@ public class Player : MonoBehaviour
     public bool Playing
     {
         get { return _playing; }
+        set { _playing = value; }
     }
     /// <summary>
     /// returns a list of properties that the player owns

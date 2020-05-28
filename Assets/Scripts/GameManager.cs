@@ -27,21 +27,23 @@ static class GameManager
             return t1.name.CompareTo(t2.name);
         });
 
-        
+        //set camera to look at board
+        CameraFollow.target = GameObject.Find("Board").transform;
 
         //
         //remove this method call later
         //
-        ResetBoard();
+        //ResetBoard();
 
         //debugging
-        CurrentPlayer.AddProperty(Tiles[1].GetComponent<Property>());
-        CurrentPlayer.AddProperty(Tiles[3].GetComponent<Property>());
+        //CurrentPlayer.AddProperty(Tiles[1].GetComponent<Property>());
+        //CurrentPlayer.AddProperty(Tiles[3].GetComponent<Property>());
     }
 
-    public static void ResetBoard()
+    public static void NewGame()
     {
         InitialiseActivePlayers();
+        MenuManager.SwitchToMenuWithInventory(MenuManager.TurnOptions);
     }
 
     private static void InitialiseActivePlayers()
@@ -68,7 +70,6 @@ static class GameManager
         //sets first player. Should probably randomise this later, initialises the camera also
         _curPlayer = _players[0];
         CameraFollow.target = _curPlayer.transform;
-        MenuManager.UpdateInventoryData();
     }
 
     public static void RemoveActivePlayer(Player player)
@@ -106,6 +107,8 @@ static class GameManager
 
     public static void EndOfRollOptions()
     {
+        //move player based on the results of the dice and track the player with the camera
+        CurrentPlayer.Move((sbyte)Die.Result);
         CameraFollow.target = CurrentPlayer.transform;
 
         Tile tile = CurrentPlayer.Position;
