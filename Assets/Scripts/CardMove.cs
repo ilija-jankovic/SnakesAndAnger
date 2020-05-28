@@ -49,7 +49,7 @@ public class CardMove : Card
         }
         else // go to jail
         {
-
+            Jail.GoToJail();
         }
         base.Use();
         GameManager.EndOfRollOptions();
@@ -109,5 +109,10 @@ public class CardMove : Card
     private int GetPlayerPosIndex()
     {
         return System.Array.IndexOf(GameManager.Tiles, Owner.Position);
+    }
+
+    public EnumsForCards.cardMove Type
+    {
+        get { return _type; }
     }
 }

@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.UI;
-
+using static EnumsForCards.cardMove;
+ 
 static class GameManager
 {
     //stores players in the current game
@@ -114,6 +115,7 @@ static class GameManager
         //FreeParking parking = tile.GetComponent<FreeParking>();
         SandLTile sAndL = tile.GetComponent<SandLTile>();
         PaymentTile paymentTile = tile.GetComponent<PaymentTile>();
+        GoToJailTile goToJail = tile.GetComponent<GoToJailTile>();
         if (property != null) 
         {
             //check if the player stepped on an unowned/mortgaged/their own property
@@ -147,10 +149,15 @@ static class GameManager
         {
             MenuManager.SwitchToMenuWithInventory(MenuManager.PaymentTileOptions);
         }
-        //else if (parking != null)
-        //{
-
-        //}
+        else if (goToJail != null) // if on go to jail tile
+        {
+            //create new card, uses it, deletes it
+            _activeCard = new CardMove("Go to Jail - Go directly to Jail - Do not pass Go, do not collect $200", EnumsForCards.cardMove.goToJail);
+            CurrentPlayer.AddCard(ActiveCard);
+            MenuManager.SwitchToMenuWithInventory(MenuManager.CardOptions);
+            MenuManager.UpdateCardInfo(ActiveCard);
+            ChanceDeck.DeleteLastCard();
+        }
         else
             MenuManager.SwitchToMenuWithInventory(MenuManager.EndOfTurnOptions);
     }

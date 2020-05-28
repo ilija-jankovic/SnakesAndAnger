@@ -38,10 +38,18 @@ public class Die : MonoBehaviour {
 			//set total
 			_diceTotal = diceTotal;
 			_rolling = false;
-
-			GameManager.CurrentPlayer.Move((sbyte)Result);
-			GameManager.EndOfRollOptions();
-		}
+            //checks if player is in jail or not
+            if (!Jail.InJail())
+            {
+                GameManager.CurrentPlayer.Move((sbyte)Result);
+            }
+            else if(dice[0].number == dice[1].number)
+            {
+                Jail.LeaveJail();
+                GameManager.CurrentPlayer.Move((sbyte)Result);
+            }
+            GameManager.EndOfRollOptions();
+        }
 	}
 
 	public static void Roll()

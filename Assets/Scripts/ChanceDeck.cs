@@ -100,6 +100,11 @@ public static class ChanceDeck
         _deck.Add(temp3);
     }
 
+    public static void DeleteLastCard()
+    {
+        _deck.RemoveAt(_deck.Count - 1);
+    }
+
 
 
 
