@@ -27,6 +27,8 @@ public class Player : MonoBehaviour
     /// </summary>
     private bool _playing;
     public Transform[] _target;
+    [SerializeField]
+    bool aiEnabled;
     /// <summary>
     /// creates a player object
     /// </summary>
@@ -230,5 +232,8 @@ public class Player : MonoBehaviour
     {
         _propertiesOwned = new List<Property>();
         _cards = new List<Card>();
+
+        if (aiEnabled)
+            gameObject.AddComponent<AI>();
     }
 }

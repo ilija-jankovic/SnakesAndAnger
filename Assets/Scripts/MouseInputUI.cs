@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public abstract class MouseInputUI : MonoBehaviour
 {
     private EventTrigger eventTrigger;
+    public bool clickEnabled = true;
     private void Start()
     {
         eventTrigger = GetComponent<EventTrigger>();
@@ -29,7 +30,7 @@ public abstract class MouseInputUI : MonoBehaviour
             //Pointer Click
             EventTrigger.Entry clickUI = new EventTrigger.Entry();
             clickUI.eventID = EventTriggerType.PointerClick;
-            clickUI.callback.AddListener((eventData) => { ClickUI(); });
+            clickUI.callback.AddListener((eventData) => { if (clickEnabled) ClickUI(); });
             eventTrigger.triggers.Add(clickUI);
         }
     }

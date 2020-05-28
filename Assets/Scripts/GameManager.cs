@@ -108,10 +108,6 @@ static class GameManager
 
     public static void EndOfRollOptions()
     {
-        //move player based on the results of the dice and track the player with the camera
-        CurrentPlayer.Move((sbyte)Die.Result);
-        CameraFollow.target = CurrentPlayer.transform;
-
         Tile tile = CurrentPlayer.Position;
         Property property = tile.GetComponent<Property>();
         ChanceTile chance = tile.GetComponent<ChanceTile>();

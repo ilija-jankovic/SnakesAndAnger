@@ -23,11 +23,11 @@ TagManager:
   - TradeButton
   - PayFixed
   - PayPercentageTotalEarning
-  - UseCardButton
   - OverviewCamera
   - BackFromOverviewButton
   - PlayerCountButton
   - TokenSelectorButton
+  - AcknowledgeCardButton
   layers:
   - Default
   - TransparentFX

@@ -23,6 +23,21 @@ static class MenuManager
     //make this at some point
     private static Canvas _winMenu;
 
+    //ingame buttons - helpful to expicitly list them for AI
+    private static Button _roll = GameObject.FindGameObjectWithTag("RollButton").GetComponent<Button>();
+    private static Button _buy = GameObject.FindGameObjectWithTag("BuyButton").GetComponent<Button>();
+    private static Button _pay = GameObject.FindGameObjectWithTag("PayButton").GetComponent<Button>();
+    private static Button _payFixed = GameObject.FindGameObjectWithTag("PayFixed").GetComponent<Button>();
+    private static Button _payPercentage = GameObject.FindGameObjectWithTag("PayPercentageTotalEarning").GetComponent<Button>();
+    private static Button _acknowledgeCard = GameObject.FindGameObjectWithTag("AcknowledgeCardButton").GetComponent<Button>();
+    private static Button _auction = GameObject.FindGameObjectWithTag("AuctionButton").GetComponent<Button>();
+    private static Button _trade = GameObject.FindGameObjectWithTag("TradeButton").GetComponent<Button>();
+    private static Button _nextTurn = GameObject.FindGameObjectWithTag("NextTurnButton").GetComponent<Button>();
+    private static Button _bankrupt = GameObject.FindGameObjectWithTag("LoseButton").GetComponent<Button>();
+    private static Button _buildHouse = GameObject.FindGameObjectWithTag("BuildHouseButton").GetComponent<Button>();
+    private static Button _backToNormalCamera = GameObject.FindGameObjectWithTag("BackFromOverviewButton").GetComponent<Button>();
+
+
     private static Camera _mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
     private static Camera _overviewCamera = GameObject.FindGameObjectWithTag("OverviewCamera").GetComponent<Camera>();
 
@@ -34,9 +49,9 @@ static class MenuManager
         allMenus = GameObject.FindObjectsOfType<Canvas>();
 
         //call Roll method in Die class when 'RollButton' is clicked
-        GameObject.FindGameObjectWithTag("RollButton").GetComponent<Button>().onClick.AddListener(Die.Roll);
+        Roll.onClick.AddListener(Die.Roll);
         //call Player's Buy method when 'BuyButton' is clicked
-        GameObject.FindGameObjectWithTag("BuyButton").GetComponent<Button>().onClick.AddListener(
+        Buy.onClick.AddListener(
             delegate { 
                 GameManager.CurrentPlayer.Purchase();
                 GameManager.UpdateBuyButtonInteractibility();
@@ -46,20 +61,20 @@ static class MenuManager
             });
 
         //Call PlayerMustPay method when 'PayFixed' is clicked, and ask them to pay 200
-        GameObject.FindGameObjectWithTag("PayFixed").GetComponent<Button>().onClick.AddListener(
+        PayFixed.onClick.AddListener(
            delegate {
                GameManager.PlayerMustPay(200);
            });
 
         //Call PlayerMustPay method when 'PayFixed' is clicked, and ask them to pay 10% of total potential balance.
-        GameObject.FindGameObjectWithTag("PayPercentageTotalEarning").GetComponent<Button>().onClick.AddListener(
+        PayPercentage.onClick.AddListener(
            delegate {
                GameManager.PlayerMustPay((ushort)(0.1 * GameManager.CurrentPlayer.GetTotalPotentialBalance()));
            });
 
 
         //methods to call when Player needs to pay
-        GameObject.FindGameObjectWithTag("PayButton").GetComponent<Button>().onClick.AddListener(
+        Pay.onClick.AddListener(
             delegate {
                 Property property = GameManager.CurrentPlayer.Position.GetComponent<Property>();
                 ChanceTile chance = GameManager.CurrentPlayer.Position.GetComponent<ChanceTile>();
@@ -118,7 +133,7 @@ static class MenuManager
                 }
             });
 
-        GameObject.FindGameObjectWithTag("UseCardButton").GetComponent<Button>().onClick.AddListener(
+        AcknowledgeCard.onClick.AddListener(
             delegate
             {
                 SwitchToMenuWithInventory(EndOfTurnOptions);
@@ -128,21 +143,21 @@ static class MenuManager
             });
 
         //methods to call when Player auctions an unowned property
-        GameObject.FindGameObjectWithTag("AuctionButton").GetComponent<Button>().onClick.AddListener(
+        Auction.onClick.AddListener(
             delegate {
-                GameObject.FindGameObjectWithTag("AuctionButton").GetComponent<Button>().interactable = false;
+                Auction.interactable = false;
                 GameManager.UpdateBuyButtonInteractibility();
                 GameManager.UpdateNextPlayerButtonInteractibility();                                                   //update this when Trading System is implemented
                 UpdateInventoryData();
             });
 
-        GameObject.FindGameObjectWithTag("NextTurnButton").GetComponent<Button>().onClick.AddListener(
+        NextTurn.onClick.AddListener(
             delegate {
                 GameManager.NextPlayer();
             });
 
         //methods to call when player bankrupts
-        GameObject.FindGameObjectWithTag("LoseButton").GetComponent<Button>().onClick.AddListener(
+        Bankrupt.onClick.AddListener(
             delegate {
                 //remove all properties and cards from player
                 Player lostPlayer = GameManager.CurrentPlayer;
@@ -152,35 +167,32 @@ static class MenuManager
             });
 
         //toggle house mode
-        Button buildHouseButton = GameObject.FindGameObjectWithTag("BuildHouseButton").GetComponent<Button>();
-        buildHouseButton.onClick.AddListener(
+        BuildHouse.onClick.AddListener(
             delegate {
                 _houseMode = !_houseMode;
-                Button rollButton = GameObject.FindGameObjectWithTag("RollButton").GetComponent<Button>();
-                Button tradeButton = GameObject.FindGameObjectWithTag("TradeButton").GetComponent<Button>();
                 if (_houseMode)
                 {
-                    rollButton.interactable = false;
-                    tradeButton.interactable = false;
-                    buildHouseButton.GetComponentInChildren<Text>().text = "Back";
+                    Roll.interactable = false;
+                    Trade.interactable = false;
+                    BuildHouse.GetComponentInChildren<Text>().text = "Back";
                 }
                 else
                 {
-                    rollButton.interactable = true;
-                    tradeButton.interactable = true;
-                    buildHouseButton.GetComponentInChildren<Text>().text = "Build House";
+                    Roll.interactable = true;
+                    Trade.interactable = true;
+                    BuildHouse.GetComponentInChildren<Text>().text = "Build House";
                 }
                 UpdateInventoryData();
             });
 
-        GameObject.FindGameObjectWithTag("BackFromOverviewButton").GetComponent<Button>().onClick.AddListener(
+        BackToNormalCamera.onClick.AddListener(
             delegate {
                 SwitchToMenuWithInventory(TurnOptions);
                 SwitchToCamera(MainCamera);
             });
 
+        //outside of game buttons
         GameObject.Find("StartDefaultButton").GetComponent<Button>().onClick.AddListener(SetupManager.StandardGame);
-
         GameObject.Find("CustomGameButton").GetComponent<Button>().onClick.AddListener(SetupManager.LoadSetupMenu);
 
         SwitchToMenu(MainMenu);
@@ -316,7 +328,7 @@ static class MenuManager
 
                         //grays out street if not able to build house in house mode
                         if (BuildHouseMode && !street.CanBuildHouse())
-                            GrayOutImage(card);
+                            DisableCard(cardObj);
                     }
                     else if(property.GetComponent<Utility>() != null || property.GetComponent<RailwayStation>() != null)
                     {
@@ -338,7 +350,7 @@ static class MenuManager
                     || (!BuildHouseMode && street != null && !street.CanMortagage() && !street.Mortgaged && !street.CanSellHouse())
                     || (PaymentOptions.enabled == true && property.Mortgaged)
                     || (property.Mortgaged && player.GetBalance() < property.UnMortgageCost))
-                    GrayOutImage(card);
+                    DisableCard(cardObj);
             }
 
             //show usable cards in inventory
@@ -366,18 +378,21 @@ static class MenuManager
 
                 //gray out card if player already rolled
                 if (TurnOptions.enabled == false)
-                    GrayOutImage(card);
+                    DisableCard(cardObj);
             }
         }
     }
 
-    private static void GrayOutImage(Image img)
+    private static void DisableCard(GameObject cardObj)
     {
         Image grayOut = new GameObject("GrayOut").AddComponent<Image>();
+        Image img = cardObj.GetComponent<Image>();
         grayOut.transform.SetParent(img.transform);
         grayOut.transform.localPosition = Vector2.zero;
         grayOut.rectTransform.sizeDelta = img.rectTransform.sizeDelta;
         grayOut.color = new Color(0f, 0f, 0f, 0.5f);
+
+        cardObj.GetComponent<MouseInputUI>().clickEnabled = false;
     }
 
     public static Canvas TurnOptions
@@ -497,6 +512,66 @@ static class MenuManager
     public static Canvas SetupOptions
     {
         get { return _setupOptions; }
+    }
+
+    public static Button Roll
+    {
+        get { return _roll; }
+    }
+
+    public static Button Buy
+    {
+        get { return _buy; }
+    }
+
+    public static Button Pay
+    {
+        get { return _pay; }
+    }
+
+    public static Button PayFixed
+    {
+        get { return _payFixed; }
+    }
+
+    public static Button PayPercentage
+    {
+        get { return _payPercentage; }
+    }
+
+    public static Button AcknowledgeCard
+    {
+        get { return _acknowledgeCard; }
+    }
+
+    public static Button Auction
+    {
+        get { return _auction; }
+    }
+
+    public static Button Trade
+    {
+        get { return _trade; }
+    }
+
+    public static Button NextTurn
+    {
+        get { return _nextTurn; }
+    }
+
+    public static Button Bankrupt
+    {
+        get { return _bankrupt; }
+    }
+
+    public static Button BuildHouse
+    {
+        get { return _buildHouse; }
+    }
+
+    public static Button BackToNormalCamera
+    {
+        get { return _backToNormalCamera; }
     }
 
     public static Camera MainCamera
