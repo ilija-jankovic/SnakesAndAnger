@@ -69,7 +69,7 @@ public class Player : MonoBehaviour
         transform.position = _playerPosition.transform.position;
 
         //Collect $200 if you pass go
-        if (!traveledByTileLink)
+        if (!traveledByTileLink || !Jail.InJail())
         {
             int position = start;
             while (position != 0)

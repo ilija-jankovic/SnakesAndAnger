@@ -12,6 +12,7 @@ public class CardGetOutOfJail : Card
 
     public override void Use()
     {
+        Jail.LeaveJail();
         base.Use();
     }
 
