@@ -106,6 +106,8 @@ static class GameManager
 
     public static void EndOfRollOptions()
     {
+        CameraFollow.target = CurrentPlayer.transform;
+
         Tile tile = CurrentPlayer.Position;
         Property property = tile.GetComponent<Property>();
         ChanceTile chance = tile.GetComponent<ChanceTile>();

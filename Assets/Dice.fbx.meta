@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e38493728ef1847409edfdbb41d8d9ff
+guid: 98fbc3170f0c75641881106fb374ebef
 ModelImporter:
   serializedVersion: 19300
   internalIDToNameTable: []
@@ -8,12 +8,12 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Dice
-    second: {fileID: 2100000, guid: 9f49d0e9b1e67f9408274a388a0b24ea, type: 2}
+    second: {fileID: 2100000, guid: 231259491de325c46bb3ad6883915b1c, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Dots
-    second: {fileID: 2100000, guid: d484d6b84f052a840a848b47bdc838c9, type: 2}
+    second: {fileID: 2100000, guid: 4e3a2c005bbe7404bb28f6dd7f1f20d0, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0

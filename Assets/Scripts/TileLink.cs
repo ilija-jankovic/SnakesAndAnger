@@ -98,7 +98,9 @@ public abstract class TileLink : Card
         Vector3 sum = headPos + tailPos;
         tileLinkObj.transform.position = new Vector3(sum.x / 2, sum.y / 2, sum.z / 2);
         tileLinkObj.transform.rotation = Quaternion.LookRotation(headPos - tailPos, Vector3.forward);
-        tileLinkObj.transform.eulerAngles += new Vector3(90, 0, 0);
+
+        //fixes tile link rotation on tiles with rotation
+        tileLinkObj.transform.eulerAngles += new Vector3(90, 0, Head.transform.rotation.y == Tail.transform.rotation.y ? Head.transform.rotation.y : 0);
 
         //set material
         tileLinkObj.GetComponent<Renderer>().material = this is Snake ? Resources.Load("Materials/snake") as Material : Resources.Load("Materials/ladder") as Material;

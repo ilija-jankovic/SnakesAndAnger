@@ -2,30 +2,91 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Die : MonoBehaviour
-{
-    private static byte _result;
-    static Rigidbody rb;
-    public static Vector3 diceVelocity;
+public class Die : MonoBehaviour {
 
-    public static void Roll()
-    {
-        //
-        // This is just debugging for now Yaksh. The GameManager.CurrentPlayer.Move method call should stay though.
-        //
-        _result = (byte)UnityEngine.Random.Range(2, 12);
-        Debug.Log("You rolled: " + _result);
-        GameManager.CurrentPlayer.Move((sbyte)_result);
-        GameManager.EndOfRollOptions();
-    }
+	private Rigidbody rb;
+	private Vector3 velocity;
+	[SerializeField]
+	private int initialUpForce;
+	public byte number;
+	private static Die[] dice;
+	private static byte _diceTotal = 0;
+	private static bool _rolling;
 
-    public static bool Rolling()
+	// Use this for initialization
+	void Start ()
     {
-        return false;
-    }
+		rb = GetComponent<Rigidbody> ();        //Set rigidbody equal to rb.
+		dice = GameObject.FindObjectsOfType<Die>();
+	}
+	
+	// Update is called once per frame
+	void Update ()
+    {
+		velocity = rb.velocity;     //Set the velocity of the dice.
 
-    public static byte Result
-    {
-        get { return _result; }
-    }
+		if (Rolling)
+		{
+			byte diceTotal = 0;
+			foreach (Die die in dice)
+			{
+				if (die.number == 0)
+					return;
+				diceTotal += die.number;
+			}
+
+			//set total
+			_diceTotal = diceTotal;
+			_rolling = false;
+
+			GameManager.CurrentPlayer.Move((sbyte)Result);
+			GameManager.EndOfRollOptions();
+		}
+	}
+
+	public static void Roll()
+	{
+		MenuManager.SwitchToMenu(null);
+		_rolling = true;
+		CameraFollow.target = dice[0].transform;
+		foreach (Die die in dice)
+		{
+			die.number = 0;
+
+			//Respawn the dice at a random point.
+			float pointX = Random.Range(0, 5);
+			float pointY = Random.Range(die.transform.localScale.x / 2, die.transform.localScale.x);
+			float pointZ = Random.Range(0, 5);
+
+			//Give random movement (toss) to the dice.
+			float dirX = Random.Range(0, 500);
+			float dirY = Random.Range(0, 500);
+			float dirZ = Random.Range(0, 500);
+
+			Vector3 boardPos = GameObject.Find("Board").transform.position;
+
+			//Set dice.
+			die.transform.position = new Vector3(boardPos.x + pointX, boardPos.y + pointY, boardPos.z + pointZ);
+			die.transform.rotation = Quaternion.identity;
+
+			//Set initial movement.
+			die.rb.AddForce(die.transform.up * die.initialUpForce);
+			die.rb.AddTorque(dirX, dirY, dirZ);
+		}
+	}
+
+	public Vector3 Velocity
+	{
+		get { return velocity; }
+	}
+
+	public static byte Result
+	{
+		get { return _diceTotal; }
+	}
+
+	public bool Rolling
+	{
+		get { return _rolling; }
+	}
 }
