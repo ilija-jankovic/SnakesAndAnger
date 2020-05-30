@@ -101,6 +101,9 @@ public class Street : Property
                 houseObjects.Add(house);
             }
             Owner.RemoveFunds(_housePrice);
+
+            GameManager.UpdateBuyButtonInteractibility();
+            MenuManager.UpdateInventoryData(Owner);
         }
     }
 
@@ -129,6 +132,10 @@ public class Street : Property
             obj.SetActive(true);
 
         Owner.AddFunds(SellHousePrice);
+
+        GameManager.UpdatePayButtonInteractibility();
+        GameManager.UpdateBuyButtonInteractibility();
+        MenuManager.UpdateInventoryData(Owner);
     }
 
     //player must own all properties of the same colour to build houses

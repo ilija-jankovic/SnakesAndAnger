@@ -53,6 +53,10 @@ public abstract class Property : PriceTypeTile
         {
             _mortgaged = true;
             Owner.AddFunds(_morgVal);
+
+            GameManager.UpdatePayButtonInteractibility();
+            GameManager.UpdateBuyButtonInteractibility();
+            MenuManager.UpdateInventoryData(Owner);
         }
     }
 
@@ -62,6 +66,9 @@ public abstract class Property : PriceTypeTile
         {
             Owner.RemoveFunds(Price);
             _mortgaged = false;
+
+            GameManager.UpdateBuyButtonInteractibility();
+            MenuManager.UpdateInventoryData(Owner);
         }
     }
 

@@ -188,7 +188,7 @@ static class GameManager
         }
     }
 
-    public static void UpdatePayButtonInteractibility()
+    public static void UpdatePayButtonInteractibility()                                      //put update button methods into MenuManager at some point
     {
         if (MenuManager.PaymentOptions.enabled == true)
         {

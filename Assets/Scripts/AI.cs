@@ -21,7 +21,45 @@ public class AI : MonoBehaviour
             {
                 if (MenuManager.TurnOptions.enabled == true)
                 {
-                    Click(MenuManager.Roll);
+                    if (!MenuManager.BuildHouseMode)
+                    {
+                        //Build house if possible - update this for different AI modes
+                        bool canBuildHouse = false;
+                        foreach (Property property in GameManager.CurrentPlayer.PropertiesOwned)
+                            if (property.GetComponent<Street>() != null && property.GetComponent<Street>().CanBuildHouse())
+                            {
+                                canBuildHouse = true;
+                                break;
+                            }
+
+                        if (canBuildHouse)
+                            Click(MenuManager.BuildHouse);
+                        else
+                            Click(MenuManager.Roll);
+                    }
+                    else
+                    {
+                        //Build house on heighest value streets - update this for different AI modes
+                        bool houseBuilt = false;
+                        for (byte i = (byte)(GameManager.CurrentPlayer.PropertiesOwned.Count - 1); i >= 0; i--)
+                        {
+                            foreach (Property property in GameManager.CurrentPlayer.PropertiesOwned)
+                            {
+                                Street street = property.GetComponent<Street>();
+                                if (street != null && street.CanBuildHouse())
+                                {
+                                    street.BuildHouse();
+                                    houseBuilt = true;
+                                    break;
+                                }
+                            }
+                            if (houseBuilt)
+                            {
+                                Click(MenuManager.BuildHouse);
+                                break;
+                            }
+                        }
+                    }
                 }
                 else if (MenuManager.EndOfTurnOptions.enabled == true)
                 {
@@ -79,8 +117,6 @@ public class AI : MonoBehaviour
                 return;
             }
         }
-
-        MenuManager.UpdateInventoryData();
     }
 
     private bool Click(Button button)

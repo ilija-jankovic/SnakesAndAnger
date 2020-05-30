@@ -72,30 +72,15 @@ public class InventoryPropertyMouseInputUI : MouseInputUI
         if (!MenuManager.BuildHouseMode)
         {
             if (property.CanMortagage())
-            {
                 property.Mortgage();
-                MenuManager.UpdateCardInfo(property);
-
-                GameManager.UpdatePayButtonInteractibility();
-                GameManager.UpdateBuyButtonInteractibility();
-            }
             else if (street != null && street.CanSellHouse())
                 street.SellHouse();
             //can only unmortgage if player does not need to pay anything
             else if (property.Mortgaged && MenuManager.PaymentOptions.enabled == false)
-            {
                 property.UnMortgage();
-                MenuManager.UpdateCardInfo(property);
-            }
         }
         else if (MenuManager.BuildHouseMode)
             if (street != null)
                 street.BuildHouse();
-
-        MenuManager.UpdateInventoryData(property.Owner);
-
-        //updates pay button incase player has received enough from mortgage/selling houses to pay off something
-        GameManager.UpdatePayButtonInteractibility();
-        GameManager.UpdateBuyButtonInteractibility();
     }
 }
