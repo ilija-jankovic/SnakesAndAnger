@@ -26,6 +26,14 @@ public class Player : MonoBehaviour
     /// flags whether player is in the current game
     /// </summary>
     private bool _playing;
+    /// <summary>
+    /// flags whether the player is moving
+    /// </summary>
+    private bool _isMoving;
+    /// <summary>
+    /// stores where the player is moving to
+    /// </summary>
+    Vector3 pos;
     public Transform[] _target;
     [SerializeField]
     bool aiEnabled;
@@ -43,27 +51,12 @@ public class Player : MonoBehaviour
     /// <param name="endPosition"></param>
     public void Move(Tile endPosition)
     {
+        pos = Vector3.MoveTowards(transform.position, endPosition.transform.position, 1.5f * Time.deltaTime);
+        _isMoving = true;
         int start = Array.IndexOf(GameManager.Tiles, _playerPosition);
         int end = Array.IndexOf(GameManager.Tiles, endPosition);
         bool traveledByTileLink = false;
-        int count = 0;
-        float speed = 1;
-        if (start < end)
-        {
-            _target = new Transform[end - start];
-            for (int i = start; i < end; i++)
-            {
-                _target[count] = GameManager.Tiles[i].transform;
-                count++;
-            }
-            for(int j = 0; j < _target.Length; j++)
-            {
-                Vector3 pos = Vector3.MoveTowards(transform.position, _target[j].position, speed * Time.deltaTime);
-                _playerPosition.transform.position = pos;
-            }
-        }
         _playerPosition = endPosition;
-
         //if there is a snake or ladder the player will move along it
         _playerPosition.MoveAlongTileLink();
 
@@ -89,10 +82,18 @@ public class Player : MonoBehaviour
 
             }
         }
+        _isMoving = false;
     }
     public void Move(sbyte tiles)
     {
         Move(GameManager.Tiles[(Array.IndexOf(GameManager.Tiles, _playerPosition) + tiles) % GameManager.Tiles.Length]);
+    }
+    void Update()
+    {
+        while(_isMoving)
+        {
+            _playerPosition.transform.position = pos;
+        }
     }
     /// <summary>
     /// adds funds to the player
