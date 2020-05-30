@@ -24,6 +24,7 @@ static class MenuManager
     private static Canvas _winMenu;
 
     //ingame buttons - helpful to expicitly list them for AI
+    private static Button[] allButtons;
     private static Button _roll = GameObject.FindGameObjectWithTag("RollButton").GetComponent<Button>();
     private static Button _buy = GameObject.FindGameObjectWithTag("BuyButton").GetComponent<Button>();
     private static Button _pay = GameObject.FindGameObjectWithTag("PayButton").GetComponent<Button>();
@@ -37,6 +38,7 @@ static class MenuManager
     private static Button _buildHouse = GameObject.FindGameObjectWithTag("BuildHouseButton").GetComponent<Button>();
     private static Button _backToNormalCamera = GameObject.FindGameObjectWithTag("BackFromOverviewButton").GetComponent<Button>();
 
+    private static bool buttonClicked = false;
 
     private static Camera _mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
     private static Camera _overviewCamera = GameObject.FindGameObjectWithTag("OverviewCamera").GetComponent<Camera>();
@@ -47,35 +49,52 @@ static class MenuManager
     private static void Initialise()
     {
         allMenus = GameObject.FindObjectsOfType<Canvas>();
+        allButtons = GameObject.FindObjectsOfType<Button>();
 
-        //call Roll method in Die class when 'RollButton' is clicked
-        Roll.onClick.AddListener(Die.Roll);
-        //call Player's Buy method when 'BuyButton' is clicked
-        Buy.onClick.AddListener(
-            delegate { 
+        //add listeners to buttons
+        foreach (Button button in allButtons)
+            button.onClick.AddListener(delegate { buttonClicked = true; CallIngameButtonListener(button); });
+
+        //outside of game buttons
+        GameObject.Find("StartDefaultButton").GetComponent<Button>().onClick.AddListener(SetupManager.StandardGame);
+        GameObject.Find("CustomGameButton").GetComponent<Button>().onClick.AddListener(SetupManager.LoadSetupMenu);
+
+        SwitchToMenu(MainMenu);
+    }
+
+    //Funcitionality of all buttons relevant to an ongoing game. Their listeners are all placed
+    //in this method as they can be called without pressing a button from the AI script.
+    public static void CallIngameButtonListener(Button button)
+    {
+        Player player = GameManager.CurrentPlayer;
+        if (player == null)
+            return;
+
+        bool ai = player.GetComponent<AI>();
+        //Checks if ai called the listener or if the current player called it. This is needed
+        //as if the player presses a button during the ai's turn, it needs to not do anything.
+        if (button.interactable && ((!ai && buttonClicked) || (ai && !buttonClicked)))
+        {
+            if (button == Roll)
+                Die.Roll();
+            else if (button == Buy)
+            {
                 GameManager.CurrentPlayer.Purchase();
                 GameManager.UpdateBuyButtonInteractibility();
                 GameManager.UpdateAuctionButtonInteractibility();
                 GameManager.UpdateNextPlayerButtonInteractibility();
                 UpdateInventoryData();
-            });
-
-        //Call PlayerMustPay method when 'PayFixed' is clicked, and ask them to pay 200
-        PayFixed.onClick.AddListener(
-           delegate {
-               GameManager.PlayerMustPay(200);
-           });
-
-        //Call PlayerMustPay method when 'PayFixed' is clicked, and ask them to pay 10% of total potential balance.
-        PayPercentage.onClick.AddListener(
-           delegate {
-               GameManager.PlayerMustPay((ushort)(0.1 * GameManager.CurrentPlayer.GetTotalPotentialBalance()));
-           });
-
-
-        //methods to call when Player needs to pay
-        Pay.onClick.AddListener(
-            delegate {
+            }
+            else if (button == PayFixed)
+            {
+                GameManager.PlayerMustPay(200);
+            }
+            else if (button == PayPercentage)
+            {
+                GameManager.PlayerMustPay((ushort)(0.1 * GameManager.CurrentPlayer.GetTotalPotentialBalance()));
+            }
+            else if (button == Pay)
+            {
                 Property property = GameManager.CurrentPlayer.Position.GetComponent<Property>();
                 ChanceTile chance = GameManager.CurrentPlayer.Position.GetComponent<ChanceTile>();
                 PaymentTile paymentTile = GameManager.CurrentPlayer.Position.GetComponent<PaymentTile>();
@@ -131,44 +150,35 @@ static class MenuManager
                     GameManager.CurrentPlayer.RemoveFunds(payment);
                     SwitchToMenuWithInventory(EndOfTurnOptions);
                 }
-            });
-
-        AcknowledgeCard.onClick.AddListener(
-            delegate
+            }
+            else if (button == AcknowledgeCard)
             {
                 SwitchToMenuWithInventory(EndOfTurnOptions);
                 if (!(GameManager.ActiveCard is CardGetOutOfJail || GameManager.ActiveCard is TileLink))
                     GameManager.ActiveCard.Use();
                 UpdateInventoryData();
-            });
-
-        //methods to call when Player auctions an unowned property
-        Auction.onClick.AddListener(
-            delegate {
+            }
+            else if (button == Auction)
+            {
                 Auction.interactable = false;
                 GameManager.UpdateBuyButtonInteractibility();
                 GameManager.UpdateNextPlayerButtonInteractibility();                                                   //update this when Trading System is implemented
                 UpdateInventoryData();
-            });
-
-        NextTurn.onClick.AddListener(
-            delegate {
+            }
+            else if (button == NextTurn)
+            {
                 GameManager.NextPlayer();
-            });
-
-        //methods to call when player bankrupts
-        Bankrupt.onClick.AddListener(
-            delegate {
+            }
+            else if (button == Bankrupt)
+            {
                 //remove all properties and cards from player
                 Player lostPlayer = GameManager.CurrentPlayer;
                 lostPlayer.Reset();
                 GameManager.NextPlayer();
                 GameManager.RemoveActivePlayer(lostPlayer);
-            });
-
-        //toggle house mode
-        BuildHouse.onClick.AddListener(
-            delegate {
+            }
+            else if (button == BuildHouse)
+            {
                 _houseMode = !_houseMode;
                 if (_houseMode)
                 {
@@ -183,19 +193,15 @@ static class MenuManager
                     BuildHouse.GetComponentInChildren<Text>().text = "Build House";
                 }
                 UpdateInventoryData();
-            });
-
-        BackToNormalCamera.onClick.AddListener(
-            delegate {
+            }
+            else if (button == BackToNormalCamera)
+            {
                 SwitchToMenuWithInventory(TurnOptions);
                 SwitchToCamera(MainCamera);
-            });
+            }
+        }
 
-        //outside of game buttons
-        GameObject.Find("StartDefaultButton").GetComponent<Button>().onClick.AddListener(SetupManager.StandardGame);
-        GameObject.Find("CustomGameButton").GetComponent<Button>().onClick.AddListener(SetupManager.LoadSetupMenu);
-
-        SwitchToMenu(MainMenu);
+        buttonClicked = false;
     }
 
     private static void DisableMenu(Canvas canvas)

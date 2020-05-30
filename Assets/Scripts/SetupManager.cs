@@ -12,6 +12,7 @@ public static class SetupManager
     {
         GameObject[] playerCountButtons = GameObject.FindGameObjectsWithTag("PlayerCountButton");
         GameObject[] tokenSelectorButtons = GameObject.FindGameObjectsWithTag("TokenSelectorButton");
+        GameObject[] toggleAIButtons = GameObject.FindGameObjectsWithTag("ToggleAIButton");
 
         //sort button array
         Array.Sort(playerCountButtons, delegate (GameObject p1, GameObject p2) {
@@ -43,6 +44,7 @@ public static class SetupManager
         foreach (GameObject buttonObj in tokenSelectorButtons)
         {
             Button button = buttonObj.GetComponent<Button>();
+
             button.onClick.AddListener(
                 delegate
                 {
@@ -69,6 +71,33 @@ public static class SetupManager
 
                         GameObject.Find("StartGameButton").GetComponent<Button>().interactable = true;
                     }
+
+                    //activate ai toggle
+                    foreach (GameObject toggleAIButtonObj in toggleAIButtons)
+                        if (toggleAIButtonObj.transform.parent == buttonObj.transform)
+                            toggleAIButtonObj.GetComponent<Button>().interactable = true;
+                });
+        }
+
+        foreach(GameObject buttonObj in toggleAIButtons){
+            Button button = buttonObj.GetComponent<Button>();
+            button.onClick.AddListener(
+                delegate
+                {
+                    //add/remove ai to token and toggle button text
+                    Text textComp = button.GetComponentInChildren<Text>();
+                    foreach (Player player in GameObject.FindObjectsOfType<Player>())
+                        if (player.name == button.transform.parent.GetComponentInChildren<Text>().text)
+                            if (player.GetComponent<AI>() == null)
+                            {
+                                player.gameObject.AddComponent<AI>();
+                                textComp.text = "Disable AI";
+                            }
+                            else
+                            {
+                                GameObject.Destroy(player.GetComponent<AI>());
+                                textComp.text = "Enable AI";
+                            }
                 });
         }
 
@@ -83,6 +112,9 @@ public static class SetupManager
             buttonObj.GetComponent<Button>().interactable = true;
 
         foreach (GameObject buttonObj in GameObject.FindGameObjectsWithTag("TokenSelectorButton"))
+            buttonObj.GetComponent<Button>().interactable = false;
+
+        foreach (GameObject buttonObj in GameObject.FindGameObjectsWithTag("ToggleAIButton"))
             buttonObj.GetComponent<Button>().interactable = false;
 
         GameObject.Find("StartGameButton").GetComponent<Button>().interactable = false;

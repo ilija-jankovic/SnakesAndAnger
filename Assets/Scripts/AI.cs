@@ -5,7 +5,9 @@ using UnityEngine.UI;
 
 public class AI : MonoBehaviour
 {
-    enum modes { aggressive, passive, trading };
+    private enum modes { aggressive, passive, trading };
+    private const uint TIME_BETWEEN_CLICKS = 120;
+    private uint timer = TIME_BETWEEN_CLICKS;
     void Start()
     {
         
@@ -13,39 +15,48 @@ public class AI : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.CurrentPlayer == gameObject.GetComponent<Player>())
-            if (MenuManager.TurnOptions.enabled == true)
+        if (GameManager.CurrentPlayer == gameObject.GetComponent<Player>() || GameManager.CurrentPlayer == CardCollect.currentPayee)
+        {
+            if (timer == 0)
             {
-                Click(MenuManager.Roll);
-            }
-            else if (MenuManager.EndOfTurnOptions.enabled == true)
-            {
-                if(!Click(MenuManager.Buy))
-                    if(!Click(MenuManager.Auction))
-                        Click(MenuManager.NextTurn);
-            }
-            else if(MenuManager.PaymentOptions.enabled == true)
-            {
-                if (!(GameManager.ActiveCard is CardCollect) || CardCollect.currentPayee == GameManager.CurrentPlayer)
-                    if (!Click(MenuManager.Pay))
-                        Mortgage();
-            }
-            else if (MenuManager.PaymentTileOptions.enabled == true)
-            {
-                int potentialFunds = GameManager.CurrentPlayer.GetTotalPotentialBalance();
-                if (potentialFunds > 200)                                               //may need to change the 200 for super tax tile
-                    Click(MenuManager.PayFixed);
+                if (MenuManager.TurnOptions.enabled == true)
+                {
+                    Click(MenuManager.Roll);
+                }
+                else if (MenuManager.EndOfTurnOptions.enabled == true)
+                {
+                    if (!Click(MenuManager.Buy))
+                        if (!Click(MenuManager.Auction))
+                            Click(MenuManager.NextTurn);
+                }
+                else if (MenuManager.PaymentOptions.enabled == true)
+                {
+                    if (!(GameManager.ActiveCard is CardCollect) || CardCollect.currentPayee == GameManager.CurrentPlayer)
+                        if (!Click(MenuManager.Pay))
+                            Mortgage();
+                }
+                else if (MenuManager.PaymentTileOptions.enabled == true)
+                {
+                    int potentialFunds = GameManager.CurrentPlayer.GetTotalPotentialBalance();
+                    if (potentialFunds > 200)                                               //may need to change the 200 for super tax tile
+                        Click(MenuManager.PayFixed);
+                    else
+                        Click(MenuManager.PayPercentage);
+                }
+                else if (MenuManager.CardOptions.enabled == true)
+                {
+                    Click(MenuManager.AcknowledgeCard);
+                }
+                else if (MenuManager.LoseOptions.enabled == true)
+                {
+                    Click(MenuManager.Bankrupt);
+                }
                 else
-                    Click(MenuManager.PayPercentage);
+                    timer = TIME_BETWEEN_CLICKS;
             }
-            else if (MenuManager.CardOptions.enabled == true)
-            {
-                Click(MenuManager.AcknowledgeCard);
-            }
-            else if(MenuManager.LoseOptions.enabled == true)
-            {
-                Click(MenuManager.Bankrupt);
-            }
+            
+            timer--;
+        }
     }
 
     //mortgage/sell properties when AI has enough potential funds but doesn't have enough in hand
@@ -58,7 +69,7 @@ public class AI : MonoBehaviour
                 return;
             }
 
-        //if cant mortgage AI can still sell houses
+        //if can't mortgage AI can still sell houses
         foreach (Property property in GameManager.CurrentPlayer.PropertiesOwned)
         {
             Street street = property.GetComponent<Street>();
@@ -68,12 +79,15 @@ public class AI : MonoBehaviour
                 return;
             }
         }
+
+        MenuManager.UpdateInventoryData();
     }
 
     private bool Click(Button button)
     {
-        if (button.interactable)
-            button.onClick.Invoke();
-        return button.interactable;
+        bool active = button.interactable;
+        MenuManager.CallIngameButtonListener(button);
+        timer = TIME_BETWEEN_CLICKS;
+        return active;
     }
 }
