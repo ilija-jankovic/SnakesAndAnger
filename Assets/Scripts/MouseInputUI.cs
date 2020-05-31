@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public abstract class MouseInputUI : MonoBehaviour
 {
     private EventTrigger eventTrigger;
+    protected Text toolTip;
     public bool clickEnabled = true;
     private void Start()
     {
@@ -37,7 +38,17 @@ public abstract class MouseInputUI : MonoBehaviour
     }
 
     //when mouse enters gameobject
-    public abstract void EnterUI();
+    public virtual void EnterUI()
+    {
+        toolTip = new GameObject().AddComponent<Text>();
+        toolTip.rectTransform.SetParent(gameObject.GetComponent<Image>().rectTransform);
+        toolTip.rectTransform.localPosition = Vector2.zero;
+        toolTip.rectTransform.sizeDelta = new Vector2(100, 200);
+        toolTip.fontSize = 15;
+        toolTip.color = Color.black;
+        toolTip.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
+        toolTip.alignment = TextAnchor.MiddleCenter;
+    }
     //when mouse exits gameobject
     public virtual void ExitUI()
     {
@@ -47,6 +58,9 @@ public abstract class MouseInputUI : MonoBehaviour
             MenuManager.UpdateCardInfo(GameManager.ActiveCard);
         else if (property != null)
             MenuManager.UpdateCardInfo(property);
+
+        Destroy(toolTip);
+        toolTip = null;
     }
     //when mouse clicks gameobject
     public abstract void ClickUI();

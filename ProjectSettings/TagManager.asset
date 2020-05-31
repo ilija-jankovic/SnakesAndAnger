@@ -28,6 +28,13 @@ TagManager:
   - PlayerCountButton
   - TokenSelectorButton
   - AcknowledgeCardButton
+  - ToggleAIButton
+  - BackFromTradingButton
+  - TradingSystem
+  - TradingPartnerButton
+  - OfferButton
+  - AcceptButton
+  - TraderInfo
   layers:
   - Default
   - TransparentFX

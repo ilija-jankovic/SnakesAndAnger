@@ -19,6 +19,9 @@ static class GameManager
     //if chance card is picked up, it is stored here until finished being used
     private static Card _activeCard;
 
+
+                                            //add currency
+
     [RuntimeInitializeOnLoadMethod]
     private static void Initialise()
     {

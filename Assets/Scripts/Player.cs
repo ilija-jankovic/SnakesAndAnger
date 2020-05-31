@@ -127,6 +127,11 @@ public class Player : MonoBehaviour
         });
     }
 
+    public void RemoveProperty(Property p)
+    {
+        PropertiesOwned.Remove(p);
+    }
+
     public void Purchase()
     {
         if (_playerPosition != null)

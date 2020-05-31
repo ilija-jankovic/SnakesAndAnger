@@ -199,6 +199,15 @@ static class MenuManager
                 SwitchToMenuWithInventory(TurnOptions);
                 SwitchToCamera(MainCamera);
             }
+            else if(button == Trade)
+            {
+                TradingSystem.ShowTradingOptions();
+            }
+            //go to TradingSystem class if button is part of the trading system
+            else if(Array.IndexOf(TradingSystem.Buttons, button) != -1)
+            {
+                TradingSystem.CallTradingButtonListener(button);
+            }
         }
 
         buttonClicked = false;
@@ -278,86 +287,13 @@ static class MenuManager
             GameObject.FindGameObjectWithTag("Balance").GetComponent<Text>().text = "$" + GameManager.CurrentPlayer.GetBalance();
 
             //get rid of previous cards
-            GameObject[] prevPlayerCards = GameObject.FindGameObjectsWithTag("InventoryCard");
-            foreach (GameObject obj in prevPlayerCards)
+            foreach (GameObject obj in GameObject.FindGameObjectsWithTag("InventoryCard"))
                 GameObject.Destroy(obj);
 
             //prevent memory leaks
             Resources.UnloadUnusedAssets();
 
-            //create icons for each property in the player's inventory
-            for (int i = 0; i < player.PropertiesOwned.Count; i++)
-            {
-                Property property = player.PropertiesOwned[i];
-                Street street = property.GetComponent<Street>();
-
-                GameObject cardObj = new GameObject("InventoryCard");
-                Image card = cardObj.AddComponent<Image>();
-                card.tag = "InventoryCard";
-                card.transform.SetParent(Inventory.transform);
-                card.rectTransform.sizeDelta = new Vector2(50, 100);
-                card.rectTransform.localPosition = new Vector2(-430 + 80 * i, -260);
-
-                cardObj.AddComponent<InventoryPropertyMouseInputUI>().property = property;
-
-                Text title = new GameObject().AddComponent<Text>();
-                title.text = property.Title;
-                title.fontSize = 6;
-                title.color = Color.black;
-                title.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
-                title.alignment = TextAnchor.UpperCenter;
-                title.transform.SetParent(card.transform);
-                title.rectTransform.sizeDelta = new Vector2(card.rectTransform.sizeDelta.x * 4 / 5, card.rectTransform.sizeDelta.y / 6);
-                title.rectTransform.localPosition = new Vector2(0f, 35f);
-
-                if (!property.Mortgaged)
-                {
-                    Text price = new GameObject().AddComponent<Text>();
-                    price.text = "$" + property.Price;
-                    price.fontSize = 6;
-                    price.color = Color.black;
-                    price.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
-                    price.alignment = TextAnchor.UpperCenter;
-                    price.transform.SetParent(card.transform);
-                    price.rectTransform.sizeDelta = new Vector2(card.rectTransform.sizeDelta.x * 4 / 5, card.rectTransform.sizeDelta.y / 6);
-                    price.rectTransform.localPosition = new Vector2(0f, -40f);
-
-                    if (street != null)
-                    {
-                        Image streetColour = new GameObject("StreetColour").AddComponent<Image>();
-                        streetColour.transform.SetParent(card.transform);
-                        streetColour.rectTransform.sizeDelta = new Vector2(card.rectTransform.sizeDelta.x, card.rectTransform.sizeDelta.y / 6);
-                        streetColour.rectTransform.localPosition = new Vector2(0f, 42f);
-                        streetColour.color = new Color(street.Colour.r, street.Colour.g, street.Colour.b, 1);
-
-                        title.rectTransform.localPosition = new Vector2(0f, 20f);
-
-                        //grays out street if not able to build house in house mode
-                        if (BuildHouseMode && !street.CanBuildHouse())
-                            DisableCard(cardObj);
-                    }
-                    else if(property.GetComponent<Utility>() != null || property.GetComponent<RailwayStation>() != null)
-                    {
-                        Image icon = new GameObject("Icon").AddComponent<Image>();
-                        icon.sprite = property.GetComponent<Tile>().Icon;
-                        icon.rectTransform.SetParent(card.transform);
-                        icon.rectTransform.localPosition = Vector2.zero;
-                        icon.rectTransform.sizeDelta = new Vector2(card.rectTransform.sizeDelta.x*0.7f, card.rectTransform.sizeDelta.x * 0.7f);
-                    }
-                }
-                else
-                {
-                    title.text = "MORTGAGED";
-                    title.rectTransform.localPosition = Vector3.zero;
-                }
-
-                //grays out non-street properties if in house mode or if cant sell house, or if in payment menu and property mortgaged, or can't pay unmortgage cost
-                if ((BuildHouseMode && (street == null || street.Mortgaged))
-                    || (!BuildHouseMode && street != null && !street.CanMortagage() && !street.Mortgaged && !street.CanSellHouse())
-                    || (PaymentOptions.enabled == true && property.Mortgaged)
-                    || (property.Mortgaged && player.GetBalance() < property.UnMortgageCost))
-                    DisableCard(cardObj);
-            }
+            CreateRow(Inventory.transform, player.PropertiesOwned, new Vector2(-430, -260), new Vector2(50, 100));
 
             //show usable cards in inventory
             for (int i = 0; i < GameManager.CurrentPlayer.UsableCards.Count; i++)
@@ -387,6 +323,90 @@ static class MenuManager
                     DisableCard(cardObj);
             }
         }
+    }
+
+    public static void CreateRow(RectTransform parent, List<Property> properties)
+    {
+        CreateRow(parent, properties, new Vector2(-parent.rect.width / 2, 0), new Vector2(parent.rect.height / 2, parent.rect.height));
+    }
+
+    public static void CreateRow(Transform parent, List<Property> properties, Vector2 position, Vector2 size)
+    {
+        for (byte i = 0; i < properties.Count; i++)
+            CreatePropertyCard(parent, properties[i], new Vector2(position.x + size.x / 2 + (10 + size.x) * i, position.y), size);
+    }
+
+    public static void CreatePropertyCard(Transform parent, Property property, Vector2 localPosition, Vector2 sizeDelta)
+    {
+        Street street = property.GetComponent<Street>();
+
+        GameObject cardObj = new GameObject("InventoryCard");
+        Image card = cardObj.AddComponent<Image>();
+        card.tag = "InventoryCard";
+        card.transform.SetParent(parent);
+        card.rectTransform.sizeDelta = sizeDelta;
+        card.rectTransform.localPosition = localPosition;
+
+        cardObj.AddComponent<InventoryPropertyMouseInputUI>().property = property;
+
+        Text title = new GameObject().AddComponent<Text>();
+        title.text = property.Title;
+        title.fontSize = 6;
+        title.color = Color.black;
+        title.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
+        title.alignment = TextAnchor.UpperCenter;
+        title.transform.SetParent(card.transform);
+        title.rectTransform.sizeDelta = new Vector2(card.rectTransform.sizeDelta.x * 4 / 5, card.rectTransform.sizeDelta.y / 6);
+        title.rectTransform.localPosition = new Vector2(0f, 35f);
+
+        if (!property.Mortgaged)
+        {
+            Text price = new GameObject().AddComponent<Text>();
+            price.text = "$" + property.Price;
+            price.fontSize = 6;
+            price.color = Color.black;
+            price.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
+            price.alignment = TextAnchor.UpperCenter;
+            price.transform.SetParent(card.transform);
+            price.rectTransform.sizeDelta = new Vector2(card.rectTransform.sizeDelta.x * 4 / 5, card.rectTransform.sizeDelta.y / 6);
+            price.rectTransform.localPosition = new Vector2(0f, -40f);
+
+            if (street != null)
+            {
+                Image streetColour = new GameObject("StreetColour").AddComponent<Image>();
+                streetColour.transform.SetParent(card.transform);
+                streetColour.rectTransform.sizeDelta = new Vector2(card.rectTransform.sizeDelta.x, card.rectTransform.sizeDelta.y / 6);
+                streetColour.rectTransform.localPosition = new Vector2(0f, card.rectTransform.sizeDelta.y/2-streetColour.rectTransform.sizeDelta.y/2);
+                streetColour.color = new Color(street.Colour.r, street.Colour.g, street.Colour.b, 1);
+
+                title.rectTransform.localPosition = new Vector2(0f, 20f);
+
+                //grays out street if not able to build house in house mode
+                if (BuildHouseMode && !street.CanBuildHouse())
+                    DisableCard(cardObj);
+            }
+            else if (property.GetComponent<Utility>() != null || property.GetComponent<RailwayStation>() != null)
+            {
+                Image icon = new GameObject("Icon").AddComponent<Image>();
+                icon.sprite = property.GetComponent<Tile>().Icon;
+                icon.rectTransform.SetParent(card.transform);
+                icon.rectTransform.localPosition = Vector2.zero;
+                icon.rectTransform.sizeDelta = new Vector2(card.rectTransform.sizeDelta.x * 0.7f, card.rectTransform.sizeDelta.x * 0.7f);
+            }
+        }
+        else
+        {
+            title.text = "MORTGAGED";
+            title.rectTransform.localPosition = Vector3.zero;
+        }
+
+        //grays out non-street properties if in house mode or if cant sell house, or if in payment menu and property mortgaged, or can't pay unmortgage cost
+        if (!TradingMode 
+            && ((BuildHouseMode && (street == null || street.Mortgaged))
+            || (!BuildHouseMode && street != null && !street.CanMortagage() && !street.Mortgaged && !street.CanSellHouse())
+            || (PaymentOptions.enabled == true && property.Mortgaged)
+            || (property.Mortgaged && property.Owner.GetBalance() < property.UnMortgageCost)))
+            DisableCard(cardObj);
     }
 
     private static void DisableCard(GameObject cardObj)
@@ -439,6 +459,17 @@ static class MenuManager
     public static bool BuildHouseMode
     {
         get { return _houseMode; }
+    }
+
+    public static bool TradingMode
+    {
+        get
+        {
+            foreach (Canvas canvas in allMenus)
+                if (canvas.enabled == true && canvas.tag == "TradingSystem")
+                    return true;
+            return false;
+        }
     }
 
     public static void UpdateCardInfo(Property property)

@@ -15,7 +15,7 @@ public class AI : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.CurrentPlayer == gameObject.GetComponent<Player>() || GameManager.CurrentPlayer == CardCollect.currentPayee)
+        if (GameManager.CurrentPlayer == gameObject.GetComponent<Player>() || CardCollect.currentPayee == gameObject.GetComponent<Player>())
         {
             if (timer == 0)
             {
