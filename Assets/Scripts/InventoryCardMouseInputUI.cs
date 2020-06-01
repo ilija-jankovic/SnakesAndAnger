@@ -29,6 +29,7 @@ public class InventoryCardMouseInputUI : MouseInputUI
 
     public override void ClickUI()
     {
+        base.ClickUI();
         if (MenuManager.TurnOptions.enabled == true)
             card.Use();
     }

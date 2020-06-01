@@ -63,5 +63,9 @@ public abstract class MouseInputUI : MonoBehaviour
         toolTip = null;
     }
     //when mouse clicks gameobject
-    public abstract void ClickUI();
+    public virtual void ClickUI()
+    {
+        if (!clickEnabled)
+            return;
+    }
 }

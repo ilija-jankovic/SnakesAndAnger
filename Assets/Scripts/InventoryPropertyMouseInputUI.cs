@@ -77,6 +77,8 @@ public class InventoryPropertyMouseInputUI : MouseInputUI
     //mortgage
     public override void ClickUI()
     {
+        base.ClickUI();
+
         if (!MenuManager.TradingMode)
         {
             Street street = property.GetComponent<Street>();
@@ -95,6 +97,11 @@ public class InventoryPropertyMouseInputUI : MouseInputUI
                     street.BuildHouse();
             return;
         }
+
+        //check if AI is currently trading, and disable clicking if it is
+        if ((TradingSystem.CounterOfferInProgress && TradingSystem.Tradee.gameObject.GetComponent<AI>() != null)
+        || (!TradingSystem.CounterOfferInProgress && GameManager.CurrentPlayer.GetComponent<AI>() != null))
+            return;
 
         TradingSystem.ToggleCardInOffer(property);
     }

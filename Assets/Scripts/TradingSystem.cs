@@ -16,7 +16,7 @@ public static class TradingSystem
     private static Button _accept = GameObject.FindGameObjectWithTag("AcceptButton").GetComponent<Button>();
     private static Button[] _players;
 
-    private static Player tradee = null;
+    private static Player _tradee = null;
     private static bool _counterOffer = false;
 
     private static List<Property> _playerOffer;
@@ -59,6 +59,8 @@ public static class TradingSystem
                     break;
                 }
         }
+
+        Back.interactable = true;
     }
 
     public static void CallTradingButtonListener(Button button)
@@ -76,32 +78,37 @@ public static class TradingSystem
             else
                 MenuManager.SwitchToMenuWithInventory(MenuManager.TurnOptions);
 
+            _tradee = null;
             //prevent memory leaks
             Resources.UnloadUnusedAssets();
         }
-        else if(button == Offer)
+        else if(button == Offer && !(MenuManager.ButtonClicked && ((Tradee.gameObject.GetComponent<AI>() != null && CounterOfferInProgress) 
+                                                                    || (GameManager.CurrentPlayer.gameObject.GetComponent<AI>() != null && !CounterOfferInProgress))))
         {
             Text text = Offer.GetComponentInChildren<Text>();
             text.text = text.text == "Offer" ? "CounterOffer" : "Offer";
 
             _counterOffer = !_counterOffer;
             Accept.interactable = true;
+            Back.interactable = !Back.interactable;
 
             UpdateCardsInTrade();
         }
-        else if(button == Accept)
+        else if(button == Accept && !(MenuManager.ButtonClicked && ((Tradee.gameObject.GetComponent<AI>() != null && CounterOfferInProgress)
+                                                                    || (GameManager.CurrentPlayer.gameObject.GetComponent<AI>() != null && !CounterOfferInProgress))))
         {
             foreach (Property property in _playerOffer)
             {
                 GameManager.CurrentPlayer.RemoveProperty(property);
-                tradee.AddProperty(property);
+                Tradee.AddProperty(property);
             }
             foreach(Property property in _tradeeOffer)
             {
-                tradee.RemoveProperty(property);
+                Tradee.RemoveProperty(property);
                 GameManager.CurrentPlayer.AddProperty(property);
             }
 
+            _tradee = null;
             MenuManager.SwitchToMenuWithInventory(MenuManager.TurnOptions);
         }
         else if(Array.IndexOf(TradingPartnerOptions, button) != -1)
@@ -110,7 +117,7 @@ public static class TradingSystem
             foreach (Player player in GameManager.Players)
                 if (player.gameObject.name == button.GetComponentInChildren<Text>().text)
                 {
-                    tradee = player;
+                    _tradee = player;
                     break;
                 }
 
@@ -153,7 +160,7 @@ public static class TradingSystem
                 continue;
             }
             //only other panel is tradee panel
-            panelObj.GetComponentInChildren<Text>().text = tradee.gameObject.name;
+            panelObj.GetComponentInChildren<Text>().text = Tradee.gameObject.name;
             //lighten/darken panel if current player is trading
             panelObj.GetComponent<Image>().color = !CounterOfferInProgress ? new Color(1f, 1f, 1f, 0.35f) : new Color(1f, 1f, 1f, 1f);
         }
@@ -165,7 +172,7 @@ public static class TradingSystem
         MenuManager.CreateRow(playerPanel.rectTransform, notOffered);
 
         notOffered.Clear();
-        foreach (Property property in tradee.PropertiesOwned)
+        foreach (Property property in Tradee.PropertiesOwned)
             if (!TradeeOffer.Contains(property))
                 notOffered.Add(property);
         MenuManager.CreateRow(tradeePanel.rectTransform, notOffered);
@@ -176,10 +183,11 @@ public static class TradingSystem
 
     public static void ToggleCardInOffer(Property property)
     {
-        if (tradee != null)
+        Street street = property.GetComponent<Street>();
+        if (Tradee != null && !(street != null && street.Houses > 0))
             if (property.Owner == GameManager.CurrentPlayer)
                 ToggleCardInOffer(property, CurrentPlayerOffer);
-            else if (property.Owner == tradee)
+            else if (property.Owner == Tradee)
                 ToggleCardInOffer(property, TradeeOffer);
     }
 
@@ -243,8 +251,29 @@ public static class TradingSystem
         get { return _tradeeOffer; }
     }
 
+    public static Player Tradee
+    {
+        get { return _tradee; }
+    }
+
     public static bool CounterOfferInProgress
     {
         get { return _counterOffer; }
+    }
+
+    //Evaluates the total amount a player can trade. Useful for AI behaviour.
+    public static uint GetTradingValue(List<Property> properties)
+    {
+        uint value = 0;
+        foreach (Property property in properties)
+        {
+            Street street = property.GetComponent<Street>();
+            if (!(street != null && street.Houses > 0))
+                if (!property.Mortgaged)
+                    value += property.Price;
+                else
+                    value += property.MortgageValue;
+        }
+        return value;
     }
 }

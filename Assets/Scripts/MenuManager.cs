@@ -38,7 +38,7 @@ static class MenuManager
     private static Button _buildHouse = GameObject.FindGameObjectWithTag("BuildHouseButton").GetComponent<Button>();
     private static Button _backToNormalCamera = GameObject.FindGameObjectWithTag("BackFromOverviewButton").GetComponent<Button>();
 
-    private static bool buttonClicked = false;
+    private static bool _buttonClicked = false;
 
     private static Camera _mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
     private static Camera _overviewCamera = GameObject.FindGameObjectWithTag("OverviewCamera").GetComponent<Camera>();
@@ -53,7 +53,7 @@ static class MenuManager
 
         //add listeners to buttons
         foreach (Button button in allButtons)
-            button.onClick.AddListener(delegate { buttonClicked = true; CallIngameButtonListener(button); });
+            button.onClick.AddListener(delegate { _buttonClicked = true; CallIngameButtonListener(button); });
 
         //outside of game buttons
         GameObject.Find("StartDefaultButton").GetComponent<Button>().onClick.AddListener(SetupManager.StandardGame);
@@ -73,7 +73,8 @@ static class MenuManager
         bool ai = player.GetComponent<AI>();
         //Checks if ai called the listener or if the current player called it. This is needed
         //as if the player presses a button during the ai's turn, it needs to not do anything.
-        if (button.interactable && ((!ai && buttonClicked) || (ai && !buttonClicked)))
+        if (button.interactable && ((!ai && ButtonClicked) || (ai && !ButtonClicked) 
+            || /*only these buttons can be pressed by human when AI is active*/ button == Pay || button == TradingSystem.Offer || button == TradingSystem.Accept))
         {
             if (button == Roll)
                 Die.Roll();
@@ -210,7 +211,7 @@ static class MenuManager
             }
         }
 
-        buttonClicked = false;
+        _buttonClicked = false;
     }
 
     private static void DisableMenu(Canvas canvas)
@@ -401,11 +402,12 @@ static class MenuManager
         }
 
         //grays out non-street properties if in house mode or if cant sell house, or if in payment menu and property mortgaged, or can't pay unmortgage cost
-        if (!TradingMode 
+        if ((!TradingMode 
             && ((BuildHouseMode && (street == null || street.Mortgaged))
             || (!BuildHouseMode && street != null && !street.CanMortagage() && !street.Mortgaged && !street.CanSellHouse())
             || (PaymentOptions.enabled == true && property.Mortgaged)
             || (property.Mortgaged && property.Owner.GetBalance() < property.UnMortgageCost)))
+            || (TradingMode && street != null && street.Houses > 0))
             DisableCard(cardObj);
     }
 
@@ -626,5 +628,10 @@ static class MenuManager
         MainCamera.gameObject.SetActive(false);
         OverviewCamera.gameObject.SetActive(false);
         camera.gameObject.SetActive(true);
+    }
+
+    public static bool ButtonClicked
+    {
+        get { return _buttonClicked; }
     }
 }
