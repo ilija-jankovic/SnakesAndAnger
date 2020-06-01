@@ -93,6 +93,7 @@ public static class TradingSystem
             Back.interactable = !Back.interactable;
 
             UpdateCardsInTrade();
+            Offer.interactable = false;
         }
         else if(button == Accept && !(MenuManager.ButtonClicked && ((Tradee.gameObject.GetComponent<AI>() != null && CounterOfferInProgress)
                                                                     || (GameManager.CurrentPlayer.gameObject.GetComponent<AI>() != null && !CounterOfferInProgress))))
@@ -133,11 +134,14 @@ public static class TradingSystem
             Offer.GetComponentInChildren<Text>().text = "Offer";
 
             UpdateCardsInTrade();
+            Offer.interactable = false;
         }
     }
 
     private static void UpdateCardsInTrade()
     {
+        Offer.interactable = true;
+
         //destroy previous cards
         if (TradingOptions.enabled == true)
             foreach (GameObject cardObj in GameObject.FindGameObjectsWithTag("InventoryCard"))
@@ -183,8 +187,7 @@ public static class TradingSystem
 
     public static void ToggleCardInOffer(Property property)
     {
-        Street street = property.GetComponent<Street>();
-        if (Tradee != null && !(street != null && street.Houses > 0))
+        if (Tradee != null && Tradeable(property))
             if (property.Owner == GameManager.CurrentPlayer)
                 ToggleCardInOffer(property, CurrentPlayerOffer);
             else if (property.Owner == Tradee)
@@ -199,6 +202,12 @@ public static class TradingSystem
             offer.Add(property);
         Accept.interactable = false;
         UpdateCardsInTrade();
+    }
+
+    private static bool Tradeable(Property property)
+    {
+        Street street = property.GetComponent<Street>();
+        return !(street != null && street.Houses > 0);
     }
 
     public static Canvas TradingSetup
@@ -246,9 +255,28 @@ public static class TradingSystem
         get { return _playerOffer; }
     }
 
+    public static List<Property> CurrentPlayerNotOffered
+    {
+        get { return NotOnOffer(GameManager.CurrentPlayer, CurrentPlayerOffer); }
+    }
+
     public static List<Property> TradeeOffer
     {
         get { return _tradeeOffer; }
+    }
+
+    public static List<Property> TradeeNotOffered
+    {
+        get { return NotOnOffer(Tradee, TradeeOffer); }
+    }
+
+    private static List<Property> NotOnOffer(Player player, List<Property> onOffer)
+    {
+        List<Property> notOffered = new List<Property>();
+        foreach (Property property in player.PropertiesOwned)
+            if (!onOffer.Contains(property))
+                notOffered.Add(property);
+        return notOffered;
     }
 
     public static Player Tradee
@@ -268,7 +296,7 @@ public static class TradingSystem
         foreach (Property property in properties)
         {
             Street street = property.GetComponent<Street>();
-            if (!(street != null && street.Houses > 0))
+            if (Tradeable(property))
                 if (!property.Mortgaged)
                     value += property.Price;
                 else

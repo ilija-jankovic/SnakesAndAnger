@@ -6,8 +6,12 @@ using UnityEngine.UI;
 public class AI : MonoBehaviour
 {
     private enum modes { aggressive, passive, trading };
+
     private const uint TIME_BETWEEN_CLICKS = 120;
     private uint timer = TIME_BETWEEN_CLICKS;
+
+    private const byte MAX_OFFERS_PER_TURN = 3;
+    private byte offers;
     void Start()
     {
         
@@ -69,7 +73,11 @@ public class AI : MonoBehaviour
                 {
                     if (!Click(MenuManager.Buy))
                         if (!Click(MenuManager.Auction))
+                        {
+                            //reset number of trade offers AI has attempted
+                            offers = 0;
                             Click(MenuManager.NextTurn);
+                        }
                 }
                 else if (MenuManager.PaymentOptions.enabled == true)
                 {
@@ -127,16 +135,12 @@ public class AI : MonoBehaviour
                         //AI will accept the trade if it gains more than it loses
                         uint traderVal = TradingSystem.GetTradingValue(TradingSystem.CurrentPlayerOffer);
                         uint thisVal = TradingSystem.GetTradingValue(TradingSystem.TradeeOffer);
-                        Debug.Log(traderVal + " " + thisVal);
                         if (traderVal >= thisVal)
                             Click(TradingSystem.Accept);
                         else
                         {
                             //get trader cards not currently on offer
-                            List<Property> notOffered = new List<Property>();
-                            foreach (Property property in GameManager.CurrentPlayer.PropertiesOwned)
-                                if (!TradingSystem.CurrentPlayerOffer.Contains(property))
-                                    notOffered.Add(property);
+                            List<Property> notOffered = TradingSystem.CurrentPlayerNotOffered;
 
                             //add trader properties to increase value gained by AI
                             foreach (Property property in notOffered)
@@ -172,6 +176,11 @@ public class AI : MonoBehaviour
                                 }
                             }
                         }
+                    }
+                    //if AI is the trader
+                    else if(GameManager.CurrentPlayer == playerComp)
+                    {
+
                     }
                 }
             }
