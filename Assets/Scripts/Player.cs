@@ -35,6 +35,7 @@ public class Player : MonoBehaviour
     /// </summary>
     Vector3 pos;
     public Transform[] _target;
+    int targetcount = 0;
     /// <summary>
     /// creates a player object
     /// </summary>
@@ -53,13 +54,38 @@ public class Player : MonoBehaviour
         _isMoving = true;
         int start = Array.IndexOf(GameManager.Tiles, _playerPosition);
         int end = Array.IndexOf(GameManager.Tiles, endPosition);
+        //add all the tiles on the players path to an array of transform objects
+        if (start < end)
+        {
+            int count = 0;
+            _target = new Transform[end - start];
+            for (int i = start + 1; i <= end; i++)
+            {
+                _target[count] = GameManager.Tiles[i].transform;
+                count++;
+            }
+        }
+        else if(end < start)
+        {
+            int count = 0;
+            _target = new Transform[(end + GameManager.Tiles.Length) - start];
+            for (int j = start + 1; j < GameManager.Tiles.Length; j++)
+            {
+                _target[count] = GameManager.Tiles[j].transform;
+                count++;
+            }
+            for(int k = 0; k <= end; k++)
+            {
+                _target[count] = GameManager.Tiles[k].transform;
+                count++;
+            }
+        }
         bool traveledByTileLink = false;
         _playerPosition = endPosition;
         //if there is a snake or ladder the player will move along it
         _playerPosition.MoveAlongTileLink();
 
         //graphical representation
-        transform.position = _playerPosition.transform.position;
 
         //Collect $200 if you pass go
         if (!traveledByTileLink || !Jail.InJail())
@@ -80,7 +106,6 @@ public class Player : MonoBehaviour
 
             }
         }
-        _isMoving = false;
     }
     public void Move(sbyte tiles)
     {
@@ -88,9 +113,23 @@ public class Player : MonoBehaviour
     }
     void Update()
     {
-        while(_isMoving)
+        if(_isMoving)
         {
-            _playerPosition.transform.position = pos;
+            if (targetcount < _target.Length)
+            {
+                Vector3 pos = Vector3.MoveTowards(transform.position, _target[targetcount].position, 10f * Time.deltaTime);
+                transform.position = pos;
+                if (transform.position == _target[targetcount].position)
+                {
+                    targetcount++;
+                }
+            }
+            else
+            {
+                transform.position = _playerPosition.transform.position;
+                _target = null;
+                _isMoving = false;
+            }
         }
     }
     /// <summary>
