@@ -49,7 +49,7 @@ public class InventoryPropertyMouseInputUI : MouseInputUI
         {
             if (!TradingSystem.CurrentPlayerOffer.Contains(property))
             {
-                toolTip.text = !TradingSystem.CounterOfferInProgress ? "Add to Offer" : "Add to Demand";
+                toolTip.text = !TradingSystem.CounterOfferInProgress ? "Add to offer" : "Add to demand";
                 return;
             }
             toolTip.text = !TradingSystem.CounterOfferInProgress ? "Remove from offer" : "Remove from demand";
@@ -57,7 +57,7 @@ public class InventoryPropertyMouseInputUI : MouseInputUI
         }
         if (!TradingSystem.TradeeOffer.Contains(property))
         {
-            toolTip.text = !TradingSystem.CounterOfferInProgress ? "Add to demand" : "Add to Offer";
+            toolTip.text = !TradingSystem.CounterOfferInProgress ? "Add to demand" : "Add to offer";
             return;
         }
         toolTip.text = !TradingSystem.CounterOfferInProgress ? "Remove from demand" : "Remove from offer";
@@ -100,7 +100,7 @@ public class InventoryPropertyMouseInputUI : MouseInputUI
 
         //check if AI is currently trading, and disable clicking if it is
         if ((TradingSystem.CounterOfferInProgress && TradingSystem.Tradee.gameObject.GetComponent<AI>() != null)
-        || (!TradingSystem.CounterOfferInProgress && GameManager.CurrentPlayer.GetComponent<AI>() != null))
+        || (!TradingSystem.CounterOfferInProgress && GameManager.CurrentPlayer.gameObject.GetComponent<AI>() != null))
             return;
 
         TradingSystem.ToggleCardInOffer(property);

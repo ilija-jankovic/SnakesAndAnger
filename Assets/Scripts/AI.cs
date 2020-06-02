@@ -10,6 +10,7 @@ public class AI : MonoBehaviour
     private const uint TIME_BETWEEN_CLICKS = 120;
     private uint timer = TIME_BETWEEN_CLICKS;
 
+    private const float CHANCE_OF_TRADING_BEFORE_ROLL = 0.5f;
     private const byte MAX_OFFERS_PER_TURN = 3;
     private byte offers;
     void Start()
@@ -31,19 +32,34 @@ public class AI : MonoBehaviour
                 {
                     if (!MenuManager.BuildHouseMode)
                     {
-                        //Build house if possible - update this for different AI modes
-                        bool canBuildHouse = false;
-                        foreach (Property property in GameManager.CurrentPlayer.PropertiesOwned)
-                            if (property.GetComponent<Street>() != null && property.GetComponent<Street>().CanBuildHouse())
+                        //check if a player has anything to trade
+                        bool tradingPartnerExists = false;
+                        foreach(Player player in GameManager.Players)
+                            if(player != playerComp && player.PropertiesOwned.Count > 0)
                             {
-                                canBuildHouse = true;
+                                tradingPartnerExists = true;
                                 break;
                             }
 
-                        if (canBuildHouse)
-                            Click(MenuManager.BuildHouse);
+                        //has % chance to intitate trading if amount of offers this turn have not been exceded
+                        if (tradingPartnerExists && offers < MAX_OFFERS_PER_TURN && UnityEngine.Random.Range(0f, 1f) < CHANCE_OF_TRADING_BEFORE_ROLL)
+                            Click(MenuManager.Trade);
                         else
-                            Click(MenuManager.Roll);
+                        {
+                            //Build house if possible - update this for different AI modes
+                            bool canBuildHouse = false;
+                            foreach (Property property in GameManager.CurrentPlayer.PropertiesOwned)
+                                if (property.GetComponent<Street>() != null && property.GetComponent<Street>().CanBuildHouse())
+                                {
+                                    canBuildHouse = true;
+                                    break;
+                                }
+
+                            if (canBuildHouse)
+                                Click(MenuManager.BuildHouse);
+                            else
+                                Click(MenuManager.Roll);
+                        }
                     }
                     else
                     {
@@ -87,7 +103,7 @@ public class AI : MonoBehaviour
                 }
                 else if (MenuManager.PaymentTileOptions.enabled == true)
                 {
-                    int potentialFunds = GameManager.CurrentPlayer.GetTotalPotentialBalance();
+                    int potentialFunds = GameManager.CurrentPlayer.GetTotalPotentialBalance() + GameManager.CurrentPlayer.GetBalance()/10;
                     if (potentialFunds > 200)                                               //may need to change the 200 for super tax tile
                         Click(MenuManager.PayFixed);
                     else
@@ -103,90 +119,119 @@ public class AI : MonoBehaviour
                 }
                 else if (TradingSystem.TradingSetup.enabled == true)
                 {
-                    uint highestVal = 0;
-                    Button playerButton = null;
-
-                    //finds player who can trade the most total value                        //change this for different personalitites
-                    foreach (Button button in TradingSystem.TradingPartnerOptions)
+                    //goes back if AI has made enough offers this turn
+                    if (offers >= MAX_OFFERS_PER_TURN)
+                        Click(TradingSystem.Back);
+                    else
                     {
-                        if (button.interactable == true)
+                        uint highestVal = 0;
+                        Button playerButton = null;
+
+                        //finds player who can trade the most total value                        //change this for different personalitites
+                        foreach (Button button in TradingSystem.TradingPartnerOptions)
                         {
-                            uint val = 0;
-                            foreach (Player player in GameManager.Players)
-                                if (player.gameObject.name == button.GetComponentInChildren<Text>().text)
-                                {
-                                    val = TradingSystem.GetTradingValue(player.PropertiesOwned);
-                                    break;
-                                }
-                            if (val >= highestVal)
+                            if (button.interactable == true)
                             {
-                                highestVal = val;
-                                playerButton = button;
+                                uint val = 0;
+                                foreach (Player player in GameManager.Players)
+                                    if (player.gameObject.name == button.GetComponentInChildren<Text>().text)
+                                    {
+                                        val = TradingSystem.GetTradingValue(player.PropertiesOwned);
+                                        break;
+                                    }
+                                if (val >= highestVal)
+                                {
+                                    highestVal = val;
+                                    playerButton = button;
+                                }
                             }
                         }
+                        Click(playerButton);
                     }
-                    Click(playerButton);
                 }
                 else if (TradingSystem.TradingOptions.enabled == true)
                 {
                     //if AI is the tradee
-                    if (TradingSystem.CounterOfferInProgress)                        //change this for different personalitites
-                    {
-                        //AI will accept the trade if it gains more than it loses
-                        uint traderVal = TradingSystem.GetTradingValue(TradingSystem.CurrentPlayerOffer);
-                        uint thisVal = TradingSystem.GetTradingValue(TradingSystem.TradeeOffer);
-                        if (traderVal >= thisVal)
-                            Click(TradingSystem.Accept);
-                        else
-                        {
-                            //get trader cards not currently on offer
-                            List<Property> notOffered = TradingSystem.CurrentPlayerNotOffered;
-
-                            //add trader properties to increase value gained by AI
-                            foreach (Property property in notOffered)
-                            {
-                                TradingSystem.ToggleCardInOffer(property);
-                                traderVal = TradingSystem.GetTradingValue(TradingSystem.CurrentPlayerOffer);
-                                if (traderVal > thisVal)
-                                {
-                                    Click(TradingSystem.Offer);
-                                    break;
-                                }
-                            }
-
-                            //get tradee cards currently on offer - we will modify the list in trading system while looping through it so
-                            //we need a clone
-                            List<Property> thisOnOffer = new List<Property>();
-                            foreach (Property property in TradingSystem.Tradee.PropertiesOwned)
-                                if (TradingSystem.TradeeOffer.Contains(property))
-                                    thisOnOffer.Add(property);
-
-                            //if AI still does not gain enough it removes its properties from trade
-                            if (thisVal >= traderVal)
-                            {
-                                foreach (Property property in thisOnOffer)
-                                {
-                                    TradingSystem.ToggleCardInOffer(property);
-                                    thisVal = TradingSystem.GetTradingValue(TradingSystem.TradeeOffer);
-                                    if (thisVal <= traderVal)
-                                    {
-                                        Click(TradingSystem.Offer);
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    if (TradingSystem.Tradee == playerComp && TradingSystem.CounterOfferInProgress)
+                        TradingDecision(false);
                     //if AI is the trader
-                    else if(GameManager.CurrentPlayer == playerComp)
-                    {
-
-                    }
+                    else if (GameManager.CurrentPlayer == playerComp && !TradingSystem.CounterOfferInProgress)
+                        TradingDecision(true);
                 }
             }
         }
         timer = timer == 0 ? TIME_BETWEEN_CLICKS + 1 : timer;
         timer--;
+    }
+
+    private void TradingDecision(bool aiIsTrader)
+    {
+        //precaution
+        if (TradingSystem.Tradee == null)
+            return;
+
+        //goes back if AI has made enough offers this turn
+        if (aiIsTrader && offers >= MAX_OFFERS_PER_TURN)
+            Click(TradingSystem.Back);
+
+        //AI will accept the trade if it gains more than it loses
+        uint aiVal = TradingVal(aiIsTrader);
+        uint otherVal = TradingVal(!aiIsTrader);
+
+        if (otherVal > aiVal)
+            Click(TradingSystem.Accept);
+        else
+        {
+            //add other's properties to increase value gained by AI
+            foreach (Property property in NotOffered(!aiIsTrader))
+            {
+                TradingSystem.ToggleCardInOffer(property);
+                otherVal = TradingSystem.GetTradingValue(Offered(!aiIsTrader));
+                if (otherVal >= aiVal)
+                {
+                    Click(TradingSystem.Offer);
+                    offers++;
+                    break;
+                }
+            }
+
+            //get ai cards currently on offer - we will modify the list in trading system while looping through it so
+            //we need a clone
+            List<Property> aiOfferClone = new List<Property>();
+            foreach (Property property in Offered(aiIsTrader))
+                aiOfferClone.Add(property);
+
+            //if AI still does not gain enough it removes its properties from trade until it gains enough
+            if (aiVal >= otherVal)
+            {
+                foreach (Property property in aiOfferClone)
+                {
+                    TradingSystem.ToggleCardInOffer(property);
+                    aiVal = TradingSystem.GetTradingValue(Offered(aiIsTrader));
+                    if (aiVal <= otherVal)
+                    {
+                        Click(TradingSystem.Offer);
+                        offers++;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    private uint TradingVal(bool trader)
+    {
+        return trader ? TradingSystem.GetTradingValue(TradingSystem.CurrentPlayerOffer) : TradingSystem.GetTradingValue(TradingSystem.TradeeOffer);
+    }
+
+    private List<Property> Offered(bool trader)
+    {
+        return trader ? TradingSystem.CurrentPlayerOffer : TradingSystem.TradeeOffer;
+    }
+
+    private List<Property> NotOffered(bool trader)
+    {
+        return trader ? TradingSystem.CurrentPlayerNotOffered : TradingSystem.TradeeNotOffered;
     }
 
     //mortgage/sell properties when AI has enough potential funds but doesn't have enough in hand

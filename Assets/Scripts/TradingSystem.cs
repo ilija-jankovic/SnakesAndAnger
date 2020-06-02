@@ -304,4 +304,14 @@ public static class TradingSystem
         }
         return value;
     }
+
+    public static bool HumanCounterOffering
+    {
+        get 
+        {
+            if (Tradee == null)
+                return false;
+            return Tradee.GetComponent<AI>() == null && CounterOfferInProgress;
+        }
+    }
 }
