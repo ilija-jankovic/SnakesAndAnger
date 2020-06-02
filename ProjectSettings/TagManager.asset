@@ -35,6 +35,8 @@ TagManager:
   - OfferButton
   - AcceptButton
   - TraderInfo
+  - AddToAuctionButton
+  - Temp
   layers:
   - Default
   - TransparentFX

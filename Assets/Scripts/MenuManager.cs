@@ -164,7 +164,7 @@ static class MenuManager
                 Auction.interactable = false;
                 GameManager.UpdateBuyButtonInteractibility();
                 GameManager.UpdateNextPlayerButtonInteractibility();                                                   //update this when Trading System is implemented
-                UpdateInventoryData();
+                AuctionSystem.StartAuction();
             }
             else if (button == NextTurn)
             {

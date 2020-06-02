@@ -18,6 +18,8 @@ public class AI : MonoBehaviour
         
     }
 
+    //Add AI pays when a collect from everyone card is picked up
+
     void Update()
     {
         if (timer == 0)
@@ -152,7 +154,7 @@ public class AI : MonoBehaviour
                 else if (TradingSystem.TradingOptions.enabled == true)
                 {
                     //if AI is the tradee
-                    if (TradingSystem.Tradee == playerComp && TradingSystem.CounterOfferInProgress)
+                    if (TradingSystem.Tradee == playerComp && TradingSystem.CounterOfferInProgress)                          //set it up so AI does not repeat offers
                         TradingDecision(false);
                     //if AI is the trader
                     else if (GameManager.CurrentPlayer == playerComp && !TradingSystem.CounterOfferInProgress)
@@ -166,10 +168,6 @@ public class AI : MonoBehaviour
 
     private void TradingDecision(bool aiIsTrader)
     {
-        //precaution
-        if (TradingSystem.Tradee == null)
-            return;
-
         //goes back if AI has made enough offers this turn
         if (aiIsTrader && offers >= MAX_OFFERS_PER_TURN)
             Click(TradingSystem.Back);
@@ -179,41 +177,41 @@ public class AI : MonoBehaviour
         uint otherVal = TradingVal(!aiIsTrader);
 
         if (otherVal > aiVal)
-            Click(TradingSystem.Accept);
-        else
         {
-            //add other's properties to increase value gained by AI
-            foreach (Property property in NotOffered(!aiIsTrader))
+            Click(TradingSystem.Accept);
+            return;
+        }
+        //add other's properties to increase value gained by AI
+        foreach (Property property in NotOffered(!aiIsTrader))
+        {
+            TradingSystem.ToggleCardInOffer(property);
+            otherVal = TradingSystem.GetTradingValue(Offered(!aiIsTrader));
+            if (otherVal >= aiVal)
+            {
+                Click(TradingSystem.Offer);
+                offers++;
+                return;
+            }
+        }
+
+        //get ai cards currently on offer - we will modify the list in trading system while looping through it so
+        //we need a clone
+        List<Property> aiOfferClone = new List<Property>();
+        foreach (Property property in Offered(aiIsTrader))
+            aiOfferClone.Add(property);
+
+        //if AI still does not gain enough it removes its properties from trade until it gains enough
+        if (aiVal >= otherVal)
+        {
+            foreach (Property property in aiOfferClone)
             {
                 TradingSystem.ToggleCardInOffer(property);
-                otherVal = TradingSystem.GetTradingValue(Offered(!aiIsTrader));
-                if (otherVal >= aiVal)
+                aiVal = TradingSystem.GetTradingValue(Offered(aiIsTrader));
+                if (aiVal <= otherVal)
                 {
                     Click(TradingSystem.Offer);
                     offers++;
-                    break;
-                }
-            }
-
-            //get ai cards currently on offer - we will modify the list in trading system while looping through it so
-            //we need a clone
-            List<Property> aiOfferClone = new List<Property>();
-            foreach (Property property in Offered(aiIsTrader))
-                aiOfferClone.Add(property);
-
-            //if AI still does not gain enough it removes its properties from trade until it gains enough
-            if (aiVal >= otherVal)
-            {
-                foreach (Property property in aiOfferClone)
-                {
-                    TradingSystem.ToggleCardInOffer(property);
-                    aiVal = TradingSystem.GetTradingValue(Offered(aiIsTrader));
-                    if (aiVal <= otherVal)
-                    {
-                        Click(TradingSystem.Offer);
-                        offers++;
-                        break;
-                    }
+                    return;
                 }
             }
         }
