@@ -36,6 +36,7 @@ public class Player : MonoBehaviour
     Vector3 pos;
     public Transform[] _target;
     int targetcount = 0;
+    private float speed = 25f;
     /// <summary>
     /// creates a player object
     /// </summary>
@@ -117,7 +118,7 @@ public class Player : MonoBehaviour
         {
             if (targetcount < _target.Length)
             {
-                Vector3 pos = Vector3.MoveTowards(transform.position, _target[targetcount].position, 10f * Time.deltaTime);
+                Vector3 pos = Vector3.MoveTowards(transform.position, _target[targetcount].position, 25f * Time.deltaTime);
                 transform.position = pos;
                 if (transform.position == _target[targetcount].position)
                 {
