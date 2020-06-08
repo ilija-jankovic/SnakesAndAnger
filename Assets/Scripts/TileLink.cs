@@ -91,8 +91,8 @@ public abstract class TileLink : Card
         Vector3 headPos = Head.transform.position;
         Vector3 tailPos = Tail.transform.position;
         //scale tile link so that it can reach both tiles
-        tileLinkObj.transform.localScale = new Vector3(Mathf.Sqrt(Mathf.Pow(headPos.x - tailPos.x,2) +
-                                                       Mathf.Pow(headPos.z - tailPos.z,2)), 1, 1);
+        tileLinkObj.transform.localScale = new Vector3(1, 1, Mathf.Sqrt(Mathf.Pow(headPos.x - tailPos.x, 2) +
+                                                       Mathf.Pow(headPos.z - tailPos.z, 2)));
 
         //rotate so that it aligns with both tiles
         Vector3 sum = headPos + tailPos;
@@ -100,7 +100,7 @@ public abstract class TileLink : Card
         tileLinkObj.transform.rotation = Quaternion.LookRotation(headPos - tailPos, Vector3.forward);
 
         //fixes tile link rotation on tiles with rotation
-        tileLinkObj.transform.eulerAngles += new Vector3(90, 0, Head.transform.eulerAngles.y);
+        //tileLinkObj.transform.eulerAngles += new Vector3(0, 0, Head.transform.eulerAngles.y == 90 && Tail.transform.eulerAngles.y == 90 ? 90 : 0);
 
         //set material
         tileLinkObj.GetComponent<Renderer>().material = this is Snake ? Resources.Load("Materials/snake") as Material : Resources.Load("Materials/ladder") as Material;
