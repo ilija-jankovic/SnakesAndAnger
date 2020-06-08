@@ -52,7 +52,6 @@ public class Die : MonoBehaviour {
 
 			//set the camera to track the current player and enable end of roll options
 			CameraFollow.target = GameManager.CurrentPlayer.transform;
-			GameManager.EndOfRollOptions();
 		}
 	}
 

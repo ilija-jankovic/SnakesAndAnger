@@ -134,6 +134,9 @@ public class Player : MonoBehaviour
                 _target = null;
                 targetcount = 0;
                 _isMoving = false;
+
+                //enable end of turn options
+                GameManager.EndOfRollOptions();
             }
         }
     }
