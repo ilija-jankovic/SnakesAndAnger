@@ -75,6 +75,8 @@ public static class TradingSystem
                 MenuManager.SwitchToMenu(TradingSetup);
                 MenuManager.ShowMenu(BackFromTradingOptions);
             }
+            else if(Jail.InJail())
+                MenuManager.SwitchToMenuWithInventory(MenuManager.InJailTurnOptions);
             else
                 MenuManager.SwitchToMenuWithInventory(MenuManager.TurnOptions);
 
@@ -110,7 +112,10 @@ public static class TradingSystem
             }
 
             _tradee = null;
-            MenuManager.SwitchToMenuWithInventory(MenuManager.TurnOptions);
+            if (Jail.InJail())
+                MenuManager.SwitchToMenuWithInventory(MenuManager.InJailTurnOptions);
+            else
+                MenuManager.SwitchToMenuWithInventory(MenuManager.TurnOptions);
         }
         else if(Array.IndexOf(TradingPartnerOptions, button) != -1)
         {
