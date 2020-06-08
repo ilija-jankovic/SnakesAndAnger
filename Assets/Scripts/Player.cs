@@ -51,7 +51,7 @@ public class Player : MonoBehaviour
     /// <param name="endPosition"></param>
     public void Move(Tile endPosition)
     {
-        pos = Vector3.MoveTowards(transform.position, endPosition.transform.position, 1.5f * Time.deltaTime);
+        //pos = Vector3.MoveTowards(transform.position, endPosition.transform.position, 1.5f * Time.deltaTime);
         _isMoving = true;
         int start = Array.IndexOf(GameManager.Tiles, _playerPosition);
         int end = Array.IndexOf(GameManager.Tiles, endPosition);
@@ -129,6 +129,7 @@ public class Player : MonoBehaviour
             {
                 transform.position = _playerPosition.transform.position;
                 _target = null;
+                targetcount = 0;
                 _isMoving = false;
             }
         }
