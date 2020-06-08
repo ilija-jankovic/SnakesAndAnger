@@ -26,7 +26,7 @@ public static class ChanceDeck
         _deck.Add(new CardCollect("You have won a crossword competition - Collect $100", 100, EnumsForCards.cardCollect.fromBank));
         _deck.Add(new CardCollect("Bank error in your favour - Collect $200", 200, EnumsForCards.cardCollect.fromBank));
         _deck.Add(new CardCollect("From sale of stock you get $50", 50, EnumsForCards.cardCollect.fromBank));
-        _deck.Add(new CardCollect("Holiday Fund matures - Receive $100", 100, EnumsForCards.cardCollect.fromBank));
+        _deck.Add(new CardCollect("Holiday fund matures - Receive $100", 100, EnumsForCards.cardCollect.fromBank));
         _deck.Add(new CardCollect("Income tax refund - Collect $20", 20, EnumsForCards.cardCollect.fromBank));
         _deck.Add(new CardCollect("It is your birthday - Collect $10", 10, EnumsForCards.cardCollect.fromBank));
         _deck.Add(new CardCollect("Life insurance matures - Collect $100", 100, EnumsForCards.cardCollect.fromBank));
@@ -48,8 +48,8 @@ public static class ChanceDeck
         _deck.Add(new CardMove("Advance to St. " + GameObject.Find("tile11").GetComponent<Tile>().GetComponent<Property>().Title + " - If you pass Go, collect $200", GameObject.Find("tile11").GetComponent<Tile>(), EnumsForCards.cardMove.directMove)); //tile11
         _deck.Add(new CardMove("Take a trip to " + GameObject.Find("tile05").GetComponent<Tile>().GetComponent<Property>().Title + " - If you pass Go, collect $200", GameObject.Find("tile05").GetComponent<Tile>(), EnumsForCards.cardMove.directMove)); //tile05
         _deck.Add(new CardMove("Take a walk - Advance token to " + GameObject.Find("tile39").GetComponent<Tile>().GetComponent<Property>().Title, GameObject.Find("tile39").GetComponent<Tile>(), EnumsForCards.cardMove.directMove)); //tile39
-        _deck.Add(new CardMove("Advance token to nearest Utility. If unowned, you man buy it from the Bank. If owned, pay owner amount owed", EnumsForCards.cardMove.closestUtility)); 
-        _deck.Add(new CardMove("Advance token to the nearest Railroad and pay the owner the rental to which they are entitled. If Railroad is unowned, you may buy it from the Bank", EnumsForCards.cardMove.closestTrainStation)); 
+        _deck.Add(new CardMove("Advance token to nearest Utility. If unowned, you may buy it from the Bank. If owned, pay owner amount owed", EnumsForCards.cardMove.closestUtility));
+        _deck.Add(new CardMove("Advance token to the nearest Railroad and pay the owner the rental to which they are entitled. If Railroad is unowned, you may buy it from the Bank", EnumsForCards.cardMove.closestTrainStation));
         _deck.Add(new CardMove("Go back 3 spaces", EnumsForCards.cardMove.moveBackThreeTiles));
         _deck.Add(new CardMove("Go to Jail - Go directly to Jail - Do not pass Go, do not collect $200", EnumsForCards.cardMove.goToJail));
 

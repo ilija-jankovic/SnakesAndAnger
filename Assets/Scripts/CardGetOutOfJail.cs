@@ -12,8 +12,13 @@ public class CardGetOutOfJail : Card
 
     public override void Use()
     {
-        Jail.LeaveJail();
-        base.Use();
+        //makes sure player is in jail before they can use card
+        if (Jail.InJail())
+        {
+            Jail.LeaveJail();
+            base.Use();
+            GameManager.EndOfRollOptions();
+        }
     }
 
 }

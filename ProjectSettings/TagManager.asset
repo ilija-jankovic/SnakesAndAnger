@@ -37,6 +37,8 @@ TagManager:
   - TraderInfo
   - AddToAuctionButton
   - Temp
+  - PayToLeaveJail
+  - InJailTurnOptions
   layers:
   - Default
   - TransparentFX

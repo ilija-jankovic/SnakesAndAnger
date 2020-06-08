@@ -237,8 +237,11 @@ static class GameManager
     public static void NextPlayer()
     {
         _activeCard = null;
-        MenuManager.SwitchToMenuWithInventory(MenuManager.TurnOptions);
         _curPlayer = _players[(Array.IndexOf(_players, _curPlayer) + 1) % _players.Length];
+        if (Jail.InJail())
+            MenuManager.SwitchToMenuWithInventory(MenuManager.InJailTurnOptions);
+        else
+            MenuManager.SwitchToMenuWithInventory(MenuManager.TurnOptions);
         //change the target for the camera to the current player
         CameraFollow.target = _curPlayer.transform;
         MenuManager.UpdateInventoryData();

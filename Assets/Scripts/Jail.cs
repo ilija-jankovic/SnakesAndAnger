@@ -43,6 +43,10 @@ public static class Jail
         _playersInJail.Remove(GameManager.CurrentPlayer);
     }
 
+    /// <summary>
+    /// checks if jail contains current player
+    /// </summary>
+    /// <returns></returns>
     public static bool InJail()
     {
         if (_playersInJail.Contains(GameManager.CurrentPlayer))

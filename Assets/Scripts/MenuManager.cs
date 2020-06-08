@@ -20,6 +20,7 @@ static class MenuManager
     private static Canvas _tileLinkOptions = GameObject.Find("TileLinkOptions").GetComponent<Canvas>();
     private static Canvas _mainMenu = GameObject.Find("MainMenu").GetComponent<Canvas>();
     private static Canvas _setupOptions = GameObject.Find("SetupOptions").GetComponent<Canvas>();
+    private static Canvas _inJailTurnOptions = GameObject.Find("InJailTurnOptions").GetComponent<Canvas>();
     //make this at some point
     private static Canvas _winMenu;
 
@@ -37,6 +38,7 @@ static class MenuManager
     private static Button _bankrupt = GameObject.FindGameObjectWithTag("LoseButton").GetComponent<Button>();
     private static Button _buildHouse = GameObject.FindGameObjectWithTag("BuildHouseButton").GetComponent<Button>();
     private static Button _backToNormalCamera = GameObject.FindGameObjectWithTag("BackFromOverviewButton").GetComponent<Button>();
+    private static Button _payToLeaveJail = GameObject.FindGameObjectWithTag("PayToLeaveJail").GetComponent<Button>();
 
     private static bool _buttonClicked = false;
 
@@ -209,6 +211,12 @@ static class MenuManager
             {
                 TradingSystem.CallTradingButtonListener(button);
             }
+            else if (button == PayToLeaveJail)
+            {
+                GameManager.PlayerMustPay(50);
+                Jail.LeaveJail();
+                SwitchToMenuWithInventory(EndOfTurnOptions);
+            }
         }
 
         _buttonClicked = false;
@@ -256,6 +264,10 @@ static class MenuManager
                     GameManager.UpdateAuctionButtonInteractibility();
                     GameManager.UpdateBuyButtonInteractibility();
                     GameManager.UpdateNextPlayerButtonInteractibility();
+                }
+                else if (menu == InJailTurnOptions)
+                {
+                    TurnOptions.enabled = true;
                 }
                 else if(menu == PaymentOptions)
                     //displays price to pay on button
@@ -553,6 +565,11 @@ static class MenuManager
         get { return _setupOptions; }
     }
 
+    public static Canvas InJailTurnOptions
+    {
+        get { return _inJailTurnOptions; }
+    }
+
     public static Button Roll
     {
         get { return _roll; }
@@ -611,6 +628,11 @@ static class MenuManager
     public static Button BackToNormalCamera
     {
         get { return _backToNormalCamera; }
+    }
+
+    public static Button PayToLeaveJail
+    {
+        get { return _payToLeaveJail; }
     }
 
     public static Camera MainCamera

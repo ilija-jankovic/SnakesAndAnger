@@ -89,22 +89,25 @@ public class Player : MonoBehaviour
         //graphical representation
 
         //Collect $200 if you pass go
-        if (!traveledByTileLink || !Jail.InJail())
+        if (!traveledByTileLink)
         {
-            int position = start;
-            while (position != 0)
+            if (!Jail.InJail())
             {
-                position++;
-                if (position > 39)
+                int position = start;
+                while (position != 0)
                 {
-                    position = 0;
-                    this.AddFunds(200);
-                }
-                if (position == end)
-                {
-                    position = 0;
-                }
+                    position++;
+                    if (position > 39)
+                    {
+                        position = 0;
+                        this.AddFunds(200);
+                    }
+                    if (position == end)
+                    {
+                        position = 0;
+                    }
 
+                }
             }
         }
     }
