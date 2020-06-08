@@ -70,6 +70,12 @@ public abstract class Tile : MonoBehaviour
         {
             Player.Move(TileLink.Tail);
             TileLink.Destroy();
+
+            //destroy tile's tilelink
+            TileLink.Tail._tileLink = null;
+
+            //destroy this tile's tilelink
+            _tileLink = null;
         }
     }
 

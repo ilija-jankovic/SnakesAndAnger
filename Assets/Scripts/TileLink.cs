@@ -59,17 +59,17 @@ public abstract class TileLink : Card
         if(chosenHead == null)
         {
             chosenHead = button;
+            int headIndex = GetTileIndexFromButton(chosenHead);
 
             Button[] buttons = GameObject.FindObjectsOfType<Button>();
             foreach (Button other in buttons)
                 if (other.name.StartsWith("tilelinkbutton"))
                 {
-                    int headIndex = GetTileIndexFromButton(chosenHead);
                     int otherIndex = GetTileIndexFromButton(other);
                     int diff = headIndex - otherIndex;
 
-                    if (!(this is Snake && diff > 0 && diff <= _maxLength || //checks whether tail is behind snake head within range
-                          this is Ladder && diff < 0 && -diff <= _maxLength)) //checks whether tail is infront of ladder head within range
+                    if (!((this is Snake && ((diff > 0 && diff <= _maxLength) || (headIndex+GameManager.Tiles.Length-otherIndex <= _maxLength))) || //checks whether tail is behind snake head within range
+                          (this is Ladder && ((diff < 0 && -diff <= _maxLength)|| (otherIndex + GameManager.Tiles.Length - headIndex <= _maxLength))))) //checks whether tail is infront of ladder head within range
                     {
                         other.interactable = false;
                         other.GetComponent<Image>().color = chosenHead.colors.disabledColor;
@@ -100,7 +100,7 @@ public abstract class TileLink : Card
         tileLinkObj.transform.rotation = Quaternion.LookRotation(headPos - tailPos, Vector3.forward);
 
         //fixes tile link rotation on tiles with rotation
-        tileLinkObj.transform.eulerAngles += new Vector3(90, 0, Head.transform.rotation.y == Tail.transform.rotation.y ? Head.transform.rotation.y : 0);
+        tileLinkObj.transform.eulerAngles += new Vector3(90, 0, Head.transform.eulerAngles.y);
 
         //set material
         tileLinkObj.GetComponent<Renderer>().material = this is Snake ? Resources.Load("Materials/snake") as Material : Resources.Load("Materials/ladder") as Material;
