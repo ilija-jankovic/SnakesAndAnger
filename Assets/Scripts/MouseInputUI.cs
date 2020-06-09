@@ -52,7 +52,7 @@ public abstract class MouseInputUI : MonoBehaviour
         toolTip = new GameObject().AddComponent<Text>();
         toolTip.rectTransform.SetParent(gameObject.GetComponent<Image>().rectTransform);
         toolTip.rectTransform.localPosition = Vector2.zero;
-        toolTip.rectTransform.sizeDelta = new Vector2(100, 200);
+        toolTip.rectTransform.sizeDelta = gameObject.GetComponent<Image>().rectTransform.sizeDelta + new Vector2(30,0); //make text slightly larger than card
         toolTip.fontSize = 15;
         toolTip.color = Color.black;
         toolTip.font = Resources.GetBuiltinResource<Font>("Arial.ttf");

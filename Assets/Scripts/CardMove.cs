@@ -115,4 +115,14 @@ public class CardMove : Card
     {
         get { return _type; }
     }
+
+    public override Sprite Icon
+    {
+        get 
+        { 
+            if(_type != EnumsForCards.cardMove.goToJail)
+                return Resources.Load<Sprite>("movementCard");
+            return Resources.Load<Sprite>("goToJailCard");
+        }
+    }
 }

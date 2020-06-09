@@ -21,4 +21,8 @@ public class CardGetOutOfJail : Card
         }
     }
 
+    public override Sprite Icon
+    {
+        get { return Resources.Load<Sprite>("getOutOfJailCard"); }
+    }
 }

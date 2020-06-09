@@ -14,8 +14,13 @@ public class Ladder : TileLink
         return "Ladder can be placed up to " + _maxLength + " tiles.";
     }
 
-    public override Texture2D Icon
+    public override Sprite Icon
     {
-        get { return GameManager.GetTextureFromSprite("ladder"); }
+        get { return Resources.Load<Sprite>("ladderCardLandscape"); }
+    }
+
+    public override Sprite BackIcon
+    {
+        get { return Resources.Load<Sprite>("ladderCard"); }
     }
 }

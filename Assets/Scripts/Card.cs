@@ -55,8 +55,13 @@ public abstract class Card
     /// <summary>
     /// gets image that pops up beside text
     /// </summary>
-    public virtual Texture2D Icon
+    public virtual Sprite Icon
     {
         get { return null; }
+    }
+
+    public virtual Sprite BackIcon
+    {
+        get { return Resources.Load<Sprite>("communityChanceBackCover"); }
     }
 }

@@ -290,7 +290,7 @@ static class GameManager
     }
 
     //utitily method - could not find an appropriate class for so it is in GameManager
-    public static Texture2D GetTextureFromSprite(string path)
+    /*public static Texture2D GetTextureFromSprite(string path)
     {
         var sprite = Resources.Load<Sprite>(path);
         var croppedTexture = new Texture2D((int)sprite.textureRect.width, (int)sprite.textureRect.height);
@@ -301,5 +301,5 @@ static class GameManager
         croppedTexture.SetPixels(pixels);
         croppedTexture.Apply();
         return croppedTexture;
-    }
+    }*/
 }

@@ -88,4 +88,9 @@ public class CardPay : Card
     {
         get { return _type; }
     }
+
+    public override Sprite Icon
+    {
+        get { return Resources.Load<Sprite>("makePayCard"); }
+    }
 }

@@ -322,20 +322,24 @@ static class MenuManager
                 Image card = cardObj.AddComponent<Image>();
                 card.tag = "InventoryCard";
                 card.transform.SetParent(Inventory.transform);
-                card.rectTransform.sizeDelta = new Vector2(50, 100);
-                card.rectTransform.localPosition = new Vector2(-430, 260 - 120 * i);
+                card.rectTransform.sizeDelta = new Vector2(100, 50);
+                card.rectTransform.localPosition = new Vector2(-430, 260 - 70 * i);
+
+                Image icon = new GameObject("CardIcon").AddComponent<Image>();
+                icon.transform.SetParent(card.transform);
+                icon.rectTransform.localPosition = new Vector2(0, 0);
+
+                //set icon
+                if (usableCard is TileLink)
+                {
+                    icon.rectTransform.localEulerAngles += new Vector3(0, 0, 90);
+                    icon.rectTransform.sizeDelta = new Vector2(45, 60);
+                }
+                else
+                    icon.rectTransform.sizeDelta = new Vector2(100, 50);
+                icon.sprite = usableCard.BackIcon;
 
                 cardObj.AddComponent<InventoryCardMouseInputUI>().card = usableCard;
-
-                //may be a source of lag
-                RawImage img = new GameObject().AddComponent<RawImage>();
-                img.transform.SetParent(card.transform);
-                img.rectTransform.localPosition = Vector2.zero;
-                img.rectTransform.sizeDelta = new Vector2(40, 40);
-
-                Texture2D icon = usableCard.Icon;
-                if (icon != null)
-                    img.texture = icon;
 
                 //gray out card if player already rolled
                 if (TurnOptions.enabled == false)
@@ -530,12 +534,7 @@ static class MenuManager
             GameObject.FindGameObjectWithTag("UsableCardInfo").GetComponent<Text>().text = card.GetDescription();
 
             GameObject imageObj = GameObject.FindGameObjectWithTag("CardSprite");
-            RawImage img = imageObj.GetComponent<RawImage>();
-            Texture2D icon = card.Icon;
-            if (icon != null)
-                img.texture = icon;
-            else
-                img.texture = null;
+            imageObj.GetComponent<Image>().sprite = card.Icon;
         }
         else
             DisableMenu(UsableCardInfo);

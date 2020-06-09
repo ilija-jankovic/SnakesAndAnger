@@ -40,4 +40,8 @@ public class CardCollect : Card
         }
         base.Use();
     }
+
+    public override Sprite Icon {
+        get { return Resources.Load<Sprite>("collectMoneyCard"); }
+    }
 }

@@ -19,8 +19,13 @@ public class Snake : TileLink
         return "Snake can be placed up to " + _maxLength + " tiles.";
     }
 
-    public override Texture2D Icon
+    public override Sprite Icon
     {
-        get { return GameManager.GetTextureFromSprite("snake"); }
+        get { return Resources.Load<Sprite>("snakeCardLandscape"); }
+    }
+
+    public override Sprite BackIcon
+    {
+        get { return Resources.Load<Sprite>("snakeCard"); }
     }
 }
