@@ -39,6 +39,7 @@ TagManager:
   - Temp
   - PayToLeaveJail
   - InJailTurnOptions
+  - AmbientCamera
   layers:
   - Default
   - TransparentFX

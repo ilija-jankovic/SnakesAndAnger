@@ -19,6 +19,9 @@ public static class SetupManager
             return p1.name.CompareTo(p2.name);
         });
 
+        //
+        //listeners are set for the rest of this method
+        //
         foreach (GameObject buttonObj in playerCountButtons)
         {
             Button button = buttonObj.GetComponent<Button>();

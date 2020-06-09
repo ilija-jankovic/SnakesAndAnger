@@ -48,6 +48,12 @@ static class GameManager
     {
         InitialiseActivePlayers();
         MenuManager.SwitchToMenuWithInventory(MenuManager.TurnOptions);
+
+        //switch to ambient camera if the player are only AIs
+        if (!OnlyAIsInGame)
+            MenuManager.SwitchToCamera(MenuManager.MainCamera);
+        else
+            MenuManager.SwitchToCamera(MenuManager.AmbientCamera);
     }
 
     private static void InitialiseActivePlayers()
@@ -270,6 +276,17 @@ static class GameManager
     public static Card ActiveCard
     {
         get { return _activeCard; }
+    }
+
+    public static bool OnlyAIsInGame
+    {
+        get 
+        {
+            foreach (Player player in Players)
+                if (player.GetComponent<AI>() == null)
+                    return false;
+            return true;
+        }
     }
 
     //utitily method - could not find an appropriate class for so it is in GameManager

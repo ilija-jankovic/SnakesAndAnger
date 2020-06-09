@@ -44,6 +44,7 @@ static class MenuManager
 
     private static Camera _mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
     private static Camera _overviewCamera = GameObject.FindGameObjectWithTag("OverviewCamera").GetComponent<Camera>();
+    private static Camera _ambientCamera = GameObject.FindGameObjectWithTag("AmbientCamera").GetComponent<Camera>();
 
     private static bool _houseMode;
 
@@ -57,11 +58,16 @@ static class MenuManager
         foreach (Button button in allButtons)
             button.onClick.AddListener(delegate { _buttonClicked = true; CallIngameButtonListener(button); });
 
+        //unblur text
+        foreach (Canvas canvas in allMenus)
+            canvas.GetComponent<CanvasScaler>().dynamicPixelsPerUnit = 101;
+
         //outside of game buttons
         GameObject.Find("StartDefaultButton").GetComponent<Button>().onClick.AddListener(SetupManager.StandardGame);
         GameObject.Find("CustomGameButton").GetComponent<Button>().onClick.AddListener(SetupManager.LoadSetupMenu);
 
         SwitchToMenu(MainMenu);
+        SwitchToCamera(AmbientCamera);
     }
 
     //Funcitionality of all buttons relevant to an ongoing game. Their listeners are all placed
@@ -200,7 +206,7 @@ static class MenuManager
             else if (button == BackToNormalCamera)
             {
                 SwitchToMenuWithInventory(TurnOptions);
-                SwitchToCamera(MainCamera);
+                SwitchToCamera(!GameManager.OnlyAIsInGame ? MainCamera : AmbientCamera);
             }
             else if(button == Trade)
             {
@@ -643,6 +649,11 @@ static class MenuManager
     public static Camera OverviewCamera
     {
         get { return _overviewCamera; }
+    }
+
+    public static Camera AmbientCamera
+    {
+        get { return _ambientCamera; }
     }
 
     public static void SwitchToCamera(Camera camera)
