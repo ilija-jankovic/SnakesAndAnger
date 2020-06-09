@@ -106,6 +106,7 @@ public static class AuctionSystem{
             Resources.UnloadUnusedAssets();
 
             GameManager.PlayerMustPay(ReservePrice, highestBidder);
+            _reservePrice = 0;
         }
 
         propertyInfo.GetComponentInChildren<Text>().text = timer + "\n$" + ReservePrice;

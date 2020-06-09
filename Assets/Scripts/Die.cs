@@ -27,6 +27,7 @@ public class Die : MonoBehaviour {
 
 		if (Rolling)
 		{
+			//if still rolling, the dice numbers are set to 0, and so returns from function
 			byte diceTotal = 0;
 			foreach (Die die in dice)
 			{
@@ -48,6 +49,10 @@ public class Die : MonoBehaviour {
 			{
 				Jail.LeaveJail();
 				GameManager.CurrentPlayer.Move((sbyte)Result);
+			}
+			else
+			{
+				MenuManager.SwitchToMenuWithInventory(MenuManager.EndOfTurnOptions);
 			}
 
 			//set the camera to track the current player and enable end of roll options
